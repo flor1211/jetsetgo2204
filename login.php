@@ -1,8 +1,7 @@
-<!-- login.php -->
+
 <?php
     session_start();
 
-    // Check if user is already logged in
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         header("Location: admin/dashboard.php");
         exit;
@@ -14,7 +13,7 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        // Dummy credentials
+        // TEST LOGIN
         if ($username === "admin" && $password === "1234") {
             $_SESSION["loggedin"] = true;
             $_SESSION["username"] = $username;
@@ -58,6 +57,13 @@
           
             <p style="color:red;"><?php echo $error; ?></p>
 
+        </div>
+
+        <!-- Main Container -->
+        <div>
+            <a href="booking/booking.php" class="btn btn-primary">
+              Book Now
+            </a>
         </div>
 
     <!-- Bootstrap Bundle with Popper -->
