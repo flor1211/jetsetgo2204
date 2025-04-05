@@ -1,6 +1,12 @@
 <?php
 
   session_start();
+
+  if (!isset($_SESSION['bookingpage_complated'])) {
+    header('Location: booking.php');
+    exit();
+  }
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $_SESSION['selectflight_completed'] = true;
