@@ -64,7 +64,7 @@
 
         <!-- Main Container -->
         <div>
-            <a href="/initial/login.php" class="btn btn-primary">
+            <a href="/jetsetgo2204/login.php" class="btn btn-primary">
               <i class="bi bi-airplane"></i> Back to Login
             </a>
         </div>
