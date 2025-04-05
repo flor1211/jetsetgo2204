@@ -1,0 +1,11 @@
+.modal-header{
+    background-color: rgb(11, 11, 95);
+    color: white;
+}
+
+
+.modal-footer .btn {
+    margin: 10px;
+    font-size: 15px;
+}
+  
