@@ -2,23 +2,18 @@
 
   session_start();
 
-  if (!isset($_SESSION['bookingpage_complated'])) {
-    header('Location: booking.php');
-    exit();
-  }
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $_SESSION['selectflight_completed'] = true;
+      $_SESSION['homepage'] = true;
 
-    header('Location: guestdetails.php');
-    exit();
-}
+      header('Location: booking.php');
 
+      exit();
+  }
+
+  
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,16 +33,6 @@
 
   </head>
     <body style="margin: 0;">
-         <!-- NavBar Container -->
-         <div id="navbar-container">
-            <script>
-                fetch("topbar.php")
-                  .then(res => res.text())
-                  .then(data => {
-                    document.getElementById("navbar-container").innerHTML = data;
-                  });
-              </script>
-        </div>
 
 
         <!-- Main Content -->
@@ -57,25 +42,12 @@
 
         </div>
 
-        <!-- Steps Container -->
-        <div id="steps-container">
-          <script>
-            const currentPage = location.pathname.split("/").pop();
-            fetch("stepsbar.php?page=" + currentPage)
-              .then(res => res.text())
-              .then(data => {
-                document.getElementById("steps-container").innerHTML = data;
-              });
-          </script>
+        <!-- Main Container -->
+        <div>
+            <a href="booking/booking.php" class="btn btn-primary">
+              Book Now
+            </a>
         </div>
-
-        
-        <form method="POST" action="">
-
-            <button type="submit" class="btn btn-primary">
-                Next
-            </button>
-        </form>
 
 
     <!-- Bootstrap Bundle with Popper -->

@@ -1,3 +1,18 @@
+<?php
+
+  session_start();
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $_SESSION['bookingpage_complated'] = true;
+
+    header('Location: selectflights.php');
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,10 +47,16 @@
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
 
-            <a href="selectflights.php" class="btn btn-primary">
-              <i class="bi bi-airplane"></i> Book Your Flight
-            </a>
         </div>
+
+
+                
+        <form method="POST" action="">
+
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-airplane"></i> Book Your Flight
+            </button>
+        </form>
 
 
     <!-- Bootstrap Bundle with Popper -->
