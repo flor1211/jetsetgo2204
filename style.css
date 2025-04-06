@@ -129,7 +129,7 @@ body {
   }
   .icon img {
     width: 30px; 
-    height: 30px; /* Adjust size of the icon */
+    height: 30px;
     vertical-align: middle; /* Align the icon with text */
     margin-right: 5px; /* Add spacing between the icon and text */
   }
