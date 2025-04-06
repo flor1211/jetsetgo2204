@@ -17,6 +17,7 @@
         if ($username === "admin" && $password === "1234") {
             $_SESSION["loggedin"] = true;
             $_SESSION["username"] = $username;
+            $_SESSION["login_success"] = true;
             header("Location: admin/dashboard.php");
             exit;
         } else {

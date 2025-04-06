@@ -6,9 +6,18 @@ session_start();
       header("Location: ../login.php");
       exit;
   }
+
+  $showSuccess = false;
+
+    if (isset($_SESSION["login_success"])) {
+
+        $showSuccess = true;
+
+        unset($_SESSION["login_success"]); 
+    }
+
+
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -24,6 +33,11 @@ session_start();
     <!-- Bootstap S icons CDN-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- SweetAlert2 CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="admin.js"></script>
+
     <title>JetSetGo</title>
 
     <link rel="stylesheet" href="admin-style.css">
@@ -34,16 +48,19 @@ session_start();
     <body style="margin: 0;">
         <!-- Sidebar Container -->
         <div id="sidebar-container">
-            <script>
-                fetch("sidebar.php")
-                  .then(res => res.text())
-                  .then(data => {
-                    document.getElementById("sidebar-container").innerHTML = data;
-                  });
-              </script>
-        </div>
 
-        
+
+
+            <script>
+              fetch("sidebar.php")
+                .then(res => res.text())
+                .then(data => {
+                  document.getElementById("sidebar-container").innerHTML = data;
+                });
+            </script>
+
+        </div>
+    
         <?php include '../modals.php'; ?>
 
 
@@ -57,7 +74,22 @@ session_start();
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <script src="admin.js"></script>
+
+    <!-- SweetAlert message -->
+    <?php if ($showSuccess): ?>
+        <script>
+            Swal.fire({
+              title: "Login success!",
+              icon: "success",
+              confirmButtonColor: "#3085d6"
+            });
+        </script>
+    <?php endif; ?>        
+    
+    
+    
+
+
 
   </body>
 </html>
