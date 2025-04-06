@@ -40,25 +40,45 @@
 
     <title>JetSetGo</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 
   </head>
     <body style="margin: 0;">
 
-        <!-- Main Content -->
-        <div id="login-container">
-            <h1>JetSetGo</h1>
-     
-            <h2>Login</h2>
-            <form id="loginForm" method="POST" action="">
-              <input type="text" id="username" name="username" placeholder="Username" required />
-              <input type="password" id="password" name="password" placeholder="Password" required />
-              <button type="submit">Login</button>
-            </form>
-          
-            <p style="color:red;"><?php echo $error; ?></p>
-
+    <header>
+        <div class="logo">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/airplane-take-off.png" alt="plane icon"/>
+        <span>JetSetGo</span>
         </div>
+        
+        <div class="nav-links">
+            <a href="homepage.php">HOME</a>
+            <a href="#">GALLERY</a>
+            <a href="#">ABOUT</a>
+        </div>
+    </header>
+
+        <!-- Main Content -->
+        <div class="login-container">
+            <div class="left">
+                <h1>JetSetGo</h1>
+                <h2>ADMINISTRATOR LOGIN</h2>
+                <form id="loginForm" method="POST" action="">
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required/>
+                    <!-- <a href="#">Forgot password?</a> -->
+                    <button type="submit">LOG IN</button>
+                <!-- <p>Don't have an account? <a href="#">Sign Up</a></p> -->
+                </form>
+
+                <p style="color:red;"><?php echo $error; ?></p>
+
+            </div>
+            <div class="right"></div>
+        </div>
+
 
         <!-- Main Container -->
         <div>
