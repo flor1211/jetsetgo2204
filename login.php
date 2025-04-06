@@ -1,145 +1,100 @@
+
+<?php
+    session_start();
+
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+        header("Location: admin/dashboard.php");
+        exit;
+    }
+
+    $error = "";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        // TEST LOGIN
+        if ($username === "admin" && $password === "1234") {
+            $_SESSION["loggedin"] = true;
+            $_SESSION["username"] = $username;
+            $_SESSION["login_success"] = true;
+            header("Location: admin/dashboard.php");
+            exit;
+        } else {
+            $error = "Invalid username or password.";
+        }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JetSetGo Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    body {
-      font-family: 'Open Sans', sans-serif;
-    }
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    header {
-      background-color: #0b2545;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    <!-- Bootstap S icons CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    .logo {
-      display: flex;
-      align-items: center;
-    }
+    <title>JetSetGo</title>
 
-    .logo img {
-      height: 30px;
-      margin-right: 10px;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
 
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      font-size: 14px;
-    }
+    <link rel="stylesheet" href="style.css">
 
-    .nav-links a {
-      text-decoration: none;
-      color: white;
-    }
+  </head>
+    <body style="margin: 0;">
 
-    .container {
-      display: flex;
-      height: calc(100vh - 60px);
-    }
+    <header>
+        <div class="logo">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/airplane-take-off.png" alt="plane icon"/>
+        <span>JetSetGo</span>
+        </div>
+        
+        <div class="nav-links">
+            <a href="homepage.php">HOME</a>
+            <a href="#">GALLERY</a>
+            <a href="#">ABOUT</a>
+        </div>
+    </header>
 
-    .left {
-      flex: 1;
-      background-color: white;
-      padding: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        <!-- Main Content -->
+        <div class="login-container">
+            <div class="left">
+                <h1>JetSetGo</h1>
+                <h2>ADMINISTRATOR LOGIN</h2>
+                <form id="loginForm" method="POST" action="">
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required/>
+                    <!-- <a href="#">Forgot password?</a> -->
+                    <button type="submit">LOG IN</button>
+                <!-- <p>Don't have an account? <a href="#">Sign Up</a></p> -->
+                </form>
 
-    .left h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      color: #0056d2;
-      margin-bottom: 30px;
-    }
+                <p style="color:red;"><?php echo $error; ?></p>
 
-    .left input {
-      width: 250px;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-    }
+            </div>
+            <div class="right"></div>
+        </div>
 
-    .left a {
-      font-size: 14px;
-      color: #000;
-      margin-bottom: 20px;
-      text-decoration: underline;
-    }
 
-    .left button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 30px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+        <!-- Main Container -->
+        <div>
+            <a href="booking/booking.php" class="btn btn-primary">
+              Book Now
+            </a>
+        </div>
 
-    .left p {
-      font-size: 14px;
-    }
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    .left p a {
-      text-decoration: underline;
-      color: black;
-    }
+    <script src="admin.js"></script>
 
-    .right {
-      flex: 1;
-      background: url('https://architizer-prod.imgix.net/media/mediadata/uploads/1534972217576FLLT1-7.jpg?q=60&auto=format,compress&cs=strip&w=1680') no-repeat center center;
-      background-size: cover;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="logo">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/airplane-take-off.png" alt="plane icon"/>
-      <span>JetSetGo</span>
-    </div>
-    <div class="nav-links">
-      <a href="#">FLIGHTS</a>
-      <a href="#">DEALS & OFFERS</a>
-      <a href="#">DESTINATIONS</a>
-      <a href="#">CONTACT</a>
-      <a href="#">ABOUT US</a>
-      <a href="#">LOGIN/ SIGN UP</a>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="left">
-      <h1>LOGIN</h1>
-      <input type="text" placeholder="Enter Username" />
-      <input type="password" placeholder="Enter Password" />
-      <a href="#">Forgot password?</a>
-      <button>LOG IN</button>
-      <p>Don't have an account? <a href="#">Sign Up</a></p>
-    </div>
-    <div class="right"></div>
-  </div>
-
-</body>
+  </body>
 </html>
 
-ftyf
+
+
+
