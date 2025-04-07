@@ -48,7 +48,7 @@ body {
   }
   
   .background-image {
-    background-image: url('Airport.jpg');
+    background-image: url('assets/Airport.jpg');
     background-size: cover;
     background-position: center;
     height: 325px;
@@ -56,9 +56,14 @@ body {
   
   .booking-form {
     display: flex;
-    justify-content: center;
-    margin-top: -100px;
-  }
+    justify-content: center;   
+    align-items: center;       
+    height: 0vh;            
+    margin-top: 0px;            
+    max-width: 1000px;        
+    margin: 0 auto;           
+}
+
   
   .form-card {
     background-color: white;
@@ -68,12 +73,24 @@ body {
     display: flex;
     gap: 50px;
     flex-wrap: wrap;
-    max-width: 1000px;
+    max-width: 1100px;
   }
   
-  .form-section {
+  .form-sectionflight {
     flex: 1;
-    min-width: 300px;
+    min-width: 400px;
+  }
+  
+  .form-section h2 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .form-sectiontrip {
+    flex: 1;
+    min-width: 380px;
   }
   
   .form-section h2 {
@@ -121,7 +138,8 @@ body {
     border-radius: 15px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 270px;
+    margin-top: 20px;
+    margin-left: 350px;
   }
   
   .search-btn:hover {
@@ -130,6 +148,6 @@ body {
   .icon img {
     width: 30px; 
     height: 30px;
-    vertical-align: middle; /* Align the icon with text */
-    margin-right: 5px; /* Add spacing between the icon and text */
+    vertical-align: middle; 
+    margin-right: 5px; 
   }

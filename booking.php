@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JetSetGo - Flight Booking</title>
-  <link rel="stylesheet" href="CStmrBooking.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="navbar">
     <div class="navbar-left">
-      <img src="JetSetGo_Logo-removebg.png" alt="" class="logo" />
+      <img src="assets/JetSetGo_Logo-removebg.png" alt="" class="logo" />
       <h1 class="brand-name">JetSetGo</h1>
     </div>
+    
     <div class="navbar-right">
-      <span class="current-time">10:00pm | Saturday, January 1, 2025</span>
+      
       <button class="cancel-btn">Cancel Booking</button>
     </div>
   </header>
@@ -27,45 +28,77 @@
     <section class="booking-form">
   <div class="form-card">
     <div class="form-section">
-      <h2><span class="icon"><img src="Logo.png" alt="Plus Icon" /></span> Flight</h2>
+      <h2><span class="icon"><img src="assets/Logo.png" alt="" /></span> Flight</h2>
       <div class="form-group">
-        <input type="text" placeholder="From" />
-        <input type="text" placeholder="To" />
-      </div>
-      <div class="form-group">
-        <input type="number" placeholder="Adult" />
-        <input type="number" placeholder="Children" />
-        <input type="number" placeholder="Infant" />
-      </div>
-    </div>
 
-    <div class="form-submit">
+      <label for="fromInput">From</label>
+      <input type="text" id="fromInput" name="from" style="width: 50px;"/>
+
+      <label for="ToInput">To</label>
+      <input type="text" id="toInput" name="To" style="width: 30px;"/>  
+
+      </div>
+
+      <div class="form-group" style="display: flex; gap: 10px">
+  <div style="display: flex; flex-direction: column;">
+    <label for="adultInput">Adult</label>
+    <input type="number" id="adultInput" name="adult" style="width: 50px;" />
+  </div>
+
+  <div style="display: flex; flex-direction: column;">
+    <label for="childrenInput">Children</label>
+    <input type="number" id="childrenInput" name="children" style="width: 50px;" />
+  </div>
+
+  <div style="display: flex; flex-direction: column;">
+    <label for="infantInput">Infant</label>
+    <input type="number" id="infantInput" name="infant" style="width: 50px;" />
+  </div>
+</div>
+
+<div class="form-submit">
           <button class="search-btn">Search Flights</button>
         </div>
 
-        <div class="form-section">
-  <h2><span class="icon"><img src="Logo.png" alt="Plus Icon" /></span> Trip</h2>
+    </div>
+
+    
+
+    <div class="form-section">
+  <h2><span class="icon"><img src="assets/Logo.png" alt="" /></span> Trip</h2>
   <div class="trip-options">
     <label><input type="radio" name="trip" id="roundTrip" checked /> Round Trip</label>
     <label><input type="radio" name="trip" id="oneWayTrip" /> One-way Trip</label>
   </div>
   <div class="form-group">
+  <div style="display: flex; flex-direction: column;">
+    <label for="departingDate">Departing</label>
     <input type="date" id="departingDate" placeholder="Departing" />
-    <input type="date" id="returnDate" placeholder="Return" />
   </div>
+
+  <div style="display: flex; flex-direction: column;">
+  <label for="returnDate" id="returnLabel">Return</label>
+  <input type="date" id="returnDate" placeholder="Return" />
 </div>
 
 <script>
   const roundTrip = document.getElementById('roundTrip');
   const oneWayTrip = document.getElementById('oneWayTrip');
   const returnDate = document.getElementById('returnDate');
+  const returnLabel = document.getElementById('returnLabel'); 
 
   function toggleReturnDate() {
-    returnDate.disabled = oneWayTrip.checked;
+    
+    if (oneWayTrip.checked) {
+      returnDate.style.display = 'none';
+      returnLabel.style.display = 'none'; 
+    } else {
+      returnDate.style.display = 'block'; 
+      returnLabel.style.display = 'block'; 
+    }
   }
 
-// minor changes
-
+  
   toggleReturnDate();
 
   
@@ -73,7 +106,7 @@
   oneWayTrip.addEventListener('change', toggleReturnDate);
 </script>
 
-    
+ 
   </div>
   
 </section>
