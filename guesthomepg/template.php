@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
 
-    <!-- Bootstap S icons CDN-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap Icons CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
 
     <title>JetSetGo</title>
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
     <style>
       .hero-section {
-        background-image: url('bg.png'); 
+        background-image: url('assets/bg.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -33,13 +40,13 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
         z-index: 1;
-        pointer-events: none; 
+        pointer-events: none;
       }
 
       nav.navbar {
         position: relative;
         z-index: 3;
-      }   
+      }
 
       .hero-content {
         position: absolute;
@@ -53,9 +60,8 @@
         width: 90%;
       }
 
-
       .btn-darkblue {
-        background-color: #1E2A50;
+        background-color: #1e2a50;
         color: white;
       }
 
@@ -65,153 +71,165 @@
       }
 
       body {
-        overflow: auto; 
-      } 
+        overflow: auto;
+      }
 
       html {
-  scroll-behavior: smooth;
-}
+        scroll-behavior: smooth;
+      }
 
-.carousel-inner {
-  max-height: 750px; 
-}
+      .carousel-inner {
+        max-height: 750px;
+      }
 
-.carousel-inner img {
-  height: 750px;          
-  object-fit: cover;      
-  width: 100%;           
-}
+      .carousel-inner img {
+        height: 750px;
+        object-fit: cover;
+        width: 100%;
+      }
 
-@media (max-width: 768px) {
-  .carousel-inner,
-  .carousel-inner img {
-    height: 300px;
-  }
-}
-    </style> 
-
+      @media (max-width: 768px) {
+        .carousel-inner,
+        .carousel-inner img {
+          height: 300px;
+        }
+      }
+    </style>
   </head>
-    <body style="margin: 0;">
-        <!-- Main Content -->
 
-        <div class="hero-section">
-          <div class="hero-overlay"></div>
-    
-          <!-- Navbar -->
-          <nav class="navbar navbar-expand-lg navbar-dark px-5">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-              <img src="logo.png" alt="Logo" width="30" class="me-2">
-              JetSetGo
-            </a>
-            <div class="ms-auto d-flex align-items-center gap-4">
-              <a class="nav-link text-white" href="#">HOME</a>
-              <a class="nav-link text-white" href="#gallery-carousel">GALLERY</a>
-              <a class="nav-link text-white" href="#">ABOUT</a>
-              <a class="btn btn-darkblue" href="#">LOGIN</a>
-            </div>
-          </nav>
-    
-          <!-- Hero Content -->
-          <div class="hero-content text-white">
-            <h1 class="display-4 fw-bold">Streamlining flight<br>reservation</h1>
-            <a href="#" class="btn btn-darkblue mt-3 px-4 py-2">LEARN MORE</a>
-          </div>
+  <body style="margin: 0">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-overlay"></div>
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark px-5">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="assets/logo.png" alt="JetSetGo Logo" width="30" class="me-2" />
+          JetSetGo
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-4">
+          <a class="nav-link text-white" href="#">HOME</a>
+          <a class="nav-link text-white" href="#gallery-carousel">GALLERY</a>
+          <a class="nav-link text-white" href="#">ABOUT</a>
+          <a class="btn btn-darkblue" href="#">LOGIN</a>
         </div>
-    
-        
-    
-        <!-- Carousel wrapper -->
-        <div id="gallery-carousel" class="carousel slide carousel-fade carousel-dark" data-mdb-ride="carousel" data-mdb-carousel-init>
-          <div id="gallery-carousel" class="carousel slide carousel-fade carousel-dark" 
-         data-mdb-ride="carousel" 
-         data-mdb-carousel-init 
-         data-mdb-interval="3000">
-    
+      </nav>
+
+      <!-- Hero Content -->
+      <div class="hero-content text-white">
+        <h1 class="display-4 fw-bold">Streamlining flight<br />reservation</h1>
+        <a href="#" class="btn btn-darkblue mt-3 px-4 py-2">LEARN MORE</a>
+      </div>
+    </div>
+
+    <!-- Carousel Section -->
+    <div
+      id="gallery-carousel"
+      class="carousel slide carousel-fade carousel-dark"
+      data-bs-ride="carousel"
+      data-bs-interval="3000"
+    >
       <!-- Indicators -->
       <div class="carousel-indicators">
         <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="0"
+          type="button"
+          data-bs-target="#gallery-carousel"
+          data-bs-slide-to="0"
           class="active"
           aria-current="true"
           aria-label="Slide 1"
         ></button>
         <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="1"
-          aria-label="Slide 1"
+          type="button"
+          data-bs-target="#gallery-carousel"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
         ></button>
         <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="2"
-          aria-label="Slide 1"
+          type="button"
+          data-bs-target="#gallery-carousel"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
         ></button>
       </div>
-    
-      <!-- Inner -->
+
+      <!-- Inner Carousel -->
       <div class="carousel-inner">
-        <!-- Single item -->
         <div class="carousel-item active">
-          <img src="assets/gallery1.png" class="d-block w-100" alt="Motorbike Smoke"/>
+          <img
+            src="assets/gallery1.png"
+            class="d-block w-100"
+            alt="Puerto Princesa"
+          />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Puerto Princesa, Palawan</p>
           </div>
         </div>
-    
-        <!-- Single item -->
         <div class="carousel-item">
-          <img src="assets/gallery2.webp" class="d-block w-100" alt="Mountaintop"/>
+          <img
+            src="assets/gallery2.webp"
+            class="d-block w-100"
+            alt="Chocolate Hills"
+          />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Chocolate Hills, Cebu</p>
           </div>
         </div>
-    
-        <!-- Single item -->
         <div class="carousel-item">
-          <img src="assets/gallery3.jpg" class="d-block w-100" alt="Woman Reading a Book"/>
+          <img
+            src="assets/gallery3.jpg"
+            class="d-block w-100"
+            alt="Boracay Beach"
+          />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Boracay, Aklan</p>
           </div>
         </div>
       </div>
-    
-      
-      <!-- Inner -->
-    
+
       <!-- Controls -->
-      <button class="carousel-control-prev" type="button" data-mdb-target="#carouselDarkVariant" data-mdb-slide="prev">
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#gallery-carousel"
+        data-bs-slide="prev"
+      >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-mdb-target="#carouselDarkVariant" data-mdb-slide="next">
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#gallery-carousel"
+        data-bs-slide="next"
+      >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    
-    <section class="info-section py-5 px-4 text-white" style="background-color: #1e2a50;">
-          <div class="container">
-            <h2 class="mb-4">Why Choose JetSetGo?</h2>
-            <p>
-              JetSetGo simplifies your flight booking process with seamless payment integration,
-              reliable billing, and an intuitive user interface. Experience a modern way to fly.
-            </p>
-          </div>
-        </section>
-    <!-- Carousel wrapper -->
-    
 
+    <!-- Info Section -->
+    <section class="info-section py-5 px-4 text-white" style="background-color: #1e2a50">
+      <div class="container">
+        <h2 class="mb-4">Why Choose JetSetGo?</h2>
+        <p>
+          JetSetGo simplifies your flight booking process with seamless payment integration,
+          reliable billing, and an intuitive user interface. Experience a modern way to fly.
+        </p>
+      </div>
+    </section>
 
-        
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
 
     <script src="admin.js"></script>
-
   </body>
 </html>
-
-
