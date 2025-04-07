@@ -39,75 +39,75 @@
         <section class="div-form">
    
 
-        <!-- Left Side -->
-        <div class="left-side">
-            <h2>Adult 1</h2>
-            <h3>Name</h3>
+            <!-- Left Side -->
+            <div class="left-side">
+                <h2>Adult 1</h2>
+                <h3>Name</h3>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="titleinput">Title:</label>
-                    <input type="text" id="titleinput" name="titleinput" required>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="titleinput">Title:</label>
+                        <input type="text" id="titleinput" name="titleinput" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="first-name">First Name:</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
                 </div>
-                <div class="form-field">
-                    <label for="first-name">First Name:</label>
-                    <input type="text" id="first-name" name="first-name" required>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="contact-number">Contact Number*</label>
+                        <input type="tel" id="contact-number" name="contact-number" pattern="[0-9]{10}">
+                    </div>
                 </div>
-                <div class="form-field">
-                    <label for="last-name">Last Name:</label>
-                    <input type="text" id="last-name" name="last-name" required>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="contact-number">Contact Number*</label>
-                    <input type="tel" id="contact-number" name="contact-number" pattern="[0-9]{10}">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="email">Email Address*</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Side -->
-        <div class="right-side">
-            <h2>Date Of Birth</h2>
-
-            <div class="form-row">
-                <div class="form-field day-field">
-                <label for="dayInput" style="margin-left: 45px;">Day</label>
-                    <input type="number" id="dayInput" name="day" style="width: 70px;">
-            </div>
-                 <div class="form-field">
-                    <label for="monthInput">Month</label>
-                    <input type="number" id="monthInput" name="month" style="width: 80px;">
-                 </div>
-                     <div class="form-field">
-                     <label for="yearInput">Year</label>
-                     <input type="number" id="yearInput" name="year" style="width: 50px;">
-                 </div>
-            </div>
-
-
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="nationalityInput">Nationality*</label>
-                    <input type="text" id="nationalityInput" name="nationality">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="email">Email Address*</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="retypeemailInput">Retype Email Address*</label>
-                    <input type="email" id="retypedemailInput" name="retypedemail">
+            <!-- Right Side -->
+            <div class="right-side">
+                <h2>Date Of Birth</h2>
+
+                <div class="form-row">
+                    <div class="form-field day-field">
+                    <label for="dayInput" style="margin-left: 45px;">Day</label>
+                        <input type="number" id="dayInput" name="day" style="width: 70px;">
+                </div>
+                    <div class="form-field">
+                        <label for="monthInput">Month</label>
+                        <input type="number" id="monthInput" name="month" style="width: 80px;">
+                    </div>
+                        <div class="form-field">
+                        <label for="yearInput">Year</label>
+                        <input type="number" id="yearInput" name="year" style="width: 50px;">
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="nationalityInput">Nationality*</label>
+                        <input type="text" id="nationalityInput" name="nationality">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="retypeemailInput">Retype Email Address*</label>
+                        <input type="email" id="retypedemailInput" name="retypedemail">
+                    </div>
                 </div>
             </div>
-        </div>
 
     
         </section>
