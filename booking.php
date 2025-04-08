@@ -32,29 +32,30 @@
       <div class="form-group">
 
       <label for="fromInput">From</label>
-      <input type="text" id="fromInput" name="from" style="width: 50px;"/>
+      <input type="text" id="fromInput" name="from" style="width: 150px;"/>
 
       <label for="ToInput">To</label>
-      <input type="text" id="toInput" name="To" style="width: 30px;"/>  
+      <input type="text" id="toInput" name="To" style="width: 150px;"/>  
 
       </div>
 
-      <div class="form-group" style="display: flex; gap: 10px">
+      <div class="form-group" style="display: flex;">
   <div style="display: flex; flex-direction: column;">
     <label for="adultInput">Adult</label>
-    <input type="number" id="adultInput" name="adult" style="width: 50px;" />
+    <input type="number" id="adultInput" name="adult" style="width: 100px;" />
   </div>
 
-  <div style="display: flex; flex-direction: column;">
+  <div class="child-wrapper" style="display: flex; flex-direction: column; margin-left: 20px;">
     <label for="childrenInput">Children</label>
-    <input type="number" id="childrenInput" name="children" style="width: 50px;" />
+    <input type="number" id="childrenInput" name="children" style="width: 100px;" />
   </div>
 
-  <div style="display: flex; flex-direction: column;">
+  <div class="infant-wrapper" style="display: flex; flex-direction: column; margin-left: 30px;">
     <label for="infantInput">Infant</label>
-    <input type="number" id="infantInput" name="infant" style="width: 50px;" />
+    <input type="number" id="infantInput" name="infant" style="width: 80px;" />
   </div>
 </div>
+
 
 <div class="form-submit">
           <button class="search-btn">Search Flights</button>

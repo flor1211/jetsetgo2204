@@ -79,6 +79,7 @@ body {
   .form-sectionflight {
     flex: 1;
     min-width: 400px;
+    justify-content: center;
   }
   
   .form-section h2 {
@@ -106,9 +107,18 @@ body {
   
   .form-group {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 15px;
     flex-wrap: wrap;
+    
+  }
+  .child-wrapper {
+    margin-left: 25px;
+    margin-right: 10px;
+  }
+  
+  .infant-wrapper {
+    margin-left: 30px;
   }
   
   input[type="text"],
@@ -117,8 +127,6 @@ body {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    flex: 1;
-    min-width: 100px;
   }
   
   .trip-options {
