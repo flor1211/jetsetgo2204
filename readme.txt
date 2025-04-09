@@ -9,7 +9,6 @@ gstdetails.css -> old-gstdetails.css
 
 add
 booking.js
-guestdetails.css
 booking.css
 
 safe to delete
