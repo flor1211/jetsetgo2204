@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JetSetGo - Flight Booking</title>
-    <link rel="stylesheet" href="gstdetails.css" />
+    <link rel="stylesheet" href="old-gstdetails.css" />
 
     <link href="https://fonts.googleapis.com/css2?family=Jaldi&display=swap" rel="stylesheet">
 
@@ -46,13 +46,14 @@
 
                 <div class="form-row">
                 <div class="form-field">
-    <label for="titleinput">Title:</label>
-    <select id="titleinput" name="titleinput" required>
-        <option value="" disabled selected>Select title</option>
-        <option value="Mr.">Mr.</option>
-        <option value="Ms./Mrs.">Ms./Mrs.</option>
-    </select>
-</div>
+
+                    <label for="titleinput">Title:</label>
+                        <select id="titleinput" name="titleinput" required>
+                            <option value="" disabled selected>Select title</option>
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms./Mrs.">Ms./Mrs.</option>
+                        </select>
+                </div>
 
                     <div class="form-field">
                         <label for="first-name">First Name:</label>
@@ -208,12 +209,12 @@
         <!-- 3rd Div: Policy Form -->
 
         <section class="policy-form">
-        <div class="div-confirmation">
-            <input type="checkbox" id="confirm-policy" name="confirm-policy" required>
-            <label for="confirm-policy">
-                I confirm that I have read, understood, and agree to the updated JetSetGo Privacy Policy. I consent to the collection, use, processing, and sharing of my personal information in accordance therewith.
-            </label>
-        </div>
+            <div class="div-confirmation">
+                <input type="checkbox" id="confirm-policy" name="confirm-policy" required>
+                <label for="confirm-policy">
+                    I confirm that I have read, understood, and agree to the updated JetSetGo Privacy Policy. I consent to the collection, use, processing, and sharing of my personal information in accordance therewith.
+                </label>
+            </div>
         </section>
 
         <!-- 4th Div: Buttons -->
