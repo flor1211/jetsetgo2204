@@ -96,7 +96,7 @@
       }
 
       .contact-header {
-      background-image: url('assets/bg2.png'); /* Replace with actual background */
+      background-image: url('assets/bg2.png'); 
       background-size: cover;
       background-position: center;
       color: white;
