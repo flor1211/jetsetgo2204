@@ -17,7 +17,7 @@
   <body style="margin: 0;">
     <div id="sidebar-container">
       <script>
-        fetch("sidebar.html")
+        fetch("sidebar.php")
           .then(res => res.text())
           .then(data => {
             document.getElementById("sidebar-container").innerHTML = data;
@@ -238,4 +238,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-bawal
