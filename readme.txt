@@ -14,7 +14,7 @@ booking.css
 safe to delete
 old-gstdetails.php
 old-gstdetails.css
-
+style.css
 
 -----
 
