@@ -76,15 +76,18 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title" id="userFormLabel">New Flight</h4>
+              <h4 class="modal-title" id="userFormLabel">Adding New Flight</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
               <form action="#" id="myForm">
+              <h4 class="modal-title">Flight Details</h4>
+              <hr>
                 <div class="container">
                   <div class="row mb-3">
                     <div class="col-md-6">
+
                       <label for="departureLocation">DEPARTURE LOCATION</label>
                       <input type="text" class="form-control" id="text">
                     </div>
@@ -115,45 +118,51 @@
                       <input type="text" class="form-control" id="text">
                     </div> -->
                   </div>
+                  
+                  <h4 class="modal-title">Plane Details</h4>
+                <hr>
 
-                  <div class="modal-body">
-                    <form action="#" id="myForm">
-                      <div class="container"></div>
-                  <h4 class="modal-title" id="userFormLabel">Plane Details</h4>
-                  <hr>
-                  <span>
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="planeNumber">PLANE #</label>
-                      <select class="form-control" id="planeNumber">
+                <div class="d-flex gap-4">
+                <div class="w-100">
+                    <div class="mb-3">
+                    <label for="planeNumber">PLANE #</label>
+                    <select class="form-control" id="planeNumber">
                         <option value="1">1</option>
                         <option value="2">2</option>
-                      </select>
+                    </select>
                     </div>
-                  </div>
-                  
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="seatsAvailable">SEATS AVAILABLE</label>
-                      <input type="text" class="form-control" id="seatsAvailable">
+
+                    <div class="mb-3">
+                    <label for="seatsAvailable">SEATS AVAILABLE</label>
+                    <input type="text" class="form-control" id="seatsAvailable">
                     </div>
-                  </div>
-                  
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="price">PRICE</label> 
-                      <input type="text" class="form-control" id="price" placeholder="₱ 0.00">  
-                        <img src="https://images6.alphacoders.com/408/408258.jpg" alt="Plane Image" style="width: 100%; height: 50%; margin-left: 390px;">
-                      </span>
+
+                    <div class="mb-3">
+                    <label for="price">PRICE</label>
+                    <input type="text" class="form-control" id="price" placeholder="₱ 0.00">
                     </div>
-                  </div>
-                  
+                </div>
+
+                <div class="flex-shrink-0">
+                    <img 
+                    src="https://images6.alphacoders.com/408/408258.jpg" 
+                    alt="Plane Image" 
+                    class="img-fluid rounded shadow" 
+                    style="width: 250px; height: 170px; margin-top: 50px;">
+                </div>
+                </div>
+
+                </div>
+            </div>
+
                   
 
                   <form action="#" id="myForm"></form>
 
-                  <div class="'modal-footer"></button>
-                    <button type="submit" class="btn btn-primary">ADD</button>
+                  
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">ADD</button>
+                <button type="cancel" class="btn btn-danger">CANCEL</button>
 
 
                 </div>
@@ -164,11 +173,11 @@
       </div>
     </div>
 
-    <!-- <div class="modal fade" id="readData" tabindex="-1" aria-labelledby="userFormLabel" aria-hidden="true">
+    <div class="modal fade" id="readData" tabindex="-1" aria-labelledby="readData" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="userFormLabel">Flight</h4>
+            <h4 class="modal-title" id="readData">Flight</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -211,8 +220,8 @@
                 <div class="row mb-3">
                   <div class="col-md-6">
                     <label for="planeNumber">PLANE #</label>
-                    <input type="number" class="form-control" id="number"> -->
-                     <!-- <select class="form-control" id="dropdown"disabled>
+                    <input type="number" class="form-control" id="number">
+                     <select class="form-control" id="dropdown"disabled>
                       <option value="1">1</option>
                       <option value="2">2</option>
                      </select>
@@ -221,7 +230,7 @@
                     <label for="price">PRICE</label>
                     <input type="text" class="form-control" id="text" placeholder="₱ 0.00" disabled>
                   </div>
-                </div> -->
+                </div>
 
 
 
