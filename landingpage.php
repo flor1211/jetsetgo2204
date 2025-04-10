@@ -267,32 +267,36 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="container contact-section">
-      <div class="row text-center text-md-start">
-        <div class="col-md-3 mb-4">
-          <h5>Chat (24/7)</h5>
-          <p><i class="fab fa-facebook-messenger"></i> <strong>JetSetGo</strong></p>
-          <p><i class="fab fa-facebook"></i> facebook.com/JetSetGo</p>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Email</h5>
-          <p>jetsetgo@example.com</p>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Call Us</h5>
-          <p>63+ 099-1234-567</p>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Stay Connected</h5>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-x-twitter"></i></a>
-          </div>
+   <!-- Let's Talk Section -->
+<section class="container-fluid py-5" style="background-color: #0c1a3c; color: white;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <h2 class="fw-bold">JetSetGo</h2>
+        <p>
+        JetSetGo simplifies your flight booking process with seamless payment integration,
+        reliable billing, and an intuitive user interface. Experience a modern way to fly.
+        </p>
+        <a href="#" class="btn btn-success fw-bold px-4 py-2">Book Now</a>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Email</strong><br><a href="mailto:hello@buuuk.com" class="text-info">jetsetgo@gmail.com</a></p>
+        <p><strong>Phone</strong><br><a href="tel:+6598735984" class="text-info">(+63) 999 999 9999</a></p>
+        <p><strong>Address</strong><br>
+          Mataas Na Lupa<br>
+          Lipa City, Batangas<br>
+          Philippines
+        </p>
+        <div class="d-flex gap-3 mt-3">
+          <a href="#"><i class="fab fa-twitter text-white fs-4"></i></a>
+          <a href="#"><i class="fab fa-facebook text-white fs-4"></i></a>
+          <a href="#"><i class="fab fa-instagram text-white fs-4"></i></a>
+          <a href="#"><i class="fab fa-linkedin text-white fs-4"></i></a>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- Footer -->
     <footer class="footer d-flex justify-content-center align-items-center mt-5">
