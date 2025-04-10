@@ -60,9 +60,9 @@
                   <td>30</td>
                   <td>Pending</td>
                   <td>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"> VIEW </i></button>
-                    <button class="btn btn-primary"><i class="bi bi-pencil-square"> EDIT </i></button>
-                    <button class="btn btn-danger"><i class="bi bi-trash"> DELETE </i></button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"> View </i></button>
+                    <button class="btn btn-primary"><i class="bi bi-pencil-square"> Edit </i></button>
+                    <button class="btn btn-danger"><i class="bi bi-trash"> Delete </i></button>
                   </td>
                 </tr>
               </tbody>
