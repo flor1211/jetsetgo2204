@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <title>JetSetGo</title>
+    <meta name="description" content="JetSetGo - Streamlining your flight booking experience with simplicity and speed." />
+    <meta name="keywords" content="flight, booking, travel, JetSetGo, airline, Philippines" />
+
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -12,16 +16,32 @@
       crossorigin="anonymous"
     />
 
-    <!-- Bootstrap Icons CDN -->
+    <!-- Bootstrap Icons -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
 
-    <title>JetSetGo</title>
+    <!-- Font Awesome (Optional if using FA icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="style.css" />
 
     <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        overflow: auto;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       .hero-section {
         background-image: url('assets/bg.png');
         background-size: cover;
@@ -30,6 +50,7 @@
         min-height: 100vh;
         position: relative;
         color: white;
+        margin-bottom: -5px;
       }
 
       .hero-overlay {
@@ -52,8 +73,8 @@
         position: absolute;
         z-index: 2;
         top: 50%;
-        left: 30%;
-        transform: translate(-50%, -50%);
+        left: 50%;
+        transform: translate(-80%, -50%);
         text-align: left;
         padding: 20px;
         max-width: 800px;
@@ -70,12 +91,8 @@
         color: white;
       }
 
-      body {
-        overflow: auto;
-      }
-
-      html {
-        scroll-behavior: smooth;
+      .carousel {
+        margin-top: -5px;
       }
 
       .carousel-inner {
@@ -93,39 +110,77 @@
         .carousel-inner img {
           height: 300px;
         }
+
+        .hero-content h1,
+        .contact-header h1,
+        .about-header h1 {
+          font-size: 2rem;
+        }
+      }
+
+      .about-header {
+        background: url('assets/bg2.png') no-repeat center center;
+        background-size: cover;
+        background-color: #0c1a3c;
+    
+        padding: 100px 0 40px;
+        color: white;
+        text-align: left;
+      }
+
+      .about-header h1 {
+        font-weight: bold;
+      }
+
+      .about-section {
+        background: white;
+        padding: 40px 30px;
       }
 
       .contact-header {
-      background-image: url('assets/bg2.png'); 
-      background-size: cover;
-      background-position: center;
-      color: white;
-      padding: 80px 0;
-      text-align: left;
-    }
+        background: url('assets/bg2.png') no-repeat center center;
+        background-size: cover;
+        background-color: #0c1a3c;
+        padding: 80px 0;
+        color: white;
+      }
 
-    .contact-card {
-      padding: 40px 20px;
-    }
+      .contact-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+      }
 
-    .footer {
-      background-color: #0c1a3c;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-    }
+      .contact-section {
+        background-color: white;
+        padding: 50px 30px;
+        border-radius: 8px;
+        margin-top: -50px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
 
-    .social-icons i {
-      font-size: 1.5rem;
-      margin: 0 10px;
-      color: black;
-    }
+      .social-icons a {
+        color: #000;
+        margin: 0 8px;
+        font-size: 1.5rem;
+      }
+
+      .footer {
+        background-color: #0c1a3c;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .footer img {
+        height: 30px;
+        margin-right: 10px;
+      }
     </style>
   </head>
 
-  <body style="margin: 0">
+  <body>
     <!-- Hero Section -->
-    <div class="hero-section">
+    <section class="hero-section" id="home">
       <div class="hero-overlay"></div>
 
       <!-- Navbar -->
@@ -134,12 +189,12 @@
           <img src="assets/logo.png" alt="JetSetGo Logo" width="30" class="me-2" />
           JetSetGo
         </a>
-        <div class="ms-auto d-flex align-items-center gap-4">
-          <a class="nav-link text-white" href="#">HOME</a>
-          <a class="nav-link text-white" href="#gallery-carousel">GALLERY</a>
-          <a class="nav-link text-white" href="#">ABOUT</a>
-          <a class="btn btn-darkblue" href="#">LOGIN</a>
-        </div>
+        <ul class="navbar-nav ms-auto d-flex flex-row gap-4">
+          <li class="nav-item"><a class="nav-link text-white" href="#home">HOME</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#gallery-carousel">GALLERY</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#about">ABOUT</a></li>
+          <li class="nav-item"><a class="btn btn-darkblue" href="#">LOGIN</a></li>
+        </ul>
       </nav>
 
       <!-- Hero Content -->
@@ -147,156 +202,103 @@
         <h1 class="display-4 fw-bold">Streamlining flight<br />reservation</h1>
         <a href="#" class="btn btn-darkblue mt-3 px-4 py-2">LEARN MORE</a>
       </div>
-    </div>
+    </section>
 
     <!-- Carousel Section -->
-    <div
-      id="gallery-carousel"
-      class="carousel slide carousel-fade carousel-dark"
-      data-bs-ride="carousel"
-      data-bs-interval="3000"
-    >
-      <!-- Indicators -->
+    <section id="gallery-carousel" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel" data-bs-interval="3000">
       <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#gallery-carousel"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#gallery-carousel"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#gallery-carousel"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
+        <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
-
-      <!-- Inner Carousel -->
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img
-            src="assets/gallery1.png"
-            class="d-block w-100"
-            alt="Puerto Princesa"
-          />
+          <img src="assets/gallery1.png" class="d-block w-100" alt="Scenic view of Puerto Princesa beach" />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Puerto Princesa, Palawan</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img
-            src="assets/gallery2.webp"
-            class="d-block w-100"
-            alt="Chocolate Hills"
-          />
+          <img src="assets/gallery2.webp" class="d-block w-100" alt="Chocolate Hills in Cebu" />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Chocolate Hills, Cebu</p>
           </div>
         </div>
         <div class="carousel-item">
-          <img
-            src="assets/gallery3.jpg"
-            class="d-block w-100"
-            alt="Boracay Beach"
-          />
+          <img src="assets/gallery3.jpg" class="d-block w-100" alt="Boracay Beach with white sand" />
           <div class="carousel-caption d-none d-md-block">
             <h5>Discover a new Experience</h5>
             <p>Boracay, Aklan</p>
           </div>
         </div>
       </div>
-
-      <!-- Controls -->
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#gallery-carousel"
-        data-bs-slide="prev"
-      >
+      <button class="carousel-control-prev" type="button" data-bs-target="#gallery-carousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#gallery-carousel"
-        data-bs-slide="next"
-      >
+      <button class="carousel-control-next" type="button" data-bs-target="#gallery-carousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
-    </div>
+    </section>
 
-    <!-- Info Section -->
-    <section class="info-section py-5 px-4 text-white" style="background-color: #1e2a50">
+    <!-- Who We Are Section -->
+    <section class="about-header" id="about">
       <div class="container">
-        <h2 class="mb-4">Why Choose JetSetGo?</h2>
+        <h1>JetSetGo</h1>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="container">
+        <h4 class="fw-bold mb-3">Who We Are</h4>
         <p>
-          JetSetGo simplifies your flight booking process with seamless payment integration,
-          reliable billing, and an intuitive user interface. Experience a modern way to fly.
+          At JetSetGo, we believe that booking flights should be as exciting as the journey itself. Our platform brings together cutting-edge technology, real-time flight data, and a user-friendly interface to help travelers find the best flights at the best prices. From last-minute getaways to well-planned business trips, we make flying simple and stress-free.
         </p>
       </div>
     </section>
 
-     <!-- Header -->
-  <div class="contact-header">
-    <div class="container">
-      <h1 class="fw-bold">Contact Us</h1>
-    </div>
-  </div>
-
-  <!-- Contact Info -->
-  <div class="container contact-card text-center bg-white shadow-sm">
-    <div class="row">
-      <!-- Chat -->
-      <div class="col-md-3 mb-4">
-        <p class="fw-bold">Chat (24/7)</p>
-        <p><i class="fab fa-facebook-messenger fa-2x"></i><br><strong>JetSetGo</strong></p>
-        <p><i class="fab fa-facebook fa-2x"></i><br>facebook.com/JetSetGo</p>
+    <!-- Contact Header -->
+    <section class="contact-header">
+      <div class="container">
+        <h1>Contact Us</h1>
       </div>
+    </section>
 
-      <!-- Email -->
-      <div class="col-md-3 mb-4">
-        <p class="fw-bold">Email</p>
-        <p>jetsetgo@example.com</p>
-      </div>
-
-      <!-- Call Us -->
-      <div class="col-md-3 mb-4">
-        <p class="fw-bold">Call Us</p>
-        <p>63+ 099-1234-567</p>
-      </div>
-
-      <!-- Social -->
-      <div class="col-md-3 mb-4">
-        <p class="fw-bold">Stay Connected</p>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-x-twitter"></i></a>
+    <!-- Contact Section -->
+    <section class="container contact-section">
+      <div class="row text-center text-md-start">
+        <div class="col-md-3 mb-4">
+          <h5>Chat (24/7)</h5>
+          <p><i class="fab fa-facebook-messenger"></i> <strong>JetSetGo</strong></p>
+          <p><i class="fab fa-facebook"></i> facebook.com/JetSetGo</p>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Email</h5>
+          <p>jetsetgo@example.com</p>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Call Us</h5>
+          <p>63+ 099-1234-567</p>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Stay Connected</h5>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Footer -->
-  <div class="footer">
-    <div class="container d-flex align-items-center justify-content-center gap-2">
-      <img src="assets/logo.png" alt="Logo" class="rounded-circle">
+    <!-- Footer -->
+    <footer class="footer d-flex justify-content-center align-items-center mt-5">
+      <img src="assets/logo.png" alt="JetSetGo Logo" class="rounded-circle" />
       <span>JetSetGo 2025</span>
-    </div>
-  </div>
+    </footer>
 
     <!-- Bootstrap Bundle with Popper -->
     <script
