@@ -123,7 +123,7 @@
         background-size: cover;
         background-color: #0c1a3c;
     
-        padding: 100px 0 40px;
+        padding: 70px 0 40px;
         color: white;
         text-align: left;
       }
@@ -137,18 +137,6 @@
         padding: 40px 30px;
       }
 
-      .contact-header {
-        background: url('assets/bg2.png') no-repeat center center;
-        background-size: cover;
-        background-color: #0c1a3c;
-        padding: 80px 0;
-        color: white;
-      }
-
-      .contact-header h1 {
-        font-size: 3rem;
-        font-weight: bold;
-      }
 
       .contact-section {
         background-color: white;
@@ -260,13 +248,7 @@
       </div>
     </section>
 
-    <!-- Contact Header -->
-    <section class="contact-header">
-      <div class="container">
-        <h1>Contact Us</h1>
-      </div>
-    </section>
-
+ 
    <!-- Let's Talk Section -->
 <section class="container-fluid py-5" style="background-color: #0c1a3c; color: white;">
   <div class="container">
@@ -274,8 +256,8 @@
       <div class="col-md-6 mb-4">
         <h2 class="fw-bold">JetSetGo</h2>
         <p>
-        JetSetGo simplifies your flight booking process with seamless payment integration,
-        reliable billing, and an intuitive user interface. Experience a modern way to fly.
+        JetSetGo simplifies your flight booking process with seamless payment integration,</p>
+        <p>reliable billing, and an intuitive user interface. Experience a modern way to fly.
         </p>
         <a href="#" class="btn btn-success fw-bold px-4 py-2">Book Now</a>
       </div>
