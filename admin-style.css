@@ -15,11 +15,11 @@ table th{
 }
 td button{
     margin: 5px;
+    font-size: 20px;
+    font-style: normal;
+    font-display: normal;
 }
 
-td button{
-    font-size: 20px;
-}
 
 .btn-prim{
     position: absolute; 
@@ -31,6 +31,7 @@ td button{
     cursor: pointer;
     font-size: 16px; 
     transition: background-color 0.3s;
+    font-style: normal;
 }
 
 
@@ -39,21 +40,20 @@ td button{
     flex-wrap: wrap;
   }
   
-  .input div {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  
-  .right-side {
-    margin-left: auto;
-    width: 50%; 
-  }
-  
-  .right-side div {
-    width: 100%; 
-  }
+.input div {
+  margin-bottom: 10px;
+  width: 100%;
+}
 
- /* Style the modal form inputs */
+.right-side {
+  margin-left: auto;
+  width: 50%; 
+}
+
+.right-side div {
+  width: 100%; 
+}
+
 #myForm label {
   font-weight: 600;
   margin-bottom: 6px;
@@ -72,6 +72,7 @@ td button{
 
 .btn {
   margin-right: 5px;
+  font-style: normal;
 }
 
 #price::placeholder {
@@ -83,11 +84,6 @@ input:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
-
-/* span {
-  width: 10px; 
-  height: 10px;
-} */
 
 .submit {
     margin-left: 100px;

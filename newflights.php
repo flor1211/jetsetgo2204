@@ -25,6 +25,24 @@
       </script>
     </div>
 
+    <div id="alert-container" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1055;
+  display: none;
+">
+  <div id="alert-message" style="
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  ">
+    Flight deleted successfully.
+  </div>
+</div>
+
     <div style="margin-left: 225px; padding: 20px;">
       <h1>JetSetGo</h1>
       <section class="p-3">
@@ -60,15 +78,9 @@
                   <td>30</td>
                   <td>Pending</td>
                   <td>
-<<<<<<< HEAD
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"> View </i></button>
-                    <button class="btn btn-primary"><i class="bi bi-pencil-square"> Edit </i></button>
-                    <button class="btn btn-danger"><i class="bi bi-trash"> Delete </i></button>
-=======
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight"><i class="bi bi-eye"> VIEW </i></button>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight"><i class="bi bi-pencil-square"> EDIT </i></button>
-                    <button class="btn btn-danger"><i class="bi bi-trash"> DELETE </i></button>
->>>>>>> cdabdf3b6141d1a45340367b45790a6668e1071f
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight"><i class="bi bi-eye"> View </i></button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight"><i class="bi bi-pencil-square"> Edit </i></button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteFlight"><i class="bi bi-trash"> Delete </i></button>
                   </td>
                 </tr>
               </tbody>
@@ -168,7 +180,7 @@
                   
                 <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">ADD</button>
-                <button type="cancel" class="btn btn-danger">CANCEL</button>
+                <button type="cancel" class="btn btn-secondary">CANCEL</button>
 
 
                 </div>
@@ -267,7 +279,7 @@
                   
                 <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">ADD</button>
-                <button type="cancel" class="btn btn-danger">CANCEL</button>
+                <button type="cancel" class="btn btn-secondary">CANCEL</button>
 
 
                 </div>
@@ -370,7 +382,7 @@
                   
                 <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">ADD</button>
-                <button type="cancel" class="btn btn-danger">CANCEL</button>
+                <button type="cancel" class="btn btn-secondary">CANCEL</button>
 
 
                 </div>
@@ -380,6 +392,25 @@
         </div>
       </div>
     </div>
+
+    <!-- DELETE FLIGHT -->
+    <div class="modal fade" id="deleteFlight" tabindex="-1" aria-labelledby="deleteFlight" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="deleteFlight">Confirmation</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              Are you sure you want to delete this flight?
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+              <button type="button" class="btn btn-danger" onclick="deleteFlight()">DELETE</button>
+            </div>
+   
 
 
 
