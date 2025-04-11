@@ -1,57 +1,62 @@
+<?php
+    session_start();
+
+      // Redirect to login if not logged in
+      if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+          header("Location: ../login.php");
+          exit;
+      }
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-  
+    <!-- Bootstap S icons CDN-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <title>JetSetGo</title>
+
     <link rel="stylesheet" href="admin-style.css">
   </head>
 
   <body style="margin: 0;">
-    <div id="sidebar-container">
-      <script>
-        fetch("sidebar.php")
-          .then(res => res.text())
-          .then(data => {
-            document.getElementById("sidebar-container").innerHTML = data;
-          });
-      </script>
-    </div>
 
-    <div id="alert-container" style="
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1055;
-  display: none;
-">
-  <div id="alert-message" style="
-    background-color: #28a745;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  ">
-    Flight deleted successfully.
-  </div>
-</div>
+    <!-- Sidebar Container -->
+        <div id="sidebar-container">
+        <script>
+            fetch("sidebar.php")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            });
+        </script>
+        </div>
 
     <div style="margin-left: 225px; padding: 20px;">
-      <h1>JetSetGo</h1>
-      <section class="p-3">
-        <div class="col-8">
-          
-          <button class="btn btn-prim" data-bs-toggle="modal" data-bs-target="#addNewFlight">
-            <i class="bi bi-plus-circle-dotted"></i> New Flights
-          </button>
-        </div>
+        <h1>Flights</h1>
+            <section class="p-3">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <h2 class="m-0">Flight Details</h2>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#airportForm">
+                                <i class="bi bi-airplane-engines"></i> New Flight
+                            </button>
+                    </div>
+                </div>
+
+
+        <!-- TABLE -->
 
         <div class="row">
           <div class="col-12">
@@ -68,6 +73,8 @@
                   <th>ACTION</th>
                 </tr>
               </thead>
+
+          <!-- ADD FOREACH LOOP HERE -->
               <tbody id="data">
                 <tr>
                   <td>16/07/2025</td>
@@ -83,14 +90,16 @@
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteFlight"><i class="bi bi-trash"> Delete </i></button>
                   </td>
                 </tr>
+                
               </tbody>
+
             </table>
           </div>
         </div>
       </section>
 
-
-  <div class="modal fade" id="addNewFlight" tabindex="-1" aria-labelledby="addNewFlight" aria-hidden="true">
+    <!-- MODAL FOR ADDING -->
+    <div class="modal fade" id="addNewFlight" tabindex="-1" aria-labelledby="addNewFlight" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -138,57 +147,51 @@
                   </div>
                   
                   <h4 class="modal-title">Plane Details</h4>
-                <hr>
+                
+                  <hr>
 
                 <div class="d-flex gap-4">
-                <div class="w-100">
-                    <div class="mb-3">
-                    <label for="planeNumber">PLANE #</label>
-                    <select class="form-control" id="planeNumber">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                    </select>
+                    <div class="w-100">
+                        <div class="mb-3">
+                        <label for="planeNumber">PLANE #</label>
+                        <select class="form-control" id="planeNumber">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        </div>
+
+                        <div class="mb-3">
+                        <label for="seatsAvailable">SEATS AVAILABLE</label>
+                        <input type="text" class="form-control" id="seatsAvailable">
+                        </div>
+
+                        <div class="mb-3">
+                        <label for="price">PRICE</label>
+                        <input type="text" class="form-control" id="price" placeholder="₱ 0.00">
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                    <label for="seatsAvailable">SEATS AVAILABLE</label>
-                    <input type="text" class="form-control" id="seatsAvailable">
+                    <div class="flex-shrink-0">
+                        <img 
+                        src="https://images6.alphacoders.com/408/408258.jpg" 
+                        alt="Plane Image" 
+                        class="img-fluid rounded shadow" 
+                        style="width: 250px; height: 170px; margin-top: 50px;">
                     </div>
-
-                    <div class="mb-3">
-                    <label for="price">PRICE</label>
-                    <input type="text" class="form-control" id="price" placeholder="₱ 0.00">
-                    </div>
-                </div>
-
-                <div class="flex-shrink-0">
-                    <img 
-                    src="https://images6.alphacoders.com/408/408258.jpg" 
-                    alt="Plane Image" 
-                    class="img-fluid rounded shadow" 
-                    style="width: 250px; height: 170px; margin-top: 50px;">
-                </div>
                 </div>
 
                 </div>
             </div>
 
-                  
+                <form action="#" id="myForm"></form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">ADD</button>
+                        <button type="cancel" class="btn btn-secondary">CANCEL</button>
 
-                  <form action="#" id="myForm"></form>
-
-                  
-                <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">ADD</button>
-                <button type="cancel" class="btn btn-secondary">CANCEL</button>
-
-
-                </div>
+                    </div>
               </form>
             </div>
           </div>
-        </div>
-      </div>
     </div>
 
     <!-- MODAL FOR VIEWING -->
@@ -290,8 +293,7 @@
       </div>
     </div>
 
-        <!-- MODAL FOR EDITING FLIGHT -->
-    
+    <!-- MODAL FOR EDITING FLIGHT -->
     <div class="modal fade" id="editFlight" tabindex="-1" aria-labelledby="editFlight" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
@@ -410,14 +412,29 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
               <button type="button" class="btn btn-danger" onclick="deleteFlight()">DELETE</button>
             </div>
-   
+     </div>
 
-
-
-  </div>
+     <!-- <div id="alert-container" style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1055;
+        display: none;
+        ">
+        <div id="alert-message" style="
+                background-color: #28a745;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            ">
+            Flight deleted successfully.
+        </div>
+    </div> -->
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="app.js"></script>
+
   </body>
 </html>
