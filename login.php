@@ -17,7 +17,10 @@
         $username = trim($_POST["username"]);
         $password = strip_tags(trim($_POST["password"]));
     
-        $error = $user->login($username, $password);
+            // LOGIN WITHOUT HASHED PASSWORD
+        // $error = $user->loginUser($username, $password);
+            // LOGIN WITH HASHED PASSWORD
+        $error = $user->loginUserPass($username, $password);
     }
     
 ?>

@@ -25,9 +25,9 @@
                     <tr>
                         <td><?= $u['account_id'] ?></td>
                         <td><?= htmlspecialchars($u['account_username']) ?></td>
-                        <!-- <td></?= htmlspecialchars($u['account_password']) ?></td> -->
+                        <td><?= htmlspecialchars($u['account_password']) ?></td>
                         <td><?= htmlspecialchars($u['account_role']) ?></td>
-                        <td>
+                        <td>    
 
                         <!-- EDIT -->  
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAccount<?= $u['account_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
@@ -156,7 +156,7 @@
                                   <tr>
                                       <th>#</th>
                                       <th>Username</th>
-                                      <!-- <th>Password</th> -->
+                                      <th>Password</th>
                                       <th>Role</th>
                                       <th>Action</th>
                                   </tr>
@@ -167,7 +167,7 @@
                                     <tr>
                                         <td><?= $u['account_id'] ?></td>
                                         <td><?= htmlspecialchars($u['account_username']) ?></td>
-                                        <!-- <td></?= htmlspecialchars($u['account_password']) ?></td> -->
+                                        <td><?= htmlspecialchars($u['account_password']) ?></td>
                                         <td><?= htmlspecialchars($u['account_role']) ?></td>
                                         <td>
 
@@ -209,8 +209,8 @@
                                                                 <div class="col-md-6">
                                                                     <label class="col-sm-2 col-form-label" for="name">Role</label>
                                                                         <select class="form-control" id="role<?= $u['account_id'] ?>" name="role">
-                                                                            <option value="Administrator" <?= $u['account_role'] == 'admin' ? 'selected' : '' ?>>Administrator</option>
-                                                                            <option value="Front Desk" <?= $u['account_role'] == 'frontdesk' ? 'selected' : '' ?>>Front Desk</option>
+                                                                            <option value="Administrator" <?= $u['account_role'] == 'Administrator' ? 'selected' : '' ?>>Administrator</option>
+                                                                            <option value="Front Desk" <?= $u['account_role'] == 'Front Desk' ? 'selected' : '' ?>>Front Desk</option>
                                                                             <!-- <option value="customer" </?= $u['account_role'] == 'customer' ? 'selected' : '' ?>>Customer</option> -->
                                                                         </select>
                                                                 </div>

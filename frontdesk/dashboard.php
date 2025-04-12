@@ -39,13 +39,14 @@
       
     </section>
 
+    <div class="d-flex justify-content-center align-items-center vh-100">
+      <div class="text-center">
+        <h1>HI, FRONT DESK!</h1>
+        <a href="../logout.php" class="btn btn-primary mt-3">Logout</a>
+      </div>
+    </div>
 
 
-
- 
-  </div>
-  
-</section>   
 
 
 
