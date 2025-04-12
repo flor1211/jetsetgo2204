@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 mkdir($targetDir, 0777, true);
             }
 
-            if (move_uploaded_file($fileTmp, $targetFile)) {                
-                $user->AddPlane($_POST['plane_num'], $_POST['seats'], $_POST['status'], $targetFile);
+            if (move_uploaded_file($fileTmp, $targetFile)) {
+                $user->AddPlane($_POST['plane_code'], $_POST['seats'], $_POST['status'], $targetFile);
                 header("Location: planes.php?success=1");
                 exit;
             } else {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['update'])) {
             $photoPath = null;
 
-            
+            //Check if a new file is uploaded
             if (isset($_FILES['plane_photo']) && $_FILES['plane_photo']['error'] == 0) {
                 $fileTmp = $_FILES['plane_photo']['tmp_name'];
                 $fileName = basename($_FILES['plane_photo']['name']);
@@ -54,13 +54,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "Image upload failed.";
                     return;
                 }
+            } else {
+                //Retain the current image if no new image is uploaded
+                $photoPath = $_POST['current_photo'];
             }
 
-            
-            $user->updatePlane($_POST['plane_id'], $_POST['plane_num'], $_POST['seats'], $_POST['status'], $photoPath);
+
+            $user->updatePlane(
+                $_POST['plane_id'],
+                $_POST['plane_code'],
+                $_POST['seats'],
+                $_POST['status'],
+                $photoPath
+            );
+
             $successMessage = "Plane updated successfully!";
         }
     }
+
 
     if (isset($_POST['delete'])) {
         if (isset($_POST['plane_id']) && !empty($_POST['plane_id'])) {
@@ -139,7 +150,7 @@ $planes = $user->getAllPlanes();
                             <?php foreach ($planes as $plane): ?>
                                 <tr>
                                     <td><?= $plane['plane_id'] ?></td>
-                                    <td><?= $plane['plane_num'] ?></td>
+                                    <td><?= $plane['plane_code'] ?></td>
                                     <td><?= $plane['plane_numseats'] ?></td>
                                     <td>
 
@@ -193,7 +204,8 @@ $planes = $user->getAllPlanes();
                                                         <!-- Left side: image -->
                                                         <div class="col-md-6 d-flex align-items-center justify-content-center">
                                                             <div class="card imgHolder" style="width: 100%; max-width: 300px;">
-                                                                <img src="<?= htmlspecialchars($plane['plane_photo']) ?>" alt="plane_photo" class="img-fluid">
+                                                                <img id="editImgPreview<?= $plane['plane_id']; ?>" src="<?= htmlspecialchars($plane['plane_photo']) ?>" alt="Plane Image" class="img-fluid">
+
                                                             </div>
                                                         </div>
 
@@ -202,7 +214,7 @@ $planes = $user->getAllPlanes();
                                                             <div class="mb-3">
                                                                 <label for="planenum" class="form-label">Plane Number</label>
                                                                 <input type="text" id="planenum" class="form-control"
-                                                                    value="<?= htmlspecialchars($plane['plane_num']) ?>" disabled>
+                                                                    value="<?= htmlspecialchars($plane['plane_code']) ?>" disabled>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="numseats" class="form-label">No. of Seats</label>
@@ -211,7 +223,7 @@ $planes = $user->getAllPlanes();
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="status" class="form-label">Status</label>
-                                                                <input type="text" id="status" class="form-control"
+                                                                <input type="text" id="plane_status" class="form-control"
                                                                     value="<?= htmlspecialchars($plane['plane_status']) ?>" disabled>
                                                             </div>
                                                         </div>
@@ -246,6 +258,7 @@ $planes = $user->getAllPlanes();
                                                                     <i class="bi bi-file-earmark-arrow-up fs-2 mb-2"></i>
                                                                     <span>Upload Photo</span>
                                                                     <input type="file" name="plane_photo" id="editImgInput<?= $plane['plane_id']; ?>" hidden>
+                                                                    <input type="hidden" name="current_photo" value="<?= htmlspecialchars($plane['plane_photo']) ?>">
                                                                 </label>
                                                                 <img id="editImgPreview<?= $plane['plane_id']; ?>" src="<?= htmlspecialchars($plane['plane_photo']) ?>" alt="Plane Image" class="img-fluid">
                                                             </div>
@@ -257,8 +270,8 @@ $planes = $user->getAllPlanes();
 
                                                             <div class="mb-3">
                                                                 <label for="editPlaneNum<?= $plane['plane_id']; ?>" class="form-label">Plane Number</label>
-                                                                <input type="text" name="plane_num" id="editPlaneNum<?= $plane['plane_id']; ?>" class="form-control"
-                                                                    value="<?= htmlspecialchars($plane['plane_num']); ?>">
+                                                                <input type="text" name="plane_code" id="editPlaneNum<?= $plane['plane_id']; ?>" class="form-control"
+                                                                    value="<?= htmlspecialchars($plane['plane_code']); ?>">
                                                             </div>
 
                                                             <div class="mb-3">
@@ -320,7 +333,7 @@ $planes = $user->getAllPlanes();
                         <div class="inputField">
                             <div>
                                 <label for="planeID">Plane ID</label>
-                                <input type="text" name="plane_num" id="planeID" required>
+                                <input type="text" name="plane_code" id="planeID" required>
                             </div>
                             <div>
                                 <label for="numseats">No. of Seats</label>

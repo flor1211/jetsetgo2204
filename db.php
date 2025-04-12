@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'jetsetgodb';
+    private $db_name = 'jetsetgo2db';
     private $username = 'root';
     private $password = '';
     private $port = '3307';  // Specify the correct port if it's not the default
