@@ -11,10 +11,20 @@
 
     $user = new Crud();
     $editingUser = null;
+    $allFlights = $user->getAllFlights();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      if (isset($_POST['create'])) {
-        $user->addFlight($_POST['new_dep_loc'], $_POST['new_dep_time'], $_POST['new_arr_loc'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_plane_num'], $_POST['new_num_seats'], $_POST['new_price']);
+      if (isset($_POST['add'])) {
+        $user->addFlight(
+          $_POST['new_dep_loc'], 
+          $_POST['new_dep_time'], 
+          $_POST['new_arr_loc'], 
+          $_POST['new_arr_time'], 
+          $_POST['new_date'], 
+          $_POST['new_planeCode'], 
+          $_POST['new_num_seats'], 
+          $_POST['price']
+        );
         header(header: "Location: newflights.php?success=1");
         exit;
       }
@@ -92,21 +102,110 @@
 
           <!-- ADD FOREACH LOOP HERE -->
               <tbody id="data">
+                <?php foreach($allFlights as $u): ?>
                 <tr>
-                  <td>16/07/2025</td>
-                  <td>Bukidnon</td>
-                  <td>JSG016</td>
-                  <td>150</td>
-                  <td>120</td>
-                  <td>30</td>
-                  <td>Pending</td>
+                    <td><?= htmlspecialchars($u['date']) ?></td>
+                    <td><b>FROM</b> <?= htmlspecialchars($u['departure_location'])?><br>
+                    <b>TO</b> <?= htmlspecialchars($u['arrival_location']) ?>
+                    </td>
+                    <td><?= htmlspecialchars($u['plane_code']) ?></td>
+                    <td><?= htmlspecialchars($u['seats_available']) ?></td>
+                    <td>150</td>
+                    <td><?= htmlspecialchars($u['seats_available']) ?></td>
+                    <td>Pending</td>
                   <td>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight"><i class="bi bi-eye"> View </i></button>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight"><i class="bi bi-pencil-square"> Edit </i></button>
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteFlight"><i class="bi bi-trash"> Delete </i></button>
+
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['id']?>"><i class="bi bi-eye"> View </i></button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteFlight<?= $u['id']?>"><i class="bi bi-trash"> Delete </i></button>
                   </td>
                 </tr>
                 
+                <!-- MODAL FOR VIEWING -->
+    <div class="modal fade" id="viewFlight<?= $u['id']?>"> 
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="viewFlight">View Flight</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="#" id="viewFlight" method="POST">
+            <div class="modal-body">
+              <h4 class="modal-title">Flight Details</h4>
+              <hr>
+                <div class="container">
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+
+                      <label for="departureLocation">DEPARTURE LOCATION</label>
+                      <input type="text" class="form-control" id="dep_loc" name="" value="<?= htmlspecialchars($u['departure_location']) ?>" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="arrivalLocation">ARRIVAL LOCATION</label >
+                      <input type="text" class="form-control"  id="arr_loc" name="" value="<?= htmlspecialchars($u['arrival_location']) ?>" disabled>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="departureTime">DEPARTURE TIME</label>
+                      <input type="time" class="form-control" id="dep_time" name="" value="<?= htmlspecialchars($u['departure_time']) ?>" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="arrivalTime">ARRIVAL TIME</label>
+                      <input type="time" class="form-control" id="arr_time" name="" value="<?= htmlspecialchars($u['arrival_time']) ?>" disabled>
+                    </div>
+                  </div>
+               
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="date">DATE</label>
+                      <input type="text" class="form-control" id="date" name="" value="<?= htmlspecialchars($u['date']) ?>" disabled>
+                    </div>
+                  
+                  <h4 class="modal-title">Plane Details</h4>
+                <hr>
+
+                <div class="d-flex gap-4">
+                <div class="w-100">
+                    <div class="mb-3">
+                    <label for="plane_code">PLANE CODE</label>
+                    <input type="text" class="form-control" id="plane_code" name="" value="<?= htmlspecialchars($u['plane_code']) ?>" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                    <label for="numseats">NUMBER OF SEATS</label>
+                    <input type="text" class="form-control" id="numseats" name="" value="<?= htmlspecialchars($u['seats_available'])?>" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                    <label for="price">PRICE</label>
+                    <input type="text" class="form-control" id="price" name="" value="<?= htmlspecialchars($u['price']) ?>" disabled>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0">
+                    <img 
+                    src="https://images6.alphacoders.com/408/408258.jpg" 
+                    alt="Plane Image" 
+                    class="img-fluid rounded shadow" 
+                    style="width: 250px; height: 170px; margin-top: 40px;">
+                </div>
+              </div>
+
+              </div>
+            </div>
+                  <form action="#" id="viewFlight"></form>
+
+                  
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">BACK</button>
+
+
+                </div>
+              </form>
+              <?php endforeach; ?>
               </tbody>
 
             </table>
@@ -132,65 +231,74 @@
                     <div class="col-md-6">
 
                       <label for="departureLocation">DEPARTURE LOCATION</label>
-                      <input type="text" class="form-control" id="new_dep_loc" name="new_dep_loc">
+                      <input type="text" class="form-control" id="new_dep_loc" name="new_dep_loc" required>
                     </div>
                     <div class="col-md-6">
                       <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                      <input type="text" class="form-control" id="new_arr_loc" name="new_arr_loc">
+                      <input type="text" class="form-control" id="new_arr_loc" name="new_arr_loc" required>
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <label for="departureTime">DEPARTURE TIME</label>
-                      <input type="time" class="form-control" id="new_dep_time" name="new_dep_time">
+                      <input type="time" class="form-control" id="new_dep_time" name="new_dep_time" required>
                     </div>
                     <div class="col-md-6">
                       <label for="arrivalTime">ARRIVAL TIME</label>
-                      <input type="time" class="form-control" id="new_arr_time" name="new_arr_time">
+                      <input type="time" class="form-control" id="new_arr_time" name="new_arr_time" required>
                     </div>
                   </div>
                
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <label for="date">DATE</label>
-                      <input type="date" class="form-control" id="new_date" name="new_date">
+                      <input type="date" class="form-control" id="new_date" name="new_date" placeholder="DD/MM/YYYY" style="text-transform: uppercase;">
                     </div>
                   </div>
                   
                   <h4 class="modal-title">Plane Details</h4>
+        <hr>
+        <div class="container mt-4">
+          <div class="row d-flex align-items-start">
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label for="planeCode">PLANE CODE</label>
+                <input class="form-control" id="new_planeCode" name="new_planeCode" style="max-width: 73%;" readonly>
+                  <!-- <option value="" selected disabled></option>
+                  <option value="1">JSG001</option>
+                  <option value="2">JSG002</option>
+                  <option value="3">JSG003</option>
+                </select> -->
+              </div>
+
+              <div class="mb-3">
+                <label for="seatsAvailable">NUMBER OF SEATS</label>
+                <input type="number" class="form-control" id="new_num_seats" name="new_num_seats" min="1" max="150" style="max-width: 73%;" readonly> 
                 
-                  <hr>
+                
+              </div>
 
-                <div class="d-flex gap-4">
-                    <div class="w-100">
-                        <div class="mb-3">
-                        <label for="planeNumber">PLANE #</label>
-                        <select class="form-control" id="new_planeNumber" name="new_planeNumber">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                        </div>
-
-                        <div class="mb-3">
-                        <label for="seatsAvailable">NUMBER OF SEATS</label>
-                        <input type="text" class="form-control" id="new_num_seats" name="new_num_seats" readonly>
-                        </div>
-
-                        <div class="mb-3">
-                        <label for="price">PRICE</label>
-                        <input type="text" class="form-control" id="new_price" placeholder="₱ 0.00" name="new_price">
-                        </div>
-                    </div>
-
-                    <div class="flex-shrink-0">
-                        <img 
-                        src="https://images6.alphacoders.com/408/408258.jpg" 
-                        alt="Plane Image" 
-                        class="img-fluid rounded shadow" 
-                        style="width: 250px; height: 170px; margin-top: 50px;">
-                    </div>
+              <div class="mb-3">
+                <label for="price">PRICE</label>
+                <div class="input-group">
+                  <span class="input-group-text">₱</span>
+                  <input type="number" class="form-control" id="price" name="price" placeholder="0.00" min="0" inputmode="numeric" style="max-width: 66%;" required>
                 </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-center align-items-start">
+          <img 
+            src="https://images6.alphacoders.com/408/408258.jpg" 
+            alt="Plane Image" 
+            class="rounded shadow"
+            style="width: 350px; height: 200px; object-fit: cover; margin-bottom: 10px; margin-top: 20px; margin-right: 120px;">
+        </div>
+
+  </div>
+</div>
+
 
                 </div>
             </div>
@@ -205,99 +313,7 @@
           </div>
     </div>
 
-    <!-- MODAL FOR VIEWING -->
-    <div class="modal fade" id="viewFlight" tabindex="-1" aria-labelledby="viewFlight" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="viewFlight">View Flight</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-              <form action="#" id="myForm">
-              <h4 class="modal-title">Flight Details</h4>
-              <hr>
-                <div class="container">
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-
-                      <label for="departureLocation">DEPARTURE LOCATION</label>
-                      <input type="text" class="form-control" id="text" disabled>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="arrivalLocation">ARRIVAL LOCATION</label >
-                      <input type="text" class="form-control" id="text" disabled>
-                    </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="departureTime">DEPARTURE TIME</label>
-                      <input type="time" class="form-control" id="time" disabled>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="arrivalTime">ARRIVAL TIME</label>
-                      <input type="time" class="form-control" id="time" disabled>
-                    </div>
-                  </div>
-               
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="date">DATE</label>
-                      <input type="date" class="form-control" id="date" disabled>
-                    </div>
-                    <!-- <div class="col-md-6">
-                      <label for="seats">SEATS</label>
-                      <input type="text" class="form-control" id="text">
-                    </div> -->
-                  </div>
-                  
-                  <h4 class="modal-title">Plane Details</h4>
-                <hr>
-
-                <div class="d-flex gap-4">
-                <div class="w-100">
-                    <div class="mb-3">
-                    <label for="planeNumber">PLANE #</label>
-                    <select class="form-control" id="planeNumber" disabled>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                    </select>
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="seatsAvailable">SEATS AVAILABLE</label>
-                    <input type="text" class="form-control" id="seatsAvailable" disabled>
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="price">PRICE</label>
-                    <input type="text" class="form-control" id="price" placeholder="₱ 0.00" disabled>
-                    </div>
-                </div>
-
-                <div class="flex-shrink-0">
-                    <img 
-                    src="https://images6.alphacoders.com/408/408258.jpg" 
-                    alt="Plane Image" 
-                    class="img-fluid rounded shadow" 
-                    style="width: 250px; height: 170px; margin-top: 50px;">
-                </div>
-                </div>
-
-                </div>
-            </div>
-                  <form action="#" id="myForm"></form>
-
-                  
-                <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">ADD</button>
-                <button type="cancel" class="btn btn-secondary">CANCEL</button>
-
-
-                </div>
-              </form>
+    
             </div>
           </div>
         </div>
@@ -456,9 +472,11 @@
               icon: 'success',
               title: 'Success',
               text: 'Flight added successfully!',
-              timer: 3000,
+              timer: 2000,
               showConfirmButton: false
             });
+
+            window.history.replaceState({}, document.title, window.location.pathname);
             <?php endif; ?>
         });
       </script>
