@@ -22,10 +22,23 @@ class Crud {
 
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $control->account_username;
+            $_SESSION['role'] = $control->account_role;
             $_SESSION['login_success'] = true;
 
-            header("Location: admin/dashboard.php");
-            exit;
+            // Role-based redirection
+            if ($control->account_role === 'Administrator') {
+                header("Location: admin/dashboard.php");
+                exit;
+
+            } elseif ($control->account_role === 'Front Desk') {
+                header("Location: frontdesk/dashboard.php");
+                exit;
+
+            } else {
+                $error = "Invalid account.";
+                return $error;
+            }
+
         } else {
             $error = "Invalid username or password.";
             return $error;
