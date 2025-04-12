@@ -64,7 +64,7 @@
 
         <!-- Main Container -->
         <div>
-            <a href="/initial/homepage.php" class="btn btn-primary">
+            <a href="../homepage.php" class="btn btn-primary">
               <i class="bi bi-airplane"></i> Back to Home
             </a>
         </div>

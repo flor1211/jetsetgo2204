@@ -84,17 +84,17 @@ class Crud {
         return $result;
     }
 
-    public function addAccount($username, $password) {
-        $stmt = $this->conn->prepare("CALL addAccount(:a_username, :a_password)");
-        $stmt->execute([':a_username' => $username, ':a_password' => $password]);
+    public function addAccount($username, $password, $role) {
+        $stmt = $this->conn->prepare("CALL addAccount(:a_username, :a_password, :a_role)");
+        $stmt->execute([':a_username' => $username, ':a_password' => $password, ':a_role' => $role]);
 
     }
 
 
-    public function updateAccount($id, $username, $password) {
+    public function updateAccount($id, $username, $password, $role) {
         try {
-            $stmt = $this->conn->prepare("CALL updateAccount(:a_id, :a_username, :a_password)");
-            $stmt->execute([':a_id' => $id, ':a_username' => $username, ':a_password' => $password]);
+            $stmt = $this->conn->prepare("CALL updateAccount(:a_id, :a_username, :a_password, :a_role)");
+            $stmt->execute([':a_id' => $id, ':a_username' => $username, ':a_password' => $password, ':a_role' => $role]);
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage(); // Debugging message
         }

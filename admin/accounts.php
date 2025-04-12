@@ -26,6 +26,7 @@
                         <td><?= $u['account_id'] ?></td>
                         <td><?= htmlspecialchars($u['account_username']) ?></td>
                         <!-- <td></?= htmlspecialchars($u['account_password']) ?></td> -->
+                        <td><?= htmlspecialchars($u['account_role']) ?></td>
                         <td>
 
                         <!-- EDIT -->  
@@ -58,7 +59,7 @@
       if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         if(isset($_POST['add'])) {
-            $user->addAccount($_POST['newUsername'], $_POST['newPassword']);
+            $user->addAccount($_POST['newUsername'], $_POST['newPassword'], $_POST['newRole']);
             header("Location: accounts.php?success=1");
             exit;
         }
@@ -66,7 +67,7 @@
 
         if (isset($_POST['update'])) {
           var_dump($_POST); // Check what data is being sent
-          $user->updateAccount($_POST['accountId'], $_POST['username'], $_POST['password']);
+          $user->updateAccount($_POST['accountId'], $_POST['username'], $_POST['password'], $_POST['role']);
           header("Location: accounts.php?updated=1");
           exit;
       }
@@ -156,6 +157,7 @@
                                       <th>#</th>
                                       <th>Username</th>
                                       <!-- <th>Password</th> -->
+                                      <th>Role</th>
                                       <th>Action</th>
                                   </tr>
                               </thead>
@@ -166,6 +168,7 @@
                                         <td><?= $u['account_id'] ?></td>
                                         <td><?= htmlspecialchars($u['account_username']) ?></td>
                                         <!-- <td></?= htmlspecialchars($u['account_password']) ?></td> -->
+                                        <td><?= htmlspecialchars($u['account_role']) ?></td>
                                         <td>
 
                                         <!-- EDIT -->  
@@ -203,6 +206,15 @@
                                                                     <label class="col-sm-2 col-form-label" for="name">Password</label>
                                                                     <input class="form-control" type="text" name="password" id="password<?= $u['account_id'] ?>" value="">
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="col-sm-2 col-form-label" for="name">Role</label>
+                                                                        <select class="form-control" id="role<?= $u['account_id'] ?>" name="role">
+                                                                            <option value="Administrator" <?= $u['account_role'] == 'admin' ? 'selected' : '' ?>>Administrator</option>
+                                                                            <option value="Front Desk" <?= $u['account_role'] == 'frontdesk' ? 'selected' : '' ?>>Front Desk</option>
+                                                                            <!-- <option value="customer" </?= $u['account_role'] == 'customer' ? 'selected' : '' ?>>Customer</option> -->
+                                                                        </select>
+                                                                </div>
+                                                                
 
                                                             </div>
 
@@ -251,6 +263,16 @@
                                     <label class="col-sm-2 col-form-label" for="newPassword">Password</label>
                                     <input class="form-control" type="text" name="newPassword" id="newPassword">
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="col-sm-2 col-form-label" for="name">Role</label>
+                                        <select class="form-control" id="newRole" name="newRole" value="">
+                                            <option value="" selected disabled hidden>-- Select Role --</option>
+                                            <option value="Administrator">Administrator</option>
+                                            <option value="Front Desk">Front Desk</option>
+                                            <!-- <option value="customer">Customer</option> -->
+                                        </select>
+                                </div>
+
                             </div>
                         </div>
 
