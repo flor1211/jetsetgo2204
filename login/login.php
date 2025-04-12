@@ -1,7 +1,7 @@
 
 <?php
     session_start();
-
+    include "connect.php";
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         header("Location: admin.php");
         exit;
@@ -10,20 +10,21 @@
     $error = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-
-        // TEST LOGIN
-        if ($username === "admin" && $password === "1234") {
-            $_SESSION["loggedin"] = true;
+        $username = trim($_POST["username"]);
+        $password = strip_tags(trim($_POST["password"]));
+    
+        $query = $db->prepare("CALL AuthenticateUser(?, ?)");
+        $query->execute([$username, $password]);
+        $control = $query->fetch(PDO::FETCH_OBJ);
+        
+        if ($control) {
             $_SESSION["username"] = $username;
-            $_SESSION["login_success"] = true;
             header("Location: admin.php");
             exit;
         } else {
             $error = "Invalid username or password.";
         }
-}
+    }
 ?>
 
 <!DOCTYPE html>
