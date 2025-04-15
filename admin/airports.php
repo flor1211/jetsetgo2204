@@ -119,9 +119,6 @@
               </script>
         </div>
 
-        <?php include '../modals.php'; ?>
-
-
         <!-- Main Content -->
         <div style="margin-left: 225px; padding: 20px;">
             <h1>Airports</h1>
@@ -205,7 +202,17 @@
                                                                 </div>
                                                         </div>
                                                      </form>
+
+                                                     <br>
+                                                <h3 class="modal-title">Flights in <?= htmlspecialchars($u['airport_name']) ?> </h3>
+                                                <hr>
+
+                                                MAY TABLE DITO, NANDITO YUNG MGA DEPARTING / ARRIVING FLIGHTS SA <?= htmlspecialchars($u['airport_name']) ?>
+
                                                 </div>
+                                                
+
+
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
@@ -311,10 +318,6 @@
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script src="admin.js"></script>
-
-
 
 
     <!-- SweetAlert Messages -->
