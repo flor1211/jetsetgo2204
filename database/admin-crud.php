@@ -12,9 +12,46 @@ class Crud {
 
 // LOGIN page
 
-    public function login($username, $password){
+        // LOGIN WITH HASHED PASSWORD
+    public function loginUserPass($username, $password){
 
-        $stmt = $this->conn->prepare("CALL AuthenticateUser(:username, :password)");
+        $stmt = $this->conn->prepare("CALL AuthenticateUser(:username)");
+        $stmt->execute([':username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user) {
+
+            if (password_verify($password, $user['account_password'])) {
+
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $user['account_username'];
+                $_SESSION['role'] = $user['account_role'];
+                $_SESSION['login_success'] = true;
+
+
+                if ($_SESSION['role'] == 'Administrator') {
+                    header("Location: admin/dashboard.php");
+                } elseif ($_SESSION['role'] == 'Front Desk') {
+                    header("Location: frontdesk/dashboard.php");
+                }
+                exit;
+
+            } else {
+
+                $error = "Invalid username or password.";
+                return $error;
+            }
+        } else {
+
+            $error = "Invalid username or password.";
+            return $error;
+        }
+    }
+
+        // LOGIN WITHOUT HASHED PASSWORD
+    public function loginUser($username, $password){
+        
+        $stmt = $this->conn->prepare("CALL AuthenticateUserPass(:username, :password)");
         $stmt->execute([':username' => $username, ':password' => $password]);
         $control = $stmt->fetch(PDO::FETCH_OBJ);
         
@@ -22,10 +59,21 @@ class Crud {
 
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $control->account_username;
+            $_SESSION['role'] = $control->account_role;
             $_SESSION['login_success'] = true;
 
-            header("Location: admin/dashboard.php");
-            exit;
+            if ($control->account_role === 'Administrator') {
+                header("Location: admin/dashboard.php");
+                exit;
+
+            } elseif ($control->account_role === 'Front Desk') {
+                header("Location: frontdesk/dashboard.php");
+                exit;
+
+            } else {
+                $error = "Invalid account.";
+                return $error;
+            }
         } else {
             $error = "Invalid username or password.";
             return $error;
@@ -84,17 +132,20 @@ class Crud {
         return $result;
     }
 
-    public function addAccount($username, $password) {
-        $stmt = $this->conn->prepare("CALL addAccount(:a_username, :a_password)");
-        $stmt->execute([':a_username' => $username, ':a_password' => $password]);
+    public function addAccount($username, $password, $role) {
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $this->conn->prepare("CALL addAccount(:a_username, :a_password, :a_role)");
+        $stmt->execute([':a_username' => $username, ':a_password' => $hashedPassword, ':a_role' => $role]);
 
     }
 
 
-    public function updateAccount($id, $username, $password) {
+    public function updateAccount($id, $username, $password, $role) {
         try {
-            $stmt = $this->conn->prepare("CALL updateAccount(:a_id, :a_username, :a_password)");
-            $stmt->execute([':a_id' => $id, ':a_username' => $username, ':a_password' => $password]);
+            $stmt = $this->conn->prepare("CALL updateAccount(:a_id, :a_username, :a_password, :a_role)");
+            $stmt->execute([':a_id' => $id, ':a_username' => $username, ':a_password' => $password, ':a_role' => $role]);
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage(); // Debugging message
         }
