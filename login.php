@@ -21,6 +21,7 @@
         // $error = $user->loginUser($username, $password);
             // LOGIN WITH HASHED PASSWORD
         $error = $user->loginUserPass($username, $password);
+
     }
     
 ?>

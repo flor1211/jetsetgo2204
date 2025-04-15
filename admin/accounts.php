@@ -156,6 +156,7 @@
                                   <tr>
                                       <th>#</th>
                                       <th>Username</th>
+
                                       <th>Password</th>
                                       <th>Role</th>
                                       <th>Action</th>
@@ -206,6 +207,7 @@
                                                                     <label class="col-sm-2 col-form-label" for="name">Password</label>
                                                                     <input class="form-control" type="text" name="password" id="password<?= $u['account_id'] ?>" value="">
                                                                 </div>
+
                                                                 <div class="col-md-6">
                                                                     <label class="col-sm-2 col-form-label" for="name">Role</label>
                                                                         <select class="form-control" id="role<?= $u['account_id'] ?>" name="role">
@@ -263,6 +265,7 @@
                                     <label class="col-sm-2 col-form-label" for="newPassword">Password</label>
                                     <input class="form-control" type="text" name="newPassword" id="newPassword">
                                 </div>
+
                                 <div class="col-md-6">
                                     <label class="col-sm-2 col-form-label" for="name">Role</label>
                                         <select class="form-control" id="newRole" name="newRole" value="">

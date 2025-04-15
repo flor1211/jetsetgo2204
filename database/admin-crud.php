@@ -74,7 +74,6 @@ class Crud {
                 $error = "Invalid account.";
                 return $error;
             }
-
         } else {
             $error = "Invalid username or password.";
             return $error;
