@@ -3,7 +3,6 @@
 
     require_once '../database/admin-crud.php';
 
-
     $user = new Crud();
     $editingUser = null;
 
@@ -47,9 +46,6 @@
             exit;
         }
 
-
-
-
       // Redirect to login if not logged in
       if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
           header("Location: ../login.php");
@@ -81,78 +77,70 @@
         }
       }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstap S icons CDN-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <!-- SweetAlert2 CDN-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- Bootstap S icons CDN-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+        <!-- SWEET -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>JetSetGo - Accounts</title>
+        <script src="admin.js"></script>
 
-    <link rel="stylesheet" href="admin-style.css">
+        <title>JetSetGo | Airports</title>
 
-    <script>
-        window.onerror = function(msg, url, lineNo, columnNo, error) {
-            alert("Error: " + msg + " in " + url + " at line " + lineNo);
-            return false;
-        };
-    </script>
+        <link rel="stylesheet" href="admin.css">
 
+        <script>
+            window.onerror = function(msg, url, lineNo, columnNo, error) {
+                alert("Error: " + msg + " in " + url + " at line " + lineNo);
+                return false;
+            };
+        </script>
+        
+    </head>
+<body>
 
-  </head>
+    <?php include 'includes/sidebar.php'; ?>
+        
+    <section class="home-section">
+        
+        <?php include 'includes/navbar.php'; ?>
 
-  <body style="margin: 0;">
-        <!-- Sidebar Container -->
-        <div id="sidebar-container">
-            <script>
-                fetch("sidebar.php")
-                  .then(res => res.text())
-                  .then(data => {
-                    document.getElementById("sidebar-container").innerHTML = data;
-                  });
-              </script>
-        </div>
+        <div style="margin-left: 10px; padding: 20px;">
+            <h2>Account Management</h2>
+            <section class="p-3">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <h3 class="m-0">User Accounts</h3>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccount">
+                            <i class="bi bi-person-circle"></i>  New Account
+                        </button>
+                    </div>    
+                </div>
 
-        <!-- Main Content -->
-        <div style="margin-left: 225px; padding: 20px;">
-            <h1>Accounts</h1>
-                  <section class="p-3">
-                      <div class="row">
-                          <div class="col-12 d-flex justify-content-between align-items-center">
-                              <h2 class="m-0">User Accounts</h2>
-                              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccount">
-                                <i class="bi bi-person-circle"></i>  New Account
-                              </button>
-                          </div>
-                      </div>
+                <!-- SEARCH BAR -->
+                <br>
+                <div class="mb-3 d-flex">
+                    <input type="text" id="searchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
+                </div>
 
-            <!-- SEARCH BAR -->
-            <br>
-            <div class="mb-3 d-flex">
-                <input type="text" id="searchInput" class="form-control me-2" placeholder="Search by ID/Username">
-            </div>
-
-            <!-- TABLE -->
-                  <div class="row">
-                      <div class="col-12">
-                          <table class="table table-striped table-hover mt-3 text-center table-bordered">
-                              <thead>
+                <!-- TABLE --> 
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-striped table-hover mt-3 text-center table-bordered">
+                            <thead>
                                   <tr>
                                       <th>#</th>
                                       <th>Username</th>
@@ -161,9 +149,8 @@
                                       <th>Role</th>
                                       <th>Action</th>
                                   </tr>
-                              </thead>
-
-                              <tbody id="data">
+                            </thead>
+                            <tbody id="data">
                                 <?php foreach ($allAccounts as $u): ?>
                                     <tr>
                                         <td><?= $u['account_id'] ?></td>
@@ -171,21 +158,15 @@
                                         <td><?= htmlspecialchars($u['account_password']) ?></td>
                                         <td><?= htmlspecialchars($u['account_role']) ?></td>
                                         <td>
-
                                         <!-- EDIT -->  
                                           <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAccount<?= $u['account_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
-                                          
                                         <!-- Delete -->
                                             <form method="post" class="d-inline" onsubmit="return confirm('Delete this account?');">
                                                 <input type="hidden" name="accountId" value="<?= $u['account_id'] ?>">
                                                 <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
                                             </form>
-
-
                                         </td>
-
                                     </tr>
-
                                     <!-- Edit Data Modal-->
                                     <div class="modal fade" id="editAccount<?= $u['account_id'] ?>">
                                             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -230,22 +211,20 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div>
+                                    </div>
 
                                 <?php endforeach; ?>
-                              </tbody>
-
-                          </table>
-                      </div>
-                  </div>
-
-                  </section>
-     
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
         </div>
+    </section>
 
-    <!--MODALS-->
-        <!-- Add Account Modal-->
-            <div class="modal fade" id="addAccount">
+<!-- --------------------------------------------- --> 
+    <!-- ADD MODAL -->
+    <div class="modal fade" id="addAccount">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                     
@@ -287,16 +266,16 @@
 
                     </div>
                 </div>
-            </div>
-
-
-
-
+    </div>
+  
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    <!-- JAVASCRIPT --> 
+    <script src="admin-js.js"></script>
+
     <!-- SweetAlert Messages -->
-        <?php if (isset($_GET['success']) || isset($_GET['updated']) || isset($_GET['deleted'])): ?>
+    <?php if (isset($_GET['success']) || isset($_GET['updated']) || isset($_GET['deleted'])): ?>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     <?php if (isset($_GET['success'])): ?>
@@ -326,13 +305,14 @@
                     <?php endif; ?>
                 });
             </script>
-        <?php endif; ?>
+    <?php endif; ?> 
 
-        <script>
+    <!-- Script for AJAX search--> 
+    <script>
             document.getElementById('searchInput').addEventListener('input', function () {
                 const searchValue = this.value;
 
-                fetch('accounts.php?search=' + encodeURIComponent(searchValue), {
+                fetch('airports.php?search=' + encodeURIComponent(searchValue), {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
@@ -342,7 +322,7 @@
                     document.getElementById('data').innerHTML = data;
                 });
             });
-        </script>
+    </script>   
 
 
 </body>
