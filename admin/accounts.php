@@ -137,8 +137,8 @@
                 </div>
 
                 <!-- TABLE --> 
-                <div class="row">
-                    <div class="col-12">
+                <div class="table-container">
+                    <div class="table-responsive">
                         <table class="table table-striped table-hover mt-3 text-center table-bordered">
                             <thead>
                                   <tr>
