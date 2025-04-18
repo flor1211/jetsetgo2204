@@ -129,6 +129,12 @@ body {
   flex-wrap: wrap;
   
 }
+.form-group.dates {
+  display: flex;
+  gap: 45px; /* spacing between Departing and Return */
+  flex-wrap: wrap; 
+}
+
 .child-wrapper {
   margin-left: 25px;
   margin-right: 10px;
@@ -140,11 +146,13 @@ body {
 
 input[type="text"],
 input[type="number"],
-input[type="date"] {
+input[type="date"],
+select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 
 .trip-options {
   margin-bottom: 15px;
@@ -231,13 +239,13 @@ input[type="date"] {
 
 @media (max-width: 992px) {
   .container-fluid {
-    flex-direction: row; /* ✅ keep logo and button side by side */
-    justify-content: space-between; /* ✅ distribute space evenly */
+    flex-direction: row; 
+    justify-content: space-between; 
     padding: 0 1rem;
   }
 
   .navbar-brand {
-    margin-left: 10px; /* ✅ center it better in small screens */
+    margin-left: 10px; 
   }
 
   .btn {
@@ -335,6 +343,23 @@ input[type="date"] {
   .booking-form .form-group {
     margin-bottom: 0.5rem;
   }
+
+  .trip-options {
+    display: flex;                      
+    flex-wrap: nowrap;                       
+    gap: 10px;                   
+  }
+
+  .trip-options label {
+    display: inline-flex;                 
+    align-items: center;                                                  
+    white-space: nowrap;                 
+  }
+
+  input[type="radio"] {
+    transform: scale(1.2); /* radio button size */
+    margin-right: 8px;  /* gap between the button and label */
+  }
 }
 
 @media (max-width: 440px) {
@@ -364,8 +389,6 @@ input[type="date"] {
     font-size: 0.65rem;
   }
 
-  
-
   .form-submit {
     margin-top: 0.5rem;
     text-align: center;
@@ -374,8 +397,9 @@ input[type="date"] {
   .booking-form i {
     font-size: 0.7rem;
   }
+  
 
-  /* Optional: shrink logo + navbar items if needed */
+  /* shrink logo + navbar items if needed */
   .navbar-brand {
     font-size: 0.85rem;
     margin-left: 10px;
