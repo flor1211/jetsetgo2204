@@ -50,95 +50,86 @@
     </section>
 
     <section class="booking-form">
-  <div class="form-card">
-    <div class="form-section">
-      <h2><span class="icon"><img src="assets/Logo.png" alt="" /></span> Flight</h2>
-      <div class="form-group">
+  <form method="POST" action=""> <!-- 🟢 Moved form tag here to wrap both sections -->
 
-            <label for="fromInput">From</label>
-            <input type="text" id="fromInput" name="from" style="width: 150px;"/>
+    <div class="form-card">
+      <div class="form-section flight-section"> <!-- 🟢 Added class "flight-section" for possible media query use -->
+        <h2><span class="icon"><img src="../assets/Logo.webp" alt="" /></span> Flight</h2>
+        <div class="form-group">
+          <label for="fromInput">From</label>
+          <input type="text" id="fromInput" name="from" style="width: 150px;" />
 
-            <label for="ToInput">To</label>
-            <input type="text" id="toInput" name="To" style="width: 150px;"/>  
+          <label for="ToInput">To</label>
+          <input type="text" id="toInput" name="To" style="width: 150px;" />
+        </div>
 
-      </div>
-
-      <div class="form-group" style="display: flex;">
-            <div style="display: flex; flex-direction: column;">
-              <label for="adultInput">Adult</label>
-              <input type="number" id="adultInput" name="adult" style="width: 100px;" />
-            </div>
-
-            <div class="child-wrapper" style="display: flex; flex-direction: column; margin-left: 20px;">
-              <label for="childrenInput">Children</label>
-              <input type="number" id="childrenInput" name="children" style="width: 100px;" />
-            </div>
-
-            <div class="infant-wrapper" style="display: flex; flex-direction: column; margin-left: 30px;">
-              <label for="infantInput">Infant</label>
-              <input type="number" id="infantInput" name="infant" style="width: 80px;" />
-            </div>
-      </div>
-
-
-      
-      <form method="POST" action="">
-        <div class="form-submit">
-            <button class="search-btn"><i class="bi bi-airplane"></i> Search Flights</button>
+        <div class="form-group" style="display: flex;">
+          <div style="display: flex; flex-direction: column;">
+            <label for="adultInput">Adult</label>
+            <input type="number" id="adultInput" name="adult" style="width: 100px;" />
           </div>
-      </form>
 
+          <div class="child-wrapper" style="display: flex; flex-direction: column; margin-left: 20px;">
+            <label for="childrenInput">Children</label>
+            <input type="number" id="childrenInput" name="children" style="width: 100px;" />
+          </div>
 
-    </div>
+          <div class="infant-wrapper" style="display: flex; flex-direction: column; margin-left: 30px;">
+            <label for="infantInput">Infant</label>
+            <input type="number" id="infantInput" name="infant" style="width: 80px;" />
+          </div>
+        </div>
+      </div>
 
-    
-    <div class="form-section">
-       <h2><span class="icon"><img src="assets/Logo.png" alt="" /></span> Trip</h2>
+      <div class="form-section trip-section"> <!-- 🟢 Added class "trip-section" for possible media query use -->
+        <h2><span class="icon"><img src="../assets/Logo.png" alt="" /></span> Trip</h2>
         <div class="trip-options">
           <label><input type="radio" name="trip" id="roundTrip" checked /> Round Trip</label>
           <label><input type="radio" name="trip" id="oneWayTrip" /> One-way Trip</label>
         </div>
 
-  <div class="form-group">
-      <div style="display: flex; flex-direction: column;">
-        <label for="departingDate">Departing</label>
-        <input type="date" id="departingDate" placeholder="Departing" />
-      </div>
+        <div class="form-group">
+          <div style="display: flex; flex-direction: column;">
+            <label for="departingDate">Departing</label>
+            <input type="date" id="departingDate" placeholder="Departing" />
+          </div>
 
-      <div style="display: flex; flex-direction: column;">
-        <label for="returnDate" id="returnLabel">Return</label>
-        <input type="date" id="returnDate" placeholder="Return" />
-      </div>
+          <div style="display: flex; flex-direction: column;">
+            <label for="returnDate" id="returnLabel">Return</label>
+            <input type="date" id="returnDate" placeholder="Return" />
+          </div>
+        </div>
 
         <script>
           const roundTrip = document.getElementById('roundTrip');
           const oneWayTrip = document.getElementById('oneWayTrip');
           const returnDate = document.getElementById('returnDate');
-          const returnLabel = document.getElementById('returnLabel'); 
+          const returnLabel = document.getElementById('returnLabel');
 
           function toggleReturnDate() {
-            
             if (oneWayTrip.checked) {
               returnDate.style.display = 'none';
-              returnLabel.style.display = 'none'; 
+              returnLabel.style.display = 'none';
             } else {
-              returnDate.style.display = 'block'; 
-              returnLabel.style.display = 'block'; 
+              returnDate.style.display = 'block';
+              returnLabel.style.display = 'block';
             }
           }
 
-          
           toggleReturnDate();
-
-          
           roundTrip.addEventListener('change', toggleReturnDate);
           oneWayTrip.addEventListener('change', toggleReturnDate);
         </script>
+      </div>
 
+      <div class="form-submit"> <!-- 🟢 This now sits *after* both sections, within the form -->
+        <button class="search-btn"><i class="bi bi-airplane"></i> Search Flights</button>
+      </div>
+    </div>
+
+  </form> <!-- 🟢 Closing tag for moved form -->
+</section>
  
-  </div>
-  
-</section>   
 
 
 

@@ -7,7 +7,7 @@
 
 
     <span class="navbar-brand">
-      <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+      <img src="../assets/jsglogo.webp" alt="Logo"style="height:auto;" width="50">
       JetSetGo
     </span>
 
@@ -30,13 +30,13 @@
     }
 
     .navbar-brand {
-        margin-left: 50px;
+        margin-left: 20px;
         color: white;
         white-space: nowrap; 
     }
 
     .btn {
-        margin: 50px;
+        margin-right: 20px;
     }
 
     .container-fluid {
