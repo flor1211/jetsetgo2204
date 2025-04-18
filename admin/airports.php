@@ -131,7 +131,7 @@
                 <!-- SEARCH BAR -->
                 <br>
                 <div class="mb-3 d-flex">
-                    <input type="text" id="searchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
+                    <input type="text" id="airportsearchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
                 </div>
 
                 <!-- TABLE --> 
@@ -347,7 +347,7 @@
 
     <!-- Script for AJAX search--> 
     <script>
-            document.getElementById('searchInput').addEventListener('input', function () {
+            document.getElementById('airportsearchInput').addEventListener('input', function () {
                 const searchValue = this.value;
 
                 fetch('airports.php?search=' + encodeURIComponent(searchValue), {

@@ -20,16 +20,23 @@
 
       if (isset($_POST['add'])) {
 
+        $saleStatus = isset($_POST['new_on_Sale']) ? 1 : 0;
 
-        $user->addFlight($_POST['new_dep_loc'], $_POST['new_dep_time'], $_POST['new_arr_loc'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_planeCode'], $_POST['new_num_seats'], $_POST['new_price']);
+        $user->addFlight($_POST['new_dep_loc'], $_POST['new_dep_time'], $_POST['new_arr_loc'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_planeCode'], $_POST['new_num_seats'], $_POST['new_price'], $saleStatus);
         header("Location: flights.php?success=1");
         exit; 
+
       }
       if (isset($_POST['update'])) {
+
         $flightID = $_POST['flightId'];
-        $user->updateFlight($flightID, $_POST['dep_loc'], $_POST['dep_time'], $_POST['arr_loc'], $_POST['arr_time'], $_POST['date'], $_POST['planeCode'], $_POST['numofseats'], $_POST['price']);
+        $saleStatus = isset($_POST['on_Sale']) ? 1 : 0;
+
+
+        $user->updateFlight($flightID, $_POST['dep_loc'], $_POST['dep_time'], $_POST['arr_loc'], $_POST['arr_time'], $_POST['date'], $_POST['edit_planeCode'], $_POST['edit_num_seats'], $_POST['price'], $saleStatus);
         header("Location: flights.php?success=1");
         exit;
+        
       }
 
       if (isset($_POST['delete'])) {
@@ -39,6 +46,8 @@
         header("Location: flights.php?success=1");
         exit;
       }
+
+      
     }
 
     // AJAX for synchronous updates
@@ -98,6 +107,7 @@
             };
         </script>
         
+        
     </head>
 <body>
 
@@ -143,14 +153,12 @@
                                 <tr>
                                     <td><?= $u['flight_id'] ?></td>
                                     <td><?= htmlspecialchars($u['date']) ?></td>
-                                    <td>FROM <?= htmlspecialchars($u['departure_location'])?><br>
-                                        TO <?= htmlspecialchars($u['arrival_location']) ?>
-                                    </td>
+                                    <td><?= htmlspecialchars($u['departure_location'])?> - <?= htmlspecialchars($u['arrival_location']) ?></td>
                                     <td><?= htmlspecialchars($u['plane_code']) ?></td>
                                     <td><?= htmlspecialchars($u['numofseats']) ?></td>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td><?= $u['onSale'] ? 'On Sale' : 'Not on Sale' ?></td>
                                     <td>
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['flight_id']?>"><i class="bi bi-eye"> View </i></button>
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['flight_id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
@@ -213,12 +221,12 @@
                                                     <div class="w-100">
                                                         <div class="mb-3">
                                                         <label for="planeNumber">PLANE CODE</label>
-                                                        <input class="form-control" id="planeCode" name="" value="<?= htmlspecialchars($u['plane_code']) ?>" disabled>
+                                                        <input class="form-control" id="view_planeCode" name="" value="<?= htmlspecialchars($u['plane_code']) ?>" disabled>
                                                         </div>
 
                                                         <div class="mb-3">
-                                                        <label for="seatsAvailable">NUMBER OF SEATS</label>
-                                                        <input type="text" class="form-control" id="seats" name="" value="<?= htmlspecialchars($u['numofseats']) ?>" disabled>
+                                                        <label for="view_num_seats">NUMBER OF SEATS</label>
+                                                        <input type="text" class="form-control" id="view_num_seats" name="" value="<?= htmlspecialchars($u['numofseats']) ?>" disabled>
                                                         </div>
 
                                                         <div class="mb-3">
@@ -231,8 +239,8 @@
                                                         <img 
                                                         src="https://images6.alphacoders.com/408/408258.jpg" 
                                                         alt="Plane Image" 
-                                                        class="img-fluid rounded shadow" 
-                                                        style="width: 250px; height: 170px; margin-top: 50px;">
+                                                        class="img-fluid rounded shadow view_plane_image" 
+                                                        style="width: 250px; height: 170px; margin-top: 30px;">
                                                     </div>
                                                 </div>
                                                 <br>
@@ -258,7 +266,7 @@
                                             <div class="modal-content">
 
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="editFlight">View Flight</h4>
+                                                <h4 class="modal-title" id="editFlight">Edit Flight</h4>
                                             </div>
 
                                                 <form action="#" id="editFlightsForm<?= $u['flight_id']?>" method="POST">
@@ -292,10 +300,21 @@
                                                         </div>
                                                     
                                                         <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <label for="date">DATE</label>
-                                                            <input type="date" class="form-control" id="date" name="date" value="<?= htmlspecialchars($u['date']) ?>">
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <label for="date">DATE</label>
+                                                                <input type="date" class="form-control" id="date" name="date" value="<?= htmlspecialchars($u['date']) ?>">
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <label class="form-label d-block">STATUS</label>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox" role="switch" id="on_Sale<?= $u['flight_id']?>" name="on_Sale" 
+                                                                                <?= $u['onSale'] ? 'checked' : '' ?> onchange="updateSaleLabel(this)">
+                                                                        <label id="saleLabel<?= $u['flight_id']?>" class="form-check-label <?= $u['onSale'] ? 'text-success' : 'text-danger' ?>" for="on_Sale<?= $u['flight_id']?>">
+                                                                            <?= $u['onSale'] ? '* On Sale' : '* Not on Sale' ?>
+                                                                        </label>
+                                                                    </div>
+                                                            </div>
                                                         </div>
                                                         
                                                         <h4 class="modal-title">Plane Details</h4>
@@ -305,23 +324,34 @@
                                                     <div class="d-flex gap-4">
                                                         <div class="w-100">
                                                             <div class="mb-3">
-                                                            <label for="planeCode">PLANE CODE</label>
-                                                            <select class="form-control" id="planeCode" name="planeCode" value="<?= htmlspecialchars($u['plane_code']) ?>">
-                                                                <option value=""></option>
-                                                                <option value="JSG123">JSG123</option>
-                                                                <option value="JSG124">JSG124</option>
-                                                                <option value="JSG125">JSG125</option>
-                                                            </select>
+                                                                <label for="edit_planeCode">PLANE CODE</label>
+                                                                
+                                                                <select class="form-control" id="edit_planeCode" name="edit_planeCode"  required> 
+                                                                    <option value="<?= htmlspecialchars($u['plane_code']) ?>" selected hidden><?= htmlspecialchars($u['plane_code']) ?></option>
+                                                                    <?php foreach ($allAvailablePlanes as $p): ?>
+                                                                        <option value="<?= $p['plane_code']?>"><?= $p['plane_code']?></option>
+                                                                    <?php endforeach; ?>
+
+                                                                    <!-- </?php foreach ($allAvailablePlanes as $p): ?>
+                                                                        <option value="</?= $p['plane_code']?>" </?= $u['plane_code'] === $p['plane_code'] ? 'selected' : '' ?>>
+                                                                            </?= $p['plane_code']?>
+                                                                        </option>
+                                                                    </?php endforeach; ?> -->
+
+                                                                </select>
+
+                                                                
+
                                                             </div>
 
                                                             <div class="mb-3">
-                                                            <label for="numofseats">NUMBER OF SEATS</label>
-                                                            <input type="text" class="form-control" id="numofseats" name="numofseats" value="<?= htmlspecialchars($u['numofseats']) ?>">
+                                                                <label for="edit_num_seats">NUMBER OF SEATS</label>
+                                                                <input type="text" class="form-control" id="edit_num_seats" name="edit_num_seats" value="" readonly>
                                                             </div>
 
                                                             <div class="mb-3">
-                                                            <label for="price">PRICE</label>
-                                                            <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="price" value="<?= htmlspecialchars($u['numofseats']) ?>">
+                                                                <label for="price">PRICE</label>
+                                                                <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="price" value="<?= htmlspecialchars($u['price']) ?>">
                                                             </div>
                                                         </div>
 
@@ -329,8 +359,8 @@
                                                             <img 
                                                             src="https://images6.alphacoders.com/408/408258.jpg" 
                                                             alt="Plane Image" 
-                                                            class="img-fluid rounded shadow" 
-                                                            style="width: 250px; height: 170px; margin-top: 50px;">
+                                                            class="img-fluid rounded shadow edit_plane_image" 
+                                                            style="width: 250px; height: 170px; margin-top: 30px;">
                                                         </div>
                                                     </div>
 
@@ -362,8 +392,8 @@
           <div class="modal-content">
 
             <div class="modal-header">
-              <h4 class="modal-title" id="addNewFlight">Adding New Flight</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h4 class="modal-title" id="addNewFlight">Add New Flight</h4>
+
             </div>
 
             <form action="#" id="addFlightsForm" method = "POST">
@@ -375,7 +405,7 @@
                     <div class="col-md-6">
 
                         <label for="departureLocation">DEPARTURE LOCATION</label>
-                        <select class="form-control" id="new_dep_loc" name="new_dep_loc">
+                        <select class="form-control" id="new_dep_loc" name="new_dep_loc" required>
                             <option value="" selected disabled hidden>-- Select Departure Location --</option>
                             <?php foreach ($allAirports as $u): ?>
                                 <option value="<?= $u['airport_code']?>"><?= $u['airport_code']?> - <?= $u['airport_location']?></option>
@@ -384,7 +414,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                        <select class="form-control" id="new_arr_loc" name="new_arr_loc">
+                        <select class="form-control" id="new_arr_loc" name="new_arr_loc" required>
                             <option value="" selected disabled hidden>-- Select Arrival Location --</option>
                             <?php foreach ($allAirports as $u): ?>
                                 <option value="<?= $u['airport_code']?>"><?= $u['airport_code']?> - <?= $u['airport_location']?></option>
@@ -396,18 +426,27 @@
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <label for="departureTime">DEPARTURE TIME</label>
-                      <input type="time" class="form-control" id="new_dep_time" name="new_dep_time">
+                      <input type="time" class="form-control" id="new_dep_time" name="new_dep_time" required>
                     </div>
                     <div class="col-md-6">
                       <label for="arrivalTime">ARRIVAL TIME</label>
-                      <input type="time" class="form-control" id="new_arr_time" name="new_arr_time">
+                      <input type="time" class="form-control" id="new_arr_time" name="new_arr_time" required>
                     </div>
                   </div>
                
                   <div class="row mb-3">
                     <div class="col-md-6">
-                      <label for="date">DATE</label>
-                      <input type="date" class="form-control" id="new_date" name="new_date">
+                        <label for="date">DATE</label>
+                      <input type="date" class="form-control" id="new_date" name="new_date" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label d-block">STATUS</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="new_on_Sale" name="new_on_Sale" onchange="updateNewSaleLabel(this)">
+                                    <label id="new_saleLabel" class="form-check-label" for="new_on_Sale">* Not on Sale
+                                </label>
+                            </div>
+
                     </div>
                   </div>
                   
@@ -419,12 +458,13 @@
                     <div class="w-100">
                         <div class="mb-3">
                         <label for="planeNumber">PLANE CODE</label>
-                        <select class="form-control" id="new_planeCode" name="new_planeCode">
+                        <select class="form-control" id="new_planeCode" name="new_planeCode" required>
                             <option value="" selected disabled hidden>-- Select Plane --</option>
                             <?php foreach ($allAvailablePlanes as $u): ?>
                                 <option value="<?= $u['plane_code']?>"><?= $u['plane_code']?></option>
                             <?php endforeach; ?>
                         </select>
+
                         </div>
 
                         <div class="mb-3">
@@ -435,12 +475,13 @@
 
                         <div class="mb-3">
                         <label for="price">PRICE</label>
-                        <input type="number" class="form-control" id="new_price" placeholder="₱ 0.00" name="new_price" required>
+                        <input type="text" class="form-control" id="new_price" placeholder="₱ 0.00" name="new_price" required>
                         </div>
+                        
                     </div>
 
                     <div class="flex-shrink-0">
-                        <img src="PlaneUploads/No_Image_Available.jpg" alt="plane_image" class="img-fluid rounded shadow plane_image" style="width: 250px; height: 170px; margin-top: 50px;">
+                        <img src="PlaneUploads/No_Image_Available.jpg" alt="new_plane_image" class="img-fluid rounded shadow new_plane_image" style="width: 250px; height: 170px; margin-top: 30px;">
                     </div>
                 </div>
 
@@ -511,15 +552,92 @@
                         $('#new_num_seats').val(data.plane_numseats);
 
                         if (data.plane_photo !== '0') {
-                            $('.plane_image').attr('src',data.plane_photo).show();
+                            $('.new_plane_image').attr('src',data.plane_photo).show();
                         } else {
-                            $('.plane_image').hide();
+                            $('.new_plane_image').hide();
+                        }
+                    }
+                }); 
+            });
+        });
+
+        $(document).ready(function () {
+            $('#edit_planeCode').change(function () {
+                var planecode = $(this).val();
+
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: { plane_code: planecode },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        $('#edit_num_seats').val(data.plane_numseats);
+
+                        if (data.plane_photo !== '0') {
+                            $('.edit_plane_image').attr('src',data.plane_photo).show();
+                        } else {
+                            $('.edit_plane_image').hide();
+                        }
+                    }
+                }); 
+            });
+        });
+
+        $(document).ready(function () {
+            $('#view_planeCode').change(function () {
+                var planecode = $(this).val();
+
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: { plane_code: planecode },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        $('#view_num_seats').val(data.plane_numseats);
+
+                        if (data.plane_photo !== '0') {
+                            $('.view_plane_image').attr('src',data.plane_photo).show();
+                        } else {
+                            $('.view_plane_image').hide();
                         }
                     }
                 }); 
             });
         });
     </script>
+
+    <script>
+        function updateSaleLabel(checkbox) {
+            const flightId = checkbox.id.replace('on_Sale', '');
+            const label = document.getElementById('saleLabel' + flightId);
+
+            if (checkbox.checked) {
+            label.textContent = '* On Sale';
+            label.classList.remove('text-danger');
+            label.classList.add('text-success');
+            } else {
+            label.textContent = '* Not On Sale';
+            label.classList.remove('text-success');
+            label.classList.add('text-danger');
+            }
+        }
+
+        function updateNewSaleLabel(checkbox) {
+            const flightId = checkbox.id.replace('new_on_Sale', '');
+            const label = document.getElementById('new_saleLabel' + flightId);
+
+            if (checkbox.checked) {
+            label.textContent = '* On Sale';
+            label.classList.remove('text-danger');
+            label.classList.add('text-success');
+            } else {
+            label.textContent = '* Not On Sale';
+            label.classList.remove('text-success');
+            label.classList.add('text-danger');
+            }
+        }
+    </script>
+
 
 
 </body>
