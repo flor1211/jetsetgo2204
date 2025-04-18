@@ -1,63 +1,64 @@
 body {
-  margin: 0;
-  font-family: "Jaldi", Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f5f5;
+    margin: 0;
+    font-family: 'Jaldi', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
 }
 
 /* Navbar */
 .navbar {
-  background-color: #162447;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-  align-items: center;
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  height: 35px;
-  margin-right: 10px;
-}
-
-.brand-name {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.cancel-btn {
-  background-color: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.cancel-btn:hover {
-  background-color: #144785;
-}
+    background-color: #162447;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 35px;
+    margin-right: 10px;
+  }
+  
+  .brand-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .cancel-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #144785;
+  }
 
 /* end NAVBAR */
 
 /* Booking */
+
 
 /* end Booking */
 
 /* Select Flights*/
 
 .background-image {
-  background-image: url("assets/Airport.jpg");
+  background-image: url('assets/Airport.jpg');
   background-size: cover;
   background-position: center;
   height: 325px;
@@ -65,13 +66,14 @@ body {
 
 .booking-form {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 0vh;
-  margin-top: 0px;
-  max-width: 1000px;
-  margin: 0 auto;
+  justify-content: center;   
+  align-items: center;       
+  height: 0vh;            
+  margin-top: 0px;            
+  max-width: 1000px;        
+  margin: 0 auto;           
 }
+
 
 .form-card {
   background-color: white;
@@ -118,6 +120,7 @@ body {
   gap: 10px;
   margin-bottom: 15px;
   flex-wrap: wrap;
+  
 }
 .child-wrapper {
   margin-left: 25px;
@@ -161,282 +164,291 @@ input[type="date"] {
   background-color: #144785;
 }
 .icon img {
-  width: 30px;
+  width: 30px; 
   height: 30px;
-  vertical-align: middle;
-  margin-right: 5px;
+  vertical-align: middle; 
+  margin-right: 5px; 
 }
 
 /* end Select Flights*/
 /* 
 /*Guest Details*/
 
-/* Title Section */
-.div-title {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 30px 10%;
-  padding: 0;
-  margin-bottom: 0;
-}
 
-.div-title p {
-  font-size: 16px;
-  color: black;
-  margin-bottom: 10px;
-  margin-top: 0;
-}
-
-.div-title h2 {
-  font-size: 28px;
-  color: #162447;
-  font-weight: bold;
-}
+  /* Title Section */
+  .div-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 30px 10%;
+    padding: 0;
+    margin-bottom: 0;
+  }
+  
+  .div-title p {
+    font-size: 16px;
+    color: black;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+  
+  .div-title h2 {
+    font-size: 28px;
+    color: #162447;
+    font-weight: bold;
+  }
 
 .details-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* This will add a gap between the guest forms */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* This will add a gap between the guest forms */
 }
 
 .details-parent {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: auto;
-  column-gap: 50px;
-  row-gap: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto;
+    column-gap: 50px; 
+    row-gap: 0; 
 
-  background-color: #ffffff;
-  padding: 50px;
-  padding-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 80%;
-  margin: 0 auto;
+    background-color: #ffffff;
+    padding: 50px;
+    padding-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    margin: 0 auto;
 }
+
 
 .form-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 120px;
-}
-
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+  }
+  
 .form-field label {
-  margin-bottom: 10px;
-  font-size: 15px;
-  font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: bold;
 }
-
+  
 .form-field input,
 .form-field select {
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #d9d9d9;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #d9d9d9;
 }
 
+
 .div1 {
-  grid-column: span 6 / span 6;
+    grid-column: span 6 / span 6;
 }
 
 .div2 {
-  grid-column: span 3 / span 3;
-  grid-row-start: 2;
+    grid-column: span 3 / span 3;
+    grid-row-start: 2;
 }
 
-.name-section {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
+    .name-section {
+        display: flex;
+        gap: 10px;
+        width: 100%
+    }   
 
-.name-section .form-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+    .name-section .form-field {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
 
-.form-field select#titleinput {
-  width: 100px;
-}
+
+    .form-field select#titleinput {
+        width: 100px;
+    }
+
+
 
 .div3 {
-  grid-column: span 3 / span 3;
-  grid-column-start: 4;
-  grid-row-start: 2;
+    grid-column: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 2;
 }
 
-.dob-section {
-  display: flex;
-  gap: 10px;
-}
+    .dob-section {
+        display: flex;
+        gap: 10px;
 
-.dob-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #d9d9d9;
-  font-size: 14px;
-}
+    }
+    
+    .dob-select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #D9D9D9;
+        font-size: 14px;
+    }
 
-.dob-section .form-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+    .dob-section .form-field {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
 
-.dob-section select {
-  padding: 6px 8px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-}
+    .dob-section select {
+        padding: 6px 8px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+  
+  
 
 .div4 {
-  grid-column: span 3 / span 3;
-  grid-row-start: 3;
+    grid-column: span 3 / span 3;
+    grid-row-start: 3;
 }
 
 .div5 {
-  grid-column: span 3 / span 3;
-  grid-column-start: 4;
-  grid-row-start: 3;
+    grid-column: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 3;
 }
 
 .div6 {
-  grid-column: span 3 / span 3;
-  grid-row-start: 4;
+    grid-column: span 3 / span 3;
+    grid-row-start: 4;
 }
 
 .div7 {
-  grid-column: span 3 / span 3;
-  grid-column-start: 4;
-  grid-row-start: 4;
+    grid-column: span 3 / span 3;
+    grid-column-start: 4;
+    grid-row-start: 4;
 }
+        
+
 
 /* Privacy Policy Section */
-.policy-form {
-  margin: 20px auto 20px auto;
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 80%;
+  .policy-form {
+    margin: 20px auto 20px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
 }
 
 .div-confirmation {
-  display: flex;
-  align-items: center;
-}
-
-.div-confirmation label {
-  font-size: 15px;
-  color: #000000;
-}
-
-.div-confirmation input[type="checkbox"] {
-  margin-right: 15px;
-}
+    display: flex;
+    align-items: center;
+  }
+  
+  .div-confirmation label {
+    font-size: 15px;
+    color: #000000;
+  }
+  
+  .div-confirmation input[type="checkbox"] {
+    margin-right: 15px;
+  }
 
 /* Buttons Section */
-.div-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-  margin: 30px 180px 0 auto;
-  width: 100%;
-  max-width: 400px;
-}
+  .div-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin: 30px 180px 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .back-btn,
+  .continue-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+    border: none;
+  }
+  
+  .back-btn {
+    background-color: white;
+    color: #162447;
+    border: 2px solid #162447;
+  }
+  
+  .continue-btn {
+    background-color: #162447;
+    color: white;
+  }
+  
+  .back-btn:hover,
+  .continue-btn:hover {
+    background-color: #144785;
+    color: white;
+  }
+  
+  .back-btn:focus,
+  .continue-btn:focus {
+    outline: none;
+  }
 
-.back-btn,
-.continue-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 48%;
-  border: none;
-}
-
-.back-btn {
-  background-color: white;
-  color: #162447;
-  border: 2px solid #162447;
-  text-decoration: none;
-  padding: 8px 16px; /* optional for better spacing */
-  display: inline-block; /* optional: improves button look */
-  border-radius: 4px; /* optional: rounded corners */
-}
-
-.continue-btn {
-  background-color: #162447;
-  color: white;
-  border: 2px solid #162447;
-}
-
-.back-btn:hover,
-.continue-btn:hover {
-  background-color: #144785;
-  color: white;
-}
-
-.back-btn:focus,
-.continue-btn:focus {
-  outline: none;
-}
 
 /* MODAL - TEST */
 
 /* Modal Styles */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-  justify-content: center;
-  align-items: center;
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 600px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .close-btn {
-  font-size: 30px;
-  color: #162447;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 20px;
+    font-size: 30px;
+    color: #162447;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }
 
 .close-btn:hover {
-  color: #e74c3c;
+    color: #e74c3c;
 }
 
 #modalContent {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 #modalContent p {
-  font-size: 16px;
-  color: #333;
+    font-size: 16px;
+    color: #333;
 }
 
+
+   
 /* end Guest Details*/
 
 /* Add ons*/
@@ -450,3 +462,4 @@ input[type="date"] {
 /* Confirmation */
 
 /* end Confirmation */
+

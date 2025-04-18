@@ -3,134 +3,79 @@
 
     require_once '../database/admin-crud.php';
 
-    
     $user = new Crud();
     $editingUser = null;
 
-          // Redirect to login if not logged in
-    if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-            header("Location: ../login.php");
-            exit;
-    }
-  
-    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-  
-          if(isset($_POST['add'])) {
-              $user->addAccount($_POST['newUsername'], $_POST['newPassword'], $_POST['newRole']);
-              header("Location: accounts.php?success=1");
-              exit;
-          }
-  
-  
-          if (isset($_POST['update'])) {
-            var_dump($_POST); // Check what data is being sent
-            $user->updateAccount($_POST['accountId'], $_POST['username'], $_POST['password'], $_POST['role']);
-            header("Location: accounts.php?updated=1");
-            exit;
-        }
-              
-          if(isset($_POST['delete'])) {
-  
-              $user->deleteAccount($_POST['accountId']);
-              header("Location: accounts.php?deleted=1");
-              exit;
-  
-          }
-    }
-  
-    $search = $_GET['accountsearchInput'] ?? '';
-
-    $limit = (int)($_GET['accountViewLimit'] ?? 5);
-
-    $page = max(1, (int)($_GET['page'] ?? 1));
-    // $limit = 5;
-    $offset = ($page - 1) * $limit;
-
-    $totalAccounts = $user->countAccounts($search);
-
-    $totalPages = ceil($totalAccounts / $limit);
+    $search = $_GET['search'] ?? '';
 
     if (!empty($search)) {
-        // $allAccounts = $user->searchAccount($search);
-        $allAccounts = $user->searchAccountswithLimit($search, $limit, $offset);
+        $allAccounts = $user->searchAccount($search);
     } else {
-        // $allAccounts = $user->getAllAccounts();
-        $allAccounts = $user->searchAccountswithLimit($search, $limit, $offset);
+        $allAccounts = $user->getAllAccounts();
     }
     
     // AJAX request: FOR AUTOMATIC SEARCH
-    // if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    
-    //         if (empty($allAccounts)){
-    //             echo '<tr><td colspan="5" class="text-center text-muted">- No Data Available –</td></tr>';           
-    //         } else {    
-    //             foreach ($allAccounts as $a): ?/>
-    //                 <tr>
-    //                     <td><?= $a['account_id'] ?/></td>
-    //                     <td><?= htmlspecialchars($a['account_username']) ?/></td>
-    //                     <!-- <td></?= htmlspecialchars($a['account_password']) ?/></td> -->
-    //                     <td><?= htmlspecialchars($a['account_role']) ?/></td>
-    //                     <td>    
-
-    //                     <!-- EDIT -->  
-    //                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAccount<?= $a['account_id']?/>" ><i class="bi bi-pencil-square"></i> Edit</button>
-                                          
-    //                     <!-- Delete -->
-    //                     <form method="post" class="d-inline" onsubmit="return confirm('Delete this account?');">
-    //                     <input type="hidden" name="accountId" value="<?= $a['account_id'] ?/>">
-    //                     <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
-    //                     </form>
-    //                     </td>
-    //                 </tr>
-            
-    //             <?php endforeach;
-    //         }
-    //         exit;
-    //     }
-
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-        ob_start();
     
-        if (empty($allAccounts)) {
-            echo '<tr><td colspan="5" class="text-center text-muted">- No Data Available –</td></tr>';
-        } else {
-            foreach ($allAccounts as $a): ?>
-                <tr>
-                    <td><?= $a['account_id'] ?></td>
-                    <td><?= htmlspecialchars($a['account_username']) ?></td>
-                    <!-- <td></?= htmlspecialchars($a['account_password']) ?></td> -->
-                    <td><?= htmlspecialchars($a['account_role']) ?></td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAccount<?= $a['account_id'] ?>"><i class="bi bi-pencil-square"></i> Edit</button>
+            if (empty($allAccounts)){
+                echo '<tr><td colspan="5" class="text-center text-muted">- No Data Available –</td></tr>';           
+            } else {
+                foreach ($allAccounts as $u): ?>
+                    <tr>
+                        <td><?= $u['account_id'] ?></td>
+                        <td><?= htmlspecialchars($u['account_username']) ?></td>
+                        <td><?= htmlspecialchars($u['account_password']) ?></td>
+                        <td><?= htmlspecialchars($u['account_role']) ?></td>
+                        <td>    
+
+                        <!-- EDIT -->  
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editAccount<?= $u['account_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
+                                          
+                        <!-- Delete -->
                         <form method="post" class="d-inline" onsubmit="return confirm('Delete this account?');">
-                            <input type="hidden" name="accountId" value="<?= $a['account_id'] ?>">
-                            <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
+                        <input type="hidden" name="accountId" value="<?= $u['account_id'] ?>">
+                        <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
                         </form>
-                    </td>
-                </tr>
-            <?php endforeach;
+
+                        </td>
+
+                    </tr>
+                
+                <?php endforeach;
+            }
+            exit;
         }
-    
-        $rows = ob_get_clean();
-    
-        ob_start(); ?>
-        <ul class="pagination">
-            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                <li class="page-item <?= $p == $page ? 'active' : '' ?>">
-                    <a class="page-link ajax-page" href="#" data-page="<?= $p ?>"><?= $p ?></a>
-                </li>
-            <?php endfor; ?>
-        </ul>
-        <?php
-        $pagination = ob_get_clean();
-    
-        echo json_encode([
-            'rows' => $rows,
-            'pagination' => $pagination
-        ]);
-        exit;
-    }
-    
+
+      // Redirect to login if not logged in
+      if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+          header("Location: ../login.php");
+          exit;
+      }
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        if(isset($_POST['add'])) {
+            $user->addAccount($_POST['newUsername'], $_POST['newPassword'], $_POST['newRole']);
+            header("Location: accounts.php?success=1");
+            exit;
+        }
+
+
+        if (isset($_POST['update'])) {
+          var_dump($_POST); // Check what data is being sent
+          $user->updateAccount($_POST['accountId'], $_POST['username'], $_POST['password'], $_POST['role']);
+          header("Location: accounts.php?updated=1");
+          exit;
+      }
+            
+        if(isset($_POST['delete'])) {
+
+            $user->deleteAccount($_POST['accountId']);
+            header("Location: accounts.php?deleted=1");
+            exit;
+
+        }
+      }
 
 ?>
 
@@ -188,18 +133,19 @@
                 <!-- SEARCH BAR -->
                 <br>
                 <div class="mb-3 d-flex">
-                    <input type="text" id="accountsearchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
+                    <input type="text" id="searchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
                 </div>
 
                 <!-- TABLE --> 
                 <div class="table-container">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover mt-3 text-center table-bordered">
-                            <thead style="background-color: white;">
+                            <thead>
                                   <tr>
                                       <th>#</th>
                                       <th>Username</th>
-                                      <!-- <th>Password</th> -->
+
+                                      <th>Password</th>
                                       <th>Role</th>
                                       <th>Action</th>
                                   </tr>
@@ -209,7 +155,7 @@
                                     <tr>
                                         <td><?= $u['account_id'] ?></td>
                                         <td><?= htmlspecialchars($u['account_username']) ?></td>
-                                        <!-- <td></?= htmlspecialchars($u['account_password']) ?></td> -->
+                                        <td><?= htmlspecialchars($u['account_password']) ?></td>
                                         <td><?= htmlspecialchars($u['account_role']) ?></td>
                                         <td>
                                         <!-- EDIT -->  
@@ -272,38 +218,6 @@
                         </table>
                     </div>
                 </div>
-
-                <!-- <nav style="background-color: #f5f5f5; ">
-                    <div style="display: flex; align-items: center;">
-                        <label style="margin-right: 10px;">Show:</label>
-                        <input type="text" id="viewLimit" style="width: 40px; text-align: center;">
-                    </div>
-
-                    <ul class="pagination" id="account-pagination" style="padding-right: 10px;" >
-                        </?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                            <li class="page-item </?= $p == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?accountsearchInput=</?= urlencode($search) ?>&page=</?= $p ?>"></?= $p ?></a>
-                            </li>
-                        </?php endfor; ?>
-                        
-                    </ul>
-                </nav> -->
-                <nav style="background-color:f5f5f5; display: flex; align-items: center; justify-content: end; padding: 10px;">
-                    <div style="display: flex; align-items: center; margin-right: 20px;">
-                        <label style="margin-right: 10px;">Show:</label>
-                        <input type="number" limit="1" id="accountViewLimit" style="width: 40px; text-align: center;">
-                    </div>
-
-                    <ul class="pagination" id="account-pagination" style="margin: 0;">
-                        <?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                            <li class="page-item <?= $p == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?accountsearchInput=<?= urlencode($search) ?>&page=<?= $p ?>"><?= $p ?></a>
-                            </li>
-                        <?php endfor; ?>
-                    </ul>
-                </nav>
-
-
             </section>
         </div>
     </section>
@@ -394,11 +308,11 @@
     <?php endif; ?> 
 
     <!-- Script for AJAX search--> 
-    <!-- <script>
-            document.getElementById('accountsearchInput').addEventListener('input', function () {
+    <script>
+            document.getElementById('searchInput').addEventListener('input', function () {
                 const searchValue = this.value;
 
-                fetch('accounts.php?search=' + encodeURIComponent(searchValue), {
+                fetch('airports.php?search=' + encodeURIComponent(searchValue), {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
@@ -408,49 +322,7 @@
                     document.getElementById('data').innerHTML = data;
                 });
             });
-    </script>    -->
-
-    <script>
-        function loadData(page = 1) {
-            const searchValue = document.getElementById('accountsearchInput').value;
-            const viewLimit = document.getElementById('accountViewLimit').value || 5;
-
-            fetch('accounts.php?accountsearchInput=' + encodeURIComponent(searchValue) + '&page=' + page + '&accountViewLimit=' + viewLimit, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('data').innerHTML = data.rows;
-                document.getElementById('account-pagination').innerHTML = data.pagination;
-
-                // Bind new page buttons
-                document.querySelectorAll('.ajax-page').forEach(link => {
-                    link.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const newPage = this.dataset.page;
-                        loadData(newPage);
-                    });
-                });
-            });
-        }
-
-
-        // Live search
-        document.getElementById('accountsearchInput').addEventListener('input', function () {
-            loadData(1);
-        });
-
-        document.getElementById('accountViewLimit').addEventListener('input', () => {
-            loadData(1); // Reset to page 1 when limit changes
-        });
-
-        // Initial pagination load (optional on page load)
-        document.addEventListener('DOMContentLoaded', function () {
-            loadData(<?= $page ?>);
-        });
-    </script>
+    </script>   
 
 
 </body>
