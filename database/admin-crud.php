@@ -173,9 +173,24 @@ class Crud {
             ]);
         }
         public function getAllPlanes() { 
-            $stmt = $this->conn->prepare("CALL GetAllPlanes()");
+            $stmt = $this->conn->prepare("CALL getAllPlanes()");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getAllAvailablePlanes() { 
+            $stmt = $this->conn->prepare("CALL getAvailablePlanes()");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+        public function getPlaneDetails($code) { 
+            $stmt = $this->conn->prepare("CALL getPlaneDetails(:p_code)");
+            $stmt->execute([':p_code' => $code]);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+
         }
 
         public function updatePlane($id, $plane_num, $seats, $status, $plane_photo) {

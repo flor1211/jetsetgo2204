@@ -13,6 +13,8 @@
     $editingUser = null;
 
     $allFlights = $user->getAllFlights();
+    $allAirports = $user->getAllAirports();
+    $allAvailablePlanes = $user->getAllAvailablePlanes();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -20,13 +22,13 @@
 
 
         $user->addFlight($_POST['new_dep_loc'], $_POST['new_dep_time'], $_POST['new_arr_loc'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_planeCode'], $_POST['new_num_seats'], $_POST['new_price']);
-        header(header: "Location: flights.php?success=1");
+        header("Location: flights.php?success=1");
         exit; 
       }
       if (isset($_POST['update'])) {
         $flightID = $_POST['flightId'];
         $user->updateFlight($flightID, $_POST['dep_loc'], $_POST['dep_time'], $_POST['arr_loc'], $_POST['arr_time'], $_POST['date'], $_POST['planeCode'], $_POST['numofseats'], $_POST['price']);
-        header(header: "Location: flights.php?updated=1");
+        header("Location: flights.php?success=1");
         exit;
       }
 
@@ -34,10 +36,31 @@
 
  
         $user->deleteFlight($_POST['deleteflightId']);
-        header(header: "Location: flights.php?deleted=1");
+        header("Location: flights.php?success=1");
         exit;
       }
     }
+
+    // AJAX for synchronous updates
+
+    if (isset($_POST['plane_code'])) {
+        $planeCode = $_POST['plane_code'];
+        $seats = $user->getPlaneDetails($planeCode);
+
+        if ($seats) {
+            echo json_encode([
+                'plane_numseats' => $seats[0]['plane_numseats'] ?? '0',
+                'plane_photo' => $seats[0]['plane_photo'] ?? '0'
+            ]);
+        } else {
+            echo json_encode([
+                'plane_numseats' => '0',
+                'plane_photo' => '0'
+            ]);
+        }
+        exit;
+    }
+    
 
 
 ?>
@@ -58,6 +81,9 @@
 
         <!-- SWEET -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- AJAX -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script src="admin.js"></script>
 
@@ -348,12 +374,22 @@
                   <div class="row mb-3">
                     <div class="col-md-6">
 
-                      <label for="departureLocation">DEPARTURE LOCATION</label>
-                      <input type="text" class="form-control" id="new_dep_loc" name="new_dep_loc">
+                        <label for="departureLocation">DEPARTURE LOCATION</label>
+                        <select class="form-control" id="new_dep_loc" name="new_dep_loc">
+                            <option value="" selected disabled hidden>-- Select Departure Location --</option>
+                            <?php foreach ($allAirports as $u): ?>
+                                <option value="<?= $u['airport_code']?>"><?= $u['airport_code']?> - <?= $u['airport_location']?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="col-md-6">
-                      <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                      <input type="text" class="form-control" id="new_arr_loc" name="new_arr_loc">
+                        <label for="arrivalLocation">ARRIVAL LOCATION</label>
+                        <select class="form-control" id="new_arr_loc" name="new_arr_loc">
+                            <option value="" selected disabled hidden>-- Select Arrival Location --</option>
+                            <?php foreach ($allAirports as $u): ?>
+                                <option value="<?= $u['airport_code']?>"><?= $u['airport_code']?> - <?= $u['airport_location']?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                   </div>
 
@@ -384,30 +420,27 @@
                         <div class="mb-3">
                         <label for="planeNumber">PLANE CODE</label>
                         <select class="form-control" id="new_planeCode" name="new_planeCode">
-                            <option value=""></option>
-                            <option value="JSG123">JSG123</option>
-                            <option value="JSG124">JSG124</option>
-                            <option value="JSG125">JSG125</option>
+                            <option value="" selected disabled hidden>-- Select Plane --</option>
+                            <?php foreach ($allAvailablePlanes as $u): ?>
+                                <option value="<?= $u['plane_code']?>"><?= $u['plane_code']?></option>
+                            <?php endforeach; ?>
                         </select>
                         </div>
 
                         <div class="mb-3">
                         <label for="seatsAvailable">NUMBER OF SEATS</label>
-                        <input type="text" class="form-control" id="new_num_seats" name="new_num_seats" readonly>
+                            <input type="text" class="form-control" id="new_num_seats" name="new_num_seats" value="" readonly>
                         </div>
+
 
                         <div class="mb-3">
                         <label for="price">PRICE</label>
-                        <input type="text" class="form-control" id="new_price" placeholder="₱ 0.00" name="new_price">
+                        <input type="number" class="form-control" id="new_price" placeholder="₱ 0.00" name="new_price" required>
                         </div>
                     </div>
 
                     <div class="flex-shrink-0">
-                        <img 
-                        src="https://images6.alphacoders.com/408/408258.jpg" 
-                        alt="Plane Image" 
-                        class="img-fluid rounded shadow" 
-                        style="width: 250px; height: 170px; margin-top: 50px;">
+                        <img src="PlaneUploads/No_Image_Available.jpg" alt="plane_image" class="img-fluid rounded shadow plane_image" style="width: 250px; height: 170px; margin-top: 50px;">
                     </div>
                 </div>
 
@@ -462,6 +495,31 @@
             });
         </script>
     <?php endif; ?>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#new_planeCode').change(function () {
+                var planeCode = $(this).val();
+
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: { plane_code: planeCode },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        $('#new_num_seats').val(data.plane_numseats);
+
+                        if (data.plane_photo !== '0') {
+                            $('.plane_image').attr('src',data.plane_photo).show();
+                        } else {
+                            $('.plane_image').hide();
+                        }
+                    }
+                }); 
+            });
+        });
+    </script>
 
 
 </body>
