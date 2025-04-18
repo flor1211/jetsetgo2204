@@ -17,15 +17,12 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check if 'next-step' is clicked
-    // Check if 'next-step' is clicked
       // Save the selected flights into the session for later use
       if (isset($_POST['selected_depflight'])) {
         $_SESSION['selected_depflight'] = $_POST['selected_depflight'];
-        $selectedDepFlight = $_POST['selected_depflight'];
       }
       if (isset($_POST['selected_retflight'])) {
-        $_SESSION['selected_repflight'] = $_POST['selected_repflight'];
-        $selectedRetFlight = $_POST['selected_retflight'];
+        $_SESSION['selected_retflight'] = $_POST['selected_retflight'];
       }
 
       // Set flag to indicate flight selection is complete
@@ -35,6 +32,19 @@
       header('Location: guestdetails.php');
       exit();
 
+
+    // Otherwise, save selected flights into the session
+    if (isset($_POST['selected_depflight'])) {
+        $selectedDepFlight = $_POST['selected_depflight'];
+    }
+
+    if (isset($_POST['selected_retflight'])) {
+        $selectedRetFlight = $_POST['selected_retflight'];
+    }
+    
+    // Save the selected flights into the session for later use
+    $_SESSION['selected_depflight'] = $selectedDepFlight;
+    $_SESSION['selected_retflight'] = $selectedRetFlight;
     
     if (!isset($_SESSION['bookingpage_completed'])) {
         header('Location: booking.php');
@@ -128,7 +138,7 @@
           </script>
         </div>
         
-        <form method="POST" action="#" id="flight-selection-form">
+        <form method="POST" action="#">
             <!-- Departing FLIGHTS CONTAINER -->
             <div class="container departing-container" id="departing-container" style="padding: 20px; max-width: 75%">
                 <div class="card border-primary">
@@ -203,12 +213,10 @@
                         <h6 class="mb-2">Selected Departing Flight</h6>
                         <h3><strong><?= $dep ?></strong> Cebu - <strong><?= $arr ?></strong> Manila</h3>
 
-                        <div id="selected-departing-card-container" class="mt-3"></div>
-
   
-                          <div class="mt-1 text-end">
-                            <button type="button" onclick="changeSelectDepFlight(this)" class="btn btn-outline-success">Change</button>
-                          </div>
+                          <!-- <div class="mt-1 text-end">
+                              <button type="button" class="btn btn-primary">Change</button>
+                          </div> -->
                     </div>
                 </div>
             </div>
@@ -287,22 +295,18 @@
                         <h6 class="mb-2">Selected Returning Flight</h6>
                         <h3><strong><?= $arr ?></strong> Manila - <strong><?= $dep ?></strong> Cebu</h3>
 
-                        <div id="selected-returning-card-container" class="mt-3"></div>
-
-                          <div class="mt-1 text-end">
-                          <button type="button" onclick="changeSelectRetFlight(this)" class="btn btn-outline-success">Change</button>
-                          </div>
+                          <!-- <div class="mt-1 text-end">
+                              <button type="button" class="btn btn-primary">Change</button>
+                          </div> -->
                     </div>
                 </div>
-            </div>
+          </div>
 
-                <div >
-                  <a class="btn btn-secondary btn-md" href="booking.php" role="button">BACK</a>
-                  <button type="submit" class="btn btn-primary btn-md">CONTINUE</button>
-                </div>
+              
 
-           
-
+          <button type="submit" class="btn btn-primary">
+              Next
+          </button>
         </form>
 
 
@@ -318,28 +322,23 @@
         document.querySelector('.returning-container').scrollIntoView({ behavior: 'smooth' });
       }
 
-      function changeSelectDepFlight() {
-        document.querySelector('.departing-container').style.display = 'block';
-        document.querySelector('.returning-container').style.display = 'none';
-        document.querySelector('.selected-departing-container').style.display = 'none';
-        document.querySelector('.selected-returning-container').style.display = 'none';
-      }
 
 
       function handleDepFlightSelection(input) {
-        // Uncheck all others
+        // Uncheck all others to simulate radio button behavior
         const checkboxes = document.querySelectorAll('input[name="selected_depflight"]');
         checkboxes.forEach(cb => {
-          cb.closest('.flight-card').classList.remove('selected');
           if (cb !== input) cb.checked = false;
         });
 
+
         input.closest('.flight-card').classList.add('selected');
 
+        // Proceed to returning flight selection if one is selected
         if (input.checked) {
           afterSelectDeparting();
 
-          // Show toast
+          // SweetAlert2 Toast
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -347,27 +346,16 @@
             timer: 3000,
             timerProgressBar: true,
           });
+
           Toast.fire({
             icon: 'success',
-            title: 'Departing flight selected!',
+            title: 'Departing flight selected!'
           });
 
-          // Display selected flight in selected-departing-container
-          const selectedCard = input.closest('.flight-card').cloneNode(true);
-          selectedCard.querySelector('input').remove(); // remove the input from cloned card
 
-          const targetContainer = document.getElementById('selected-departing-card-container');
-          targetContainer.innerHTML = ''; // Clear previous selection
-          targetContainer.appendChild(selectedCard);
         }
       }
 
-      function changeSelectRetFlight() {
-        document.querySelector('.departing-container').style.display = 'none';
-        document.querySelector('.returning-container').style.display = 'block';
-        document.querySelector('.selected-departing-container').style.display = 'block';
-        document.querySelector('.selected-returning-container').style.display = 'none';
-      }
 
       function afterSelectReturning() {
         document.querySelector('.departing-container').style.display = 'none';
@@ -376,23 +364,21 @@
         document.querySelector('.selected-returning-container').style.display = 'block';
       }
 
-
-
       
       function handleRetFlightSelection(input) {
-        // Uncheck all others
+        // Uncheck all others to simulate radio button behavior
         const checkboxes = document.querySelectorAll('input[name="selected_retflight"]');
         checkboxes.forEach(cb => {
-          cb.closest('.flight-card').classList.remove('selected');
           if (cb !== input) cb.checked = false;
         });
 
         input.closest('.flight-card').classList.add('selected');
 
+        // Proceed to returning flight selection if one is selected
         if (input.checked) {
           afterSelectReturning();
 
-          // Show toast
+          // SweetAlert2 Toast
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -400,23 +386,13 @@
             timer: 3000,
             timerProgressBar: true,
           });
+
           Toast.fire({
             icon: 'success',
-            title: 'Returning flight selected!',
+            title: 'Returning flight selected!'
           });
-
-          // Display selected flight in selected-departing-container
-          const selectedCard = input.closest('.flight-card').cloneNode(true);
-          selectedCard.querySelector('input').remove(); // remove the input from cloned card
-
-          const targetContainer = document.getElementById('selected-returning-card-container');
-          targetContainer.innerHTML = ''; // Clear previous selection
-          targetContainer.appendChild(selectedCard);
         }
       }
-      
-
-
     </script>
 
 

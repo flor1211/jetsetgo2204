@@ -6,7 +6,7 @@
   $username = $_SESSION['username'] ?? 'Guest';
 ?>
 
-<nav>
+<nav class="nav-container">
         <div class="sidebar-button">
           <i class="bi bi-list sidebarBtn"></i>
 
