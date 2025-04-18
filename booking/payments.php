@@ -66,6 +66,33 @@
             </script>
         </div>
 
+      
+        <!-- HERE KA MAGSTART -->
+
+        <div class="container my-4 d-flex justify-content-center">
+          <div class="w-100" style="max-width: 800px;">
+
+
+          <h3 style="font-weight: 700;">Booking Summary </h3>
+          <h6>Review your booking before proceeding to payment</h6>
+          
+            <!-- Booking Summary -->
+            <div class="p-4 bg-white shadow rounded mb-4">
+              <h4>Container One</h4>
+              <p>This is the first container. Add your content here.</p>
+            </div>
+
+          <h3 style="font-weight: 700;">Payment Method </h3>
+          <h6>Review your payment method before proceeding</h6>
+            <!-- Payment -->
+            <div class="p-4 bg-white shadow rounded">
+              <h4>Container Two</h4>
+              <p>This is the second container. Add your content here.</p>
+            </div>
+
+          </div>
+        </div>
+
         <!-- Main Container -->
         <form method="POST" action="">
 
