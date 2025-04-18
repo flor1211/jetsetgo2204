@@ -1,92 +1,216 @@
-
 <?php
-    session_start();
+// Start the session
+session_start();
 
-    include "database/admin-crud.php";
+// Placeholder for valid credentials (replace with database credentials for production)
+$valid_username = "admin";
+$valid_password = "admin";
 
+// Initialize error message
+$error_message = "";
 
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-        header("Location: admin/dashboard.php");
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Get the username and password from the form
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Validate the credentials
+    if ($username === $valid_username && $password === $valid_password) {
+        
+        // Store session variables upon successful login
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $username;
+
+        // Redirect to dashboard (change to your desired page)
+        header("Location: dashboard.php");
         exit;
+    } else {
+        // Set error message if credentials are incorrect
+        $error_message = "Invalid username or password.";
     }
-
-    $user = new Crud();
-    $error = "";
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = trim($_POST["username"]);
-        $password = strip_tags(trim($_POST["password"]));
-    
-            // LOGIN WITHOUT HASHED PASSWORD
-        // $error = $user->loginUser($username, $password);
-            // LOGIN WITH HASHED PASSWORD
-        $error = $user->loginUserPass($username, $password);
-
-    }
-    
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="UTF-8">
+  <title>JetSetGo - Administrator Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    body {
+      background: url('https://architizer-prod.imgix.net/media/mediadata/uploads/1534972217576FLLT1-7.jpg?q=60&auto=format,compress&cs=strip&w=1680') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Open Sans', sans-serif;
+      height: 100vh;
+    }
 
-    <!-- Bootstap S icons CDN-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    header {
+      background-color: #0a244a;
+      color: white;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    <title>JetSetGo</title>
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
+    .logo img {
+      height: 28px;
+    }
 
-    <link rel="stylesheet" href="style.css">
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 14px;
+    }
 
-  </head>
-    <body style="margin: 0;">
+    .login-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 60px);
+      padding: 20px;
+    }
 
-    <header>
-        <div class="logo">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/airplane-take-off.png" alt="plane icon"/>
-        <span>JetSetGo</span>
-        </div>
-        
-        <div class="nav-links">
-            <a href="homepage.php">HOME</a>
-        </div>
-    </header>
+    .login-box {
+      background-color: rgba(255, 255, 255, 0.3); 
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
 
-        <!-- Main Content -->
-        <div class="login-container">
-            <div class="left">
-                <h1>JetSetGo</h1>
-                <h2>ADMINISTRATOR LOGIN</h2>
-                <form id="loginForm" method="POST" action="">
-                    <input type="text" id="username" name="username" placeholder="Enter Username" required/>
-                    <input type="password" id="password" name="password" placeholder="Enter Password" required/>
-                    <!-- <a href="#">Forgot password?</a> -->
-                    <button type="submit">LOG IN</button>
-                <!-- <p>Don't have an account? <a href="#">Sign Up</a></p> -->
-                </form>
+    .login-box h1 {
+      font-family: 'Playfair Display', serif;
+      color: #2a63c1;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
 
-                <p style="color:red;"><?php echo $error; ?></p>
+    .login-box h2 {
+      font-family: 'Playfair Display', serif;
+      color: black;
+      font-weight: normal;
+      font-size: 16px;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
 
-            </div>
-            <div class="right"></div>
-        </div>
+    .login-box input {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 12px;
+      border-radius: 20px;
+      border: 1px solid #aaa;
+      outline: none;
+      font-size: 14px;
+      background-color: white;
+    }
 
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 15px;
+    }
 
-        <!-- Main Container -->
+    .forgot-password a {
+      font-size: 13px;
+      text-decoration: none;
+      color: black;
+    }
 
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    .login-box button {
+      width: 100%;
+      padding: 8px; 
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 14px; 
+    }
 
-  </body>
+    .login-box button:hover {
+      background-color: #0056b3;
+    }
+
+    .login-box p {
+      font-size: 13px;
+      margin-top: 12px;
+      color: black;
+    }
+
+    .login-box p a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .login-box p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/airplane-take-off.png" alt="plane icon"/>
+    JetSetGo
+  </div>
+  <nav>
+    <a href="#">FLIGHTS</a>
+    <a href="#">DEALS & OFFERS</a>
+    <a href="#">DESTINATIONS</a>
+    <a href="#">CONTACT</a>
+    <a href="#">ABOUT US</a>
+    <a href="#">LOGIN/ SIGN UP</a>
+  </nav>
+</header>
+
+<div class="login-wrapper">
+  <div class="login-box">
+    <h1>JETSETGO</h1>
+    <h2>ADMINISTRATOR LOGIN</h2>
+    
+    <?php if ($error_message): ?>
+      <p style="color: red;"><?php echo $error_message; ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+      <input type="text" name="username" placeholder="Enter Username" required>
+      <input type="password" name="password" placeholder="Enter Password" required>
+      <div class="forgot-password">
+        <a href="#">Forgot password?</a>
+      </div>
+      <button type="submit">LOG IN</button>
+    </form>
+    <p>Don't have an account yet? <a href="#">Sign Up</a></p>
+  </div>
+</div>
+
+</body>
 </html>
-
-
-
-
