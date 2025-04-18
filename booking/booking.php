@@ -4,7 +4,7 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $_SESSION['bookingpage_completed'] = true;
+    $_SESSION['bookingpage_complated'] = true;
 
     header('Location: selectflights.php');
     exit();

@@ -13,9 +13,6 @@
       exit();
   }
 
-    $selectedDepFlight = $_SESSION['selected_depflight'] ?? null;
-    $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
-
   
 ?>
 
@@ -177,11 +174,11 @@
 
         <!-- Main Container -->
         <form method="POST" action="">
-            <div class="d-flex justify-content-end gap-2">
-                <a class="btn btn-secondary" href="selectflights.php" role="button">BACK</a>
-                <button type="submit" class="btn btn-primary">CONTINUE</button>
-            </div>
-        </form>
+          <div class="div-buttons">
+            <button class="back-btn">BACK</button>
+            <button type="submit" class="continue-btn">CONTINUE</button>
+          </div>
+          </form>
 
 
           <!-- result modal - testing only -->
@@ -194,15 +191,6 @@
                 </div>
             </div>
         </div>
-
-    <script>
-        // Pass the PHP session values to JavaScript for debugging purposes
-        var selectedDepFlight = "<?php echo isset($_SESSION['selected_depflight']) ? $_SESSION['selected_depflight'] : 'No departing flight selected'; ?>";
-        var selectedRetFlight = "<?php echo isset($_SESSION['selected_retflight']) ? $_SESSION['selected_retflight'] : 'No returning flight selected'; ?>";
-
-        // Display the values in a pop-up alert for debugging
-        alert("Selected Departing Flight: " + selectedDepFlight + "\nSelected Returning Flight: " + selectedRetFlight);
-    </script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
