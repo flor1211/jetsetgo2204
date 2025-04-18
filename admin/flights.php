@@ -42,48 +42,52 @@
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+  <head>
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-        <!-- Bootstap S icons CDN-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstap S icons CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-        <!-- SWEET -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SWEET -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <script src="admin.js"></script>
+    <title>JetSetGo</title>
 
-        <title>JetSetGo</title>
+    <link rel="stylesheet" href="admin-style.css">
 
-        <link rel="stylesheet" href="admin.css">
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            alert("Error: " + msg + " in " + url + " at line " + lineNo);
+            return false;
+        };
+    </script>
+    
+  </head>
 
+  <body style="margin: 0;">
+
+    <!-- Sidebar Container -->
+        <div id="sidebar-container">
         <script>
-            window.onerror = function(msg, url, lineNo, columnNo, error) {
-                alert("Error: " + msg + " in " + url + " at line " + lineNo);
-                return false;
-            };
+            fetch("sidebar.php")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("sidebar-container").innerHTML = data;
+            });
         </script>
-        
-    </head>
-<body>
+        </div>
 
-    <?php include 'includes/sidebar.php'; ?>
-
-    <section class="home-section">
-
-        <?php include 'includes/navbar.php'; ?>
-
-        <div style="margin-left: 10px; padding: 20px;">
-            <h1>Flights</h1>
-
+    <div style="margin-left: 225px; padding: 20px;">
+        <h1>Flights</h1>
             <section class="p-3">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between align-items-center">
@@ -94,241 +98,242 @@
                     </div>
                 </div>
 
-                <!-- TABLE -->
-                <div class="table-container">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover mt-3 text-center table-bordered">
-                        <thead>
-                            <tr>
-                            <th>ID</th>
-                            <th>DATE</th>
-                            <th>LOCATION</th>
-                            <th>PLANE CODE</th>
-                            <th>SEATS</th>
-                            <th>AVAILABLE</th>
-                            <th>BOOKED</th>
-                            <th>STATUS</th>
-                            <th>ACTION</th>
-                            </tr>
-                        </thead> 
 
-                        <tbody id="data">
-                            <?php foreach ($allFlights as $u): ?>
-                                <tr>
-                                    <td><?= $u['flight_id'] ?></td>
-                                    <td><?= htmlspecialchars($u['date']) ?></td>
-                                    <td>FROM <?= htmlspecialchars($u['departure_location'])?><br>
-                                        TO <?= htmlspecialchars($u['arrival_location']) ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($u['plane_code']) ?></td>
-                                    <td><?= htmlspecialchars($u['numofseats']) ?></td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>
-                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['flight_id']?>"><i class="bi bi-eye"> View </i></button>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['flight_id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
-                                    <form method="post" class="d-inline" onsubmit="return confirm('Delete this flight?');">
-                                        <input type="hidden" name="deleteflightId" value="<?= $u['flight_id'] ?>">
-                                        <button type="submit" name="delete" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
-                                    </form>
-                                    </td>
-                                </tr>
-                                <!-- MODALS -->
-                                    <!-- MODAL FOR VIEWING -->
-                                    <div class="modal fade" id="viewFlight<?= $u['flight_id']?>">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                                        <div class="modal-content">
+        <!-- TABLE -->
 
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="viewFlight">View Flight</h4>
-                                        </div>
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-striped table-hover mt-3 text-center table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>DATE</th>
+                  <th>LOCATION</th>
+                  <th>PLANE CODE</th>
+                  <th>SEATS</th>
+                  <th>AVAILABLE</th>
+                  <th>BOOKED</th>
+                  <th>STATUS</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
 
-                                            <form action="#" id="viewFlightsForm" method = "POST">
-                                            <div class="modal-body">
-                                                <h4 class="modal-title">Flight Details</h4>
-                                                <hr>
-                                                <div class="container">
-                                                    <div class="row mb-3">
-                                                    <div class="col-md-6">
+          <!-- ADD FOREACH LOOP HERE -->
+              <tbody id="data">
+                <?php foreach ($allFlights as $u): ?>
+                  <tr>
+                    <td><?= $u['flight_id'] ?></td>
+                    <td><?= htmlspecialchars($u['date']) ?></td>
+                    <td>FROM <?= htmlspecialchars($u['departure_location'])?><br>
+                        TO <?= htmlspecialchars($u['arrival_location']) ?>
+                    </td>
+                    <td><?= htmlspecialchars($u['plane_code']) ?></td>
+                    <td><?= htmlspecialchars($u['numofseats']) ?></td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['flight_id']?>"><i class="bi bi-eye"> View </i></button>
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['flight_id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
+                      <form method="post" class="d-inline" onsubmit="return confirm('Delete this flight?');">
+                          <input type="hidden" name="deleteflightId" value="<?= $u['flight_id'] ?>">
+                          <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
+                      </form>
+                    </td>
+                  </tr>
 
-                                                        <label for="departureLocation">DEPARTURE LOCATION</label>
-                                                        <input type="text" class="form-control" id="dep_loc" name="" value="<?= htmlspecialchars($u['departure_location']) ?>" disabled>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                                                        <input type="text" class="form-control" id="arr_loc" name="" value="<?= htmlspecialchars($u['arrival_location']) ?>" disabled>
-                                                    </div>
-                                                    </div>
+                    <!-- MODAL FOR VIEWING -->
+                    <div class="modal fade" id="viewFlight<?= $u['flight_id']?>">
+                      <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
 
-                                                    <div class="row mb-3">
-                                                    <div class="col-md-6">
-                                                        <label for="departureTime">DEPARTURE TIME</label>
-                                                        <input type="time" class="form-control" id="dep_time" name="" value="<?= htmlspecialchars($u['departure_time']) ?>" disabled>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="arrivalTime">ARRIVAL TIME</label>
-                                                        <input type="time" class="form-control" id="arr_time" name="" value="<?= htmlspecialchars($u['arrival_time']) ?>" disabled>
-                                                    </div>
-                                                    </div>
-                                                
-                                                    <div class="row mb-3">
-                                                    <div class="col-md-6">
-                                                        <label for="date">DATE</label>
-                                                        <input type="date" class="form-control" id="date" name="" value="<?= htmlspecialchars($u['date']) ?>" disabled>
-                                                    </div>
-                                                    </div>
-                                                    
-                                                    <h4 class="modal-title">Plane Details</h4>
-                                                
-                                                    <hr>
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="viewFlight">View Flight</h4>
+                          </div>
 
-                                                <div class="d-flex gap-4">
-                                                    <div class="w-100">
-                                                        <div class="mb-3">
-                                                        <label for="planeNumber">PLANE CODE</label>
-                                                        <input class="form-control" id="planeCode" name="" value="<?= htmlspecialchars($u['plane_code']) ?>" disabled>
-                                                        </div>
+                            <form action="#" id="viewFlightsForm" method = "POST">
+                              <div class="modal-body">
+                                <h4 class="modal-title">Flight Details</h4>
+                                <hr>
+                                  <div class="container">
+                                    <div class="row mb-3">
+                                      <div class="col-md-6">
 
-                                                        <div class="mb-3">
-                                                        <label for="seatsAvailable">NUMBER OF SEATS</label>
-                                                        <input type="text" class="form-control" id="seats" name="" value="<?= htmlspecialchars($u['numofseats']) ?>" disabled>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                        <label for="price">PRICE</label>
-                                                        <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="" value="<?= htmlspecialchars($u['price']) ?>" disabled>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="flex-shrink-0">
-                                                        <img 
-                                                        src="https://images6.alphacoders.com/408/408258.jpg" 
-                                                        alt="Plane Image" 
-                                                        class="img-fluid rounded shadow" 
-                                                        style="width: 250px; height: 170px; margin-top: 50px;">
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                    <h3 class="modal-title">Passengers of <?= htmlspecialchars($u['departure_location']) ?> - <?= htmlspecialchars($u['arrival_location']) ?>  </h3>
-                                                <hr>
-                                                    MAY TABLE DITO, NANDITO YUNG LIST NG PASSENGERS NA NAGBOOK NG Flight  <?= htmlspecialchars($u['departure_location']) ?> - <?= htmlspecialchars($u['arrival_location']) ?>
-                                                </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
-                                                    </div>
-                                                
-                                                </div>
-
-
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <label for="departureLocation">DEPARTURE LOCATION</label>
+                                        <input type="text" class="form-control" id="dep_loc" name="" value="<?= htmlspecialchars($u['departure_location']) ?>" disabled>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="arrivalLocation">ARRIVAL LOCATION</label>
+                                        <input type="text" class="form-control" id="arr_loc" name="" value="<?= htmlspecialchars($u['arrival_location']) ?>" disabled>
+                                      </div>
                                     </div>
-                                    <!-- MODAL FOR EDITING FLIGHT -->
-                                    <div class="modal fade" id="editFlight<?= $u['flight_id']?>">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                                            <div class="modal-content">
 
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="editFlight">View Flight</h4>
-                                            </div>
-
-                                                <form action="#" id="editFlightsForm<?= $u['flight_id']?>" method="POST">
-                                                <div class="modal-body">
-                                                    <h4 class="modal-title">Edit Flight Details</h4>
-                                                    <hr>
-                                                    <div class="container">
-                                                        <div class="row mb-3">
-                                                        <input type="hidden" name="flightId" value="<?= $u['flight_id'] ?>">
-
-                                                        <div class="col-md-6">
-
-                                                            <label for="departureLocation">DEPARTURE LOCATION</label>
-                                                            <input type="text" class="form-control" id="dep_loc" name="dep_loc" value="<?= htmlspecialchars($u['departure_location']) ?>" >
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                                                            <input type="text" class="form-control" id="arr_loc" name="arr_loc" value="<?= htmlspecialchars($u['arrival_location']) ?>" >
-                                                        </div>
-                                                        </div>
-
-                                                        <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <label for="departureTime">DEPARTURE TIME</label>
-                                                            <input type="time" class="form-control" id="dep_time" name="dep_time" value="<?= htmlspecialchars($u['departure_time']) ?>" >
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="arrivalTime">ARRIVAL TIME</label>
-                                                            <input type="time" class="form-control" id="arr_time" name="arr_time" value="<?= htmlspecialchars($u['arrival_time']) ?>" >
-                                                        </div>
-                                                        </div>
-                                                    
-                                                        <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <label for="date">DATE</label>
-                                                            <input type="date" class="form-control" id="date" name="date" value="<?= htmlspecialchars($u['date']) ?>">
-                                                        </div>
-                                                        </div>
-                                                        
-                                                        <h4 class="modal-title">Plane Details</h4>
-                                                    
-                                                        <hr>
-
-                                                    <div class="d-flex gap-4">
-                                                        <div class="w-100">
-                                                            <div class="mb-3">
-                                                            <label for="planeCode">PLANE CODE</label>
-                                                            <select class="form-control" id="planeCode" name="planeCode" value="<?= htmlspecialchars($u['plane_code']) ?>">
-                                                                <option value=""></option>
-                                                                <option value="JSG123">JSG123</option>
-                                                                <option value="JSG124">JSG124</option>
-                                                                <option value="JSG125">JSG125</option>
-                                                            </select>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                            <label for="numofseats">NUMBER OF SEATS</label>
-                                                            <input type="text" class="form-control" id="numofseats" name="numofseats" value="<?= htmlspecialchars($u['numofseats']) ?>">
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                            <label for="price">PRICE</label>
-                                                            <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="price" value="<?= htmlspecialchars($u['numofseats']) ?>">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="flex-shrink-0">
-                                                            <img 
-                                                            src="https://images6.alphacoders.com/408/408258.jpg" 
-                                                            alt="Plane Image" 
-                                                            class="img-fluid rounded shadow" 
-                                                            style="width: 250px; height: 170px; margin-top: 50px;">
-                                                        </div>
-                                                    </div>
-
-                                                    </div>
-                                                    </div>
-                                                
-                                                        <div class="modal-footer">
-                                                            <button type="submit" name="update" form="editFlightsForm<?= $u['flight_id']?>" class="btn btn-primary submit">Save</button>
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
-                                                        </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                    <div class="row mb-3">
+                                      <div class="col-md-6">
+                                        <label for="departureTime">DEPARTURE TIME</label>
+                                        <input type="time" class="form-control" id="dep_time" name="" value="<?= htmlspecialchars($u['departure_time']) ?>" disabled>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="arrivalTime">ARRIVAL TIME</label>
+                                        <input type="time" class="form-control" id="arr_time" name="" value="<?= htmlspecialchars($u['arrival_time']) ?>" disabled>
+                                      </div>
                                     </div>
-                            <?php endforeach; ?>
-                        </tbody>
-                        </table>
+                                
+                                    <div class="row mb-3">
+                                      <div class="col-md-6">
+                                        <label for="date">DATE</label>
+                                        <input type="date" class="form-control" id="date" name="" value="<?= htmlspecialchars($u['date']) ?>" disabled>
+                                      </div>
+                                    </div>
+                                    
+                                    <h4 class="modal-title">Plane Details</h4>
+                                  
+                                    <hr>
+
+                                  <div class="d-flex gap-4">
+                                      <div class="w-100">
+                                          <div class="mb-3">
+                                          <label for="planeNumber">PLANE CODE</label>
+                                          <input class="form-control" id="planeCode" name="" value="<?= htmlspecialchars($u['plane_code']) ?>" disabled>
+                                          </div>
+
+                                          <div class="mb-3">
+                                          <label for="seatsAvailable">NUMBER OF SEATS</label>
+                                          <input type="text" class="form-control" id="seats" name="" value="<?= htmlspecialchars($u['numofseats']) ?>" disabled>
+                                          </div>
+
+                                          <div class="mb-3">
+                                          <label for="price">PRICE</label>
+                                          <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="" value="<?= htmlspecialchars($u['price']) ?>" disabled>
+                                          </div>
+                                      </div>
+
+                                      <div class="flex-shrink-0">
+                                          <img 
+                                          src="https://images6.alphacoders.com/408/408258.jpg" 
+                                          alt="Plane Image" 
+                                          class="img-fluid rounded shadow" 
+                                          style="width: 250px; height: 170px; margin-top: 50px;">
+                                      </div>
+                                  </div>
+                                  <br>
+                                    <h3 class="modal-title">Passengers of <?= htmlspecialchars($u['departure_location']) ?> - <?= htmlspecialchars($u['arrival_location']) ?>  </h3>
+                                <hr>
+                                    MAY TABLE DITO, NANDITO YUNG LIST NG PASSENGERS NA NAGBOOK NG Flight  <?= htmlspecialchars($u['departure_location']) ?> - <?= htmlspecialchars($u['arrival_location']) ?>
+                                </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                                      </div>
+                                  
+                                </div>
+
+
+                                  </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </div>
-    </section>
+                    <!-- MODAL FOR EDITING FLIGHT -->
+                    <div class="modal fade" id="editFlight<?= $u['flight_id']?>">
+                      <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
 
-<!-- --------------------------------------------- --> 
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="editFlight">View Flight</h4>
+                          </div>
+
+                            <form action="#" id="editFlightsForm<?= $u['flight_id']?>" method="POST">
+                              <div class="modal-body">
+                                <h4 class="modal-title">Edit Flight Details</h4>
+                                <hr>
+                                  <div class="container">
+                                    <div class="row mb-3">
+                                      <input type="hidden" name="flightId" value="<?= $u['flight_id'] ?>">
+
+                                      <div class="col-md-6">
+
+                                        <label for="departureLocation">DEPARTURE LOCATION</label>
+                                        <input type="text" class="form-control" id="dep_loc" name="dep_loc" value="<?= htmlspecialchars($u['departure_location']) ?>" >
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="arrivalLocation">ARRIVAL LOCATION</label>
+                                        <input type="text" class="form-control" id="arr_loc" name="arr_loc" value="<?= htmlspecialchars($u['arrival_location']) ?>" >
+                                      </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                      <div class="col-md-6">
+                                        <label for="departureTime">DEPARTURE TIME</label>
+                                        <input type="time" class="form-control" id="dep_time" name="dep_time" value="<?= htmlspecialchars($u['departure_time']) ?>" >
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="arrivalTime">ARRIVAL TIME</label>
+                                        <input type="time" class="form-control" id="arr_time" name="arr_time" value="<?= htmlspecialchars($u['arrival_time']) ?>" >
+                                      </div>
+                                    </div>
+                                
+                                    <div class="row mb-3">
+                                      <div class="col-md-6">
+                                        <label for="date">DATE</label>
+                                        <input type="date" class="form-control" id="date" name="date" value="<?= htmlspecialchars($u['date']) ?>">
+                                      </div>
+                                    </div>
+                                    
+                                    <h4 class="modal-title">Plane Details</h4>
+                                  
+                                    <hr>
+
+                                  <div class="d-flex gap-4">
+                                      <div class="w-100">
+                                          <div class="mb-3">
+                                          <label for="planeCode">PLANE CODE</label>
+                                          <select class="form-control" id="planeCode" name="planeCode" value="<?= htmlspecialchars($u['plane_code']) ?>">
+                                            <option value=""></option>
+                                            <option value="JSG123">JSG123</option>
+                                            <option value="JSG124">JSG124</option>
+                                            <option value="JSG125">JSG125</option>
+                                          </select>
+                                          </div>
+
+                                          <div class="mb-3">
+                                          <label for="numofseats">NUMBER OF SEATS</label>
+                                          <input type="text" class="form-control" id="numofseats" name="numofseats" value="<?= htmlspecialchars($u['numofseats']) ?>">
+                                          </div>
+
+                                          <div class="mb-3">
+                                          <label for="price">PRICE</label>
+                                          <input type="text" class="form-control" id="price" placeholder="₱ 0.00" name="price" value="<?= htmlspecialchars($u['numofseats']) ?>">
+                                          </div>
+                                      </div>
+
+                                      <div class="flex-shrink-0">
+                                          <img 
+                                          src="https://images6.alphacoders.com/408/408258.jpg" 
+                                          alt="Plane Image" 
+                                          class="img-fluid rounded shadow" 
+                                          style="width: 250px; height: 170px; margin-top: 50px;">
+                                      </div>
+                                  </div>
+
+                                  </div>
+                                </div>
+                              
+                                      <div class="modal-footer">
+                                          <button type="submit" name="update" form="editFlightsForm<?= $u['flight_id']?>" class="btn btn-primary submit">Save</button>
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                                      </div>
+                                  </div>
+                            </form>
+                        </div>
+                    </div>
+                      
+                <?php endforeach; ?>
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      </section>
 
     <!-- MODAL FOR ADDING -->
     <div class="modal fade" id="addNewFlight" tabindex="-1" aria-labelledby="addNewFlight" aria-hidden="true">
@@ -424,17 +429,19 @@
           </div>
     </div>
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <!-- JAVASCRIPT --> 
-    <script src="admin-js.js"></script>
+    <script src="app.js"></script>
 
-    <!-- SweetAlert -->
-    <?php if (isset($_GET['success']) || isset($_GET['updated']) || isset($_GET['deleted'])): ?>
-        <script>
+    <!-- SWEET -->
+   <?php if (isset($_GET['success']) || isset($_GET['updated']) || isset($_GET['deleted'])): ?>
+            <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                <?php if (isset($_GET['success'])): ?>
+                    <?php if (isset($_GET['success'])): ?>
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
@@ -442,27 +449,26 @@
                         timer: 2000,
                         showConfirmButton: false
                     });
-                <?php elseif (isset($_GET['updated'])): ?>
+                    <?php elseif (isset($_GET['updated'])): ?>
                     Swal.fire({
                         icon: 'info',
                         title: 'Updated',
                         text: 'Flight updated successfully!',
                         timer: 2000,
                         showConfirmButton: false
-                });
-                <?php elseif (isset($_GET['deleted'])): ?>
+                    });
+                    <?php elseif (isset($_GET['deleted'])): ?>
                     Swal.fire({
                         icon: 'warning',
                         title: 'Deleted',
                         text: 'Flight deleted successfully!',
                         timer: 2000,
                         showConfirmButton: false
+                    });
+                    <?php endif; ?>
                 });
-                <?php endif; ?>
-            });
-        </script>
-    <?php endif; ?>
+            </script>
+        <?php endif; ?>
 
-
-</body>
+  </body>
 </html>
