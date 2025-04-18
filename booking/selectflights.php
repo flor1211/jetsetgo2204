@@ -76,7 +76,15 @@
                 Next
             </button>
         </form>
+      
+        <script>
+            var selectedFrom = "<?php echo isset ($_SESSION['selected_from']) ?
+              $_SESSION['selected_from'] : 'No Airport Selected'; ?>";
+            var selectedTo = "<?php echo isset ($_SESSION['selected_to']) ?
+              $_SESSION['selected_to'] : 'No Airport Selected'; ?>";
 
+            alert("Selected From Airport: " + selectedFrom + "\nSelected To Airport: " + selectedTo);
+        </script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

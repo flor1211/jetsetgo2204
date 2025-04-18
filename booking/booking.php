@@ -1,17 +1,24 @@
 <?php
 
 session_start();
+require_once '../database/admin-crud.php';
+
+$adminCrud = new Crud();
+$airports = $adminCrud->getAllAirports();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $_SESSION['bookingpage_complated'] = true;
+
+  $_SESSION['selected_from'] = $_POST['from'];
+  $_SESSION['selected_to'] = $_POST['to'];
+
 
   header('Location: selectflights.php');
   exit();
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,31 +64,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-card">
           <div class="form-section flight-section">
             <h2><span class="icon"><img src="../assets/Logo.webp" alt="" /></span> Flight</h2>
+
             <div class="form-group">
-              <label for="fromInput">From</label>
+              <label for="fromInput" style="display:flex; justify-content: center; align-items: center">From</label>
               <select id="fromInput" name="from" style="width: 150px;">
-                <option value="MNL">MNL</option>
-                <option value="CEB">CEB</option>
-                <option value="DAV">DAV</option>
+                <?php foreach ($airports as $airport): ?>
+                  <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
+                    <?= htmlspecialchars($airport['airport_code']) ?>
+                  </option>
+                <?php endforeach; ?>
               </select>
 
-              <label for="toInput">To</label>
+              <label for="toInput" style="display:flex; justify-content: center; align-items: center">To</label>
               <select id="toInput" name="to" style="width: 150px;">
-                <option value="MNL">MNL</option>
-                <option value="CEB">CEB</option>
-                <option value="DAV">DAV</option>
+                <?php foreach ($airports as $airport): ?>
+                  <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
+                    <?= htmlspecialchars($airport['airport_code']) ?>
+                  </option>
+                <?php endforeach; ?>
               </select>
             </div>
-            
+
+
             <div class="form-group" style="display: flex;">
               <div style="display: flex; flex-direction: column;">
                 <label for="adultInput">Adult</label>
-                <input type="number" id="adultInput" name="adult" style="width: 150px;" />
+                <input type="number" id="adultInput" name="adult" style="width: 175px;" />
               </div>
 
               <div class="child-wrapper" style="display: flex; flex-direction: column; margin-left: 20px;">
                 <label for="childrenInput">Children</label>
-                <input type="number" id="childrenInput" name="children" style="width: 150px;" />
+                <input type="number" id="childrenInput" name="children" style="width: 175px;" />
               </div>
 
             </div>
