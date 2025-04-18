@@ -1,33 +1,33 @@
 <?php
-// Start the session
+
 session_start();
 
-// Placeholder for valid credentials (replace with database credentials for production)
+
 $valid_username = "admin";
 $valid_password = "admin";
 
-// Initialize error message
+
 $error_message = "";
 
-// Check if the form is submitted
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Get the username and password from the form
+   
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Validate the credentials
+    
     if ($username === $valid_username && $password === $valid_password) {
         
-        // Store session variables upon successful login
+        
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $username;
 
-        // Redirect to dashboard (change to your desired page)
+      
         header("Location: dashboard.php");
         exit;
     } else {
-        // Set error message if credentials are incorrect
+       
         $error_message = "Invalid username or password.";
     }
 }
