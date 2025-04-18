@@ -16,6 +16,9 @@
     <meta name="description" content="JetSetGo - Streamlining your flight booking experience with simplicity and speed." />
     <meta name="keywords" content="flight, booking, travel, JetSetGo, airline, Philippines" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Preload Hero Image -->
     <link rel="preload" href="assets/bg.webp" as="image" />
 
@@ -33,10 +36,11 @@
     <style>
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         background-color: #f8f9fa;
         overflow: auto;
       }
+
       html {
         scroll-behavior: smooth;
       }
@@ -46,9 +50,12 @@
         background-position: center;
         background-repeat: no-repeat;
         min-height: 100vh;
+        display: flex;
+        flex-direction: column;
         position: relative;
         color: white;
         margin-bottom: -5px;
+        padding-top: 70px; 
       }
       .hero-overlay {
         position: absolute;
@@ -61,27 +68,119 @@
         pointer-events: none;
       }
       nav.navbar {
-        position: relative;
-        z-index: 3;
+       width: 100%;
+       list-style: none;
+       display: flex;
+       justify-content: flex-end;
+       align-items: center;
       }
-      .hero-content {
+      
+      nav.li{
+        height: 100%;
+        padding: 0 30px;
+        text-decoration: none;
+        display: flex;
+        algin-items: center;
+        color: white;
+        transition: scale 0.2 ease;
+      }
+
+      nav a:hover{
+       scale: 1.05;
+       color: #fff;
+      }   
+
+      nav li:first-child{
+        margin-right: auto; 
+      }
+
+      .sidebar {
         position: absolute;
-        z-index: 2;
-        top: 50%;
-        left: 50%;
-        transform: translate(-80%, -50%);
-        text-align: left;
-        padding: 20px;
-        max-width: 800px;
-        width: 90%;
+        top: 60px;
+        right: 2rem;
+        width: 250px;
+        z-index: 999;
+        background-color: rgba(240, 240, 240, 0.02);
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+  
+        opacity: 0;
+        transform: translateX(100%);
+        pointer-events: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .sidebar.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      .sidebar li{
+        padding: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        
+      }
+
+      .sidebar a{
+        width: 100%;
+      }
+
+      .menu-button{
+        display: none;
+      }
+
+      @media(max-width: 800px){
+        .hideOnMobile{
+          display: none;
+        }
+        .menu-button{
+        display: block;
+      }
+      }
+      
+
+      @media(max-witdh: 400px){
+        .sidebar{
+          width: unset
+          left: 2rem;
+
+                }
+      }
+
+
+      .hero-content {
+       position: relative;
+       z-index: 2;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       min-height: 100vh;
       }
       .btn-darkblue {
         background-color: #1e2a50;
-        color: white;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: scale 0.2 ease;
       }
       .btn-darkblue:hover {
-        background-color: #2f3d6c;
-        color: white;
+        scale: 1.075;
+        color: #fff;
       }
       .carousel {
         margin-top: -5px;
@@ -151,16 +250,25 @@
     <!-- Hero Section -->
     <section class="hero-section" id="home">
       <div class="hero-overlay"></div>
-      <nav class="navbar navbar-expand-lg navbar-dark px-5">
+      <nav class="navbar navbar-expand-lg navbar-dark px-5 fixed-top">
         <a class="navbar-brand d-flex align-items-center" href="#">
           <img src="assets/logo.webp" alt="JetSetGo Logo" width="30" height="30" class="me-2" />
           JetSetGo
         </a>
-        <ul class="navbar-nav ms-auto d-flex flex-row gap-4">
+        <ul class="sidebar">
+        <li onclick=hideSidebar() class="nav-item"><a class="nav-link text-white" href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
           <li class="nav-item"><a class="nav-link text-white" href="#home">HOME</a></li>
           <li class="nav-item"><a class="nav-link text-white" href="#gallery-carousel">GALLERY</a></li>
           <li class="nav-item"><a class="nav-link text-white" href="#about">ABOUT</a></li>
-          <li class="nav-item"><a class="btn btn-darkblue" href="login.php">LOGIN</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="login.php">LOGIN</a></li>
+         
+        </ul>
+        <ul class="navbar-nav ms-auto d-flex flex-row gap-4">
+          <li class="hideOnMobile"><a class="nav-link text-white" href="#home">HOME</a></li>
+          <li class="hideOnMobile"><a class="nav-link text-white" href="#gallery-carousel">GALLERY</a></li>
+          <li class="hideOnMobile"><a class="nav-link text-white" href="#about">ABOUT</a></li>
+          <li class="hideOnMobile"><a class="btn btn-darkblue" href="login.php">LOGIN</a></li>
+          <li class = "menu-button" onclick=showSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
         </ul>
       </nav>
       <div class="hero-content text-white">
@@ -255,8 +363,21 @@
       <span>JetSetGo 2025</span>
     </footer>
 
+    <script>
+  function showSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.add('active');
+  }
+
+  function hideSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.remove('active');
+  }
+</script>
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="admin.js"></script>
+    <script src="admin.js">
+    </script>
   </body>
 </html>
