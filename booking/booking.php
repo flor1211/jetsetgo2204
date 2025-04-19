@@ -67,7 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="form-group">
               <label for="fromInput" style="display:flex; justify-content: center; align-items: center">From</label>
-              <select id="fromInput" name="from" style="width: 150px;">
+              <select id="fromInput" name="from" style="width: 150px;" required>
+              <option value="" selected hidden>Select Location</option>
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
                     <?= htmlspecialchars($airport['airport_code']) ?>
@@ -76,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               </select>
 
               <label for="toInput" style="display:flex; justify-content: center; align-items: center">To</label>
-              <select id="toInput" name="to" style="width: 150px;">
+              <select id="toInput" name="to" style="width: 150px;" required>
+              <option value="" selected hidden>Select Location</option>
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
                     <?= htmlspecialchars($airport['airport_code']) ?>
@@ -89,12 +91,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group" style="display: flex;">
               <div style="display: flex; flex-direction: column;">
                 <label for="adultInput">Adult</label>
-                <input type="number" id="adultInput" name="adult" style="width: 175px;" />
+                <input type="number" min="1" max="4" placeholder="1" id="adultInput" name="adult" style="width: 175px;" required/>
               </div>
 
               <div class="child-wrapper" style="display: flex; flex-direction: column; margin-left: 20px;">
                 <label for="childrenInput">Children</label>
-                <input type="number" id="childrenInput" name="children" style="width: 175px;" />
+                <input type="number" max="2" id="childrenInput" name="children" style="width: 175px;" placeholder="0"/>
               </div>
 
             </div>
