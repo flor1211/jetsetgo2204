@@ -1,4 +1,4 @@
-<button?php
+<?php
 
   session_start();
 
@@ -101,20 +101,21 @@
                 <span class="ms-5">Total</span>
                 <span class="me-5">PHP 5,088.00</span>
               </div>
-            </div>
+          </div>
 
 
-
-          <h3 style="font-weight: 700;">Payment Method </h3>
-          <h6>Review your booking before proceeding to payment</h6>
             <!-- Payment -->
-            <div class="p-4 bg-white shadow rounded" style="height: 250px">
-              <h4></h4>
+
+          <h3 style="font-weight: 700; padding-top: 25px;">Payment Method </h3>
+          <h6>Review your booking before proceeding to payment</h6>
+
+          <div class="p-4 bg-white shadow rounded" style="height: 250px">
+              <h4>Hello</h4>
               <p></p>
-            </div>
+          </div>
 
             <!-- TERMS AND CONDITIONS -->
-            <div class="white shadow border rounded p-2 bg-white mb-3" style="width: 800px; margin-top: 10px;">
+            <div class="white shadow border rounded p-2 bg-white mb-3" style="margin-top: 30px;">
               <div style="display: flex; align-items: flex-start;  padding: 10px;">
                 <input type="checkbox" id="IAgree" style="margin-top: 7px; margin-right: 5px;" required>
                 <label for="IAgree" style="padding-left: 5px;">
@@ -124,10 +125,11 @@
             </div>
 
             <!-- BUTTONS -->
-        <div class="d-flex justify-content-end align-items-end w-100" style="height: 100px;">
-  <a href="addons.php" class="btn btn-secondary me-3" style="width: 150px; height: 40px;">Back</a>
-  <button type="submit" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
-</div>
+            <div class="d-flex justify-content-end align-items-end w-100" style="height: 100px;">
+                  <a href="addons.php" class="btn btn-secondary me-3" style="width: 150px; height: 40px;">Back</a>
+                  <button type="submit" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
+          </div>
+
           </div>
         </div>
 
