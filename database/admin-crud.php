@@ -100,7 +100,7 @@ class Crud {
     }
 
     public function addAirport($airport_code, $airport_name, $airport_location) {
-        $stmt = $this->conn->prepare("CALL addNewAirport(:a_code, :a_name, :a_location)");
+        $stmt = $this->conn->prepare("CALL addAirport(:a_code, :a_name, :a_location)");
         $stmt->execute([':a_code' => $airport_code, ':a_name' => $airport_name, ':a_location' => $airport_location]);
     }
 
@@ -159,7 +159,7 @@ class Crud {
     }
 
     public function searchAccountswithLimit($search, $limit, $offset) {
-        $stmt = $this->conn->prepare("CALL getAccountssPagedSearch(:search, :limit, :offset)");
+        $stmt = $this->conn->prepare("CALL getAccountsPagedSearch(:search, :limit, :offset)");
         $stmt->bindParam(':search', $search);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
