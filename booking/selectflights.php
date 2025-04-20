@@ -76,7 +76,24 @@
                 Next
             </button>
         </form>
+      
+        <script>
+            var selectedFrom = "<?php echo isset ($_SESSION['selected_from']) ?
+              $_SESSION['selected_from'] : 'No Airport Selected'; ?>";
+            var selectedTo = "<?php echo isset ($_SESSION['selected_to']) ?
+              $_SESSION['selected_to'] : 'No Airport Selected'; ?>";
+            var adultNum = "<?php echo isset ($_SESSION['num_of_adult']) ?
+              $_SESSION['num_of_adult'] : 'No Number of Adults was submitted'; ?>";
+            var childNum = "<?php echo isset ($_SESSION['num_of_children']) ?
+              $_SESSION['num_of_children'] : 'No Number of Children was submitted'; ?>";
+            var departingDate = "<?php echo isset ($_SESSION['departing_date']) ?
+              $_SESSION['departing_date'] : 'No departing date was submitted'; ?>";
+            var returningDate = "<?php echo isset ($_SESSION['return_date']) ?
+              $_SESSION['return_date'] : 'No return date submitted'; ?>";
 
+            alert("Selected From Airport: " + selectedFrom + "\nSelected To Airport: " + selectedTo + "\nNumber of Adults: " + adultNum
+                  + "\nNumber of Children: " + childNum + "\nDeparting Date: " + departingDate + "\nReturn Date: " + returningDate);
+        </script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

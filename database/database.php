@@ -5,6 +5,7 @@ class Database {
     private $db_name = 'jetsetgoDB';
     private $username = 'root';
     private $password = '';
+    private $port = '3306';
     private $conn;
 
     public function __construct(){
@@ -14,7 +15,7 @@ class Database {
     private function connect(){
         try {
             $this->conn = new PDO(
-                "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4",
+                "mysql:host={$this->host};port={$this->port};dbname={$this->db_name};charset=utf8mb4",
                 $this->username,
                 $this->password
             );
