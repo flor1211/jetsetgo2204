@@ -66,8 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="form-card">
           <div class="form-section flight-section">
-            <h2><span class="icon"><img src="../assets/Logo.webp" alt="" /></span> Flight</h2>
+            <h2><span class="icon"><img src="assets/logo.png" alt="" /></span> Flight</h2>
 
+            
             <div class="form-group">
               <label for="fromInput" style="display:flex; justify-content: center; align-items: center">From</label>
               <select id="fromInput" name="from" style="width: 150px;" required>
@@ -106,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
 
           <div class="form-section trip-section">
-            <h2><span class="icon"><img src="../assets/Logo.png" alt="" /></span> Trip</h2>
+            <h2><span class="icon"><img src="assets/logo.png" alt="" /></span> Trip</h2>
             <div class="trip-options">
               <label><input type="radio" name="trip" id="roundTrip" checked /> Round Trip</label>
               <label><input type="radio" name="trip" id="oneWayTrip" /> One-way Trip</label>
