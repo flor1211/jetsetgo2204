@@ -68,7 +68,7 @@
             <div class="overview-boxes">
                 <!-- boxes  -->
                 <div class="box">
-                    <div class="left-side">
+                    <div class="left-side" style="padding-right: 10px;">
                     <div class="box-topic">Bookings</div>
                     <div class="number">48</div>
                     <div class="indicator">
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="box">
-                    <div class="left-side">
+                    <div class="left-side" style="padding-right: 10px;">
                     <div class="box-topic">Total Flights</div>
                     <div class="number">15</div>
                     <div class="indicator">
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="box">
-                    <div class="left-side">
+                    <div class="left-side" style="padding-right: 10px;">
                     <div class="box-topic">Revenue</div>
                     <div class="number">$15, 485</div>
                     <div class="indicator">
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="box">
-                    <div class="left-side">
+                    <div class="left-side" style="padding-right: 10px;">
                     <div class="box-topic">Planes</div>
                     <div class="number">8</div>
                     <div class="indicator">
@@ -122,7 +122,7 @@
                 <div class="recent-booking box">
                     <div class="title">Recent Booking</div>
                     <div class="booking-details">
-                    <ul class="details">
+                    <ul class="details" style="padding-left:0px;">
                         <li class="topic">Date</li>
                         <li><a href="#">02 Jan 2025</a></li>
                         <li><a href="#">02 Jan 2025</a></li>
@@ -131,7 +131,7 @@
                         <li><a href="#">02 Jan 2025</a></li>
                         <li><a href="#">02 Jan 2025</a></li>
                     </ul>
-                    <ul class="details">
+                    <ul class="details" style="padding-left:0px;">
                         <li class="topic">Flight</li>
                         <li><a href="#">MNL - CLK</a></li>
                         <li><a href="#">CEB - MNL</a></li>
@@ -158,7 +158,7 @@
                 <!-- RIGHT BOX --> 
                 <div class="recent-flight box">
                     <div class="title">Flight Status</div>
-                    <ul>
+                    <ul style="padding-left:0px;">
                         <li>
                             <a href="">
                                 <img src="" alt="">
