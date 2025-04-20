@@ -12,7 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $_SESSION['selected_from'] = $_POST['from'];
   $_SESSION['selected_to'] = $_POST['to'];
-
+  $_SESSION['num_of_adult'] = $_POST['adult'];
+  $_SESSION['num_of_children'] = $_POST['children'];
+  $_SESSION['departing_date'] = $_POST['departingDate'];
+  $_SESSION['return_date'] = $_POST['returnDate'];
 
   header('Location: selectflights.php');
   exit();
@@ -112,12 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group dates">
               <div style="display: flex; flex-direction: column;">
                 <label for="departingDate">Departing</label>
-                <input type="date" id="departingDate" placeholder="Departing" style="width: 150px;" />
+                <input type="date" id="departingDate" name="departingDate"placeholder="Departing" style="width: 150px;" />
               </div>
 
               <div style="display: flex; flex-direction: column;">
                 <label for="returnDate" id="returnLabel">Return</label>
-                <input type="date" id="returnDate" placeholder="Return" style="width: 150px;" />
+                <input type="date" id="returnDate" name="returnDate" placeholder="Return" style="width: 150px;" /> 
               </div>
             </div>
 
