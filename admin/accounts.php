@@ -188,7 +188,7 @@
                 <!-- SEARCH BAR -->
                 <br>
                 <div class="mb-3 d-flex">
-                    <input type="text" id="accountsearchInput" class="form-control me-2" placeholder="Search by Code/Name/Location">
+                    <input type="text" id="accountsearchInput" class="form-control me-2" placeholder="Search by ID/Username/Role">
                 </div>
 
                 <!-- TABLE --> 

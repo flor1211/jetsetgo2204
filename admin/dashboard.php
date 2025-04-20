@@ -58,8 +58,8 @@
 
         <?php include 'includes/navbar.php'; ?>
         <!-- Title Header Content -->
-        <div style="margin-left: 10px; padding: 20px;">
-            <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
+        <div style="margin-left: 10px; padding-left: 20px; padding-right: 20px; padding-top: 30px; display: flex; align-items:center; justify-content: center">
+            <h2 >Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
         </div>
 
         <!-- Home Content -->
@@ -69,8 +69,8 @@
                 <!-- boxes  -->
                 <div class="box">
                     <div class="left-side">
-                    <div class="box-topic">Booking List</div>
-                    <div class="number">40, 876</div>
+                    <div class="box-topic">Bookings</div>
+                    <div class="number">48</div>
                     <div class="indicator">
                         <i class="bi bi-arrow-up"></i>
                         <span class="text">Up from yesterday</span>
@@ -151,7 +151,7 @@
                     </ul>
                     </div>
                     <div class="button">
-                        <a href="#">See All</a>
+                        <a href="bookings.php">See All</a>
 
                     </div>
                 </div>

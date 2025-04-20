@@ -129,12 +129,12 @@
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-            <h1>Airplanes</h1>
+            <h2>Airplanes</h2>
 
             <section class="p-3">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between align-items-center">
-                        <h2 class="m-0">Plane Details</h2>
+                        <h3 class="m-0">Plane Details</h3>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planeForm">
                             <i class="bi bi-airplane-engines"></i> New Plane
                         </button>

@@ -114,6 +114,22 @@ class Crud {
         return $stmt->execute([':a_id' => $airport_id]);
     }
 
+    public function searchAirportswithLimit($search, $limit, $offset) {
+        $stmt = $this->conn->prepare("CALL getAirportsPagedSearch(:search, :limit, :offset)");
+        $stmt->bindParam(':search', $search);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    public function countAirports($search) {
+        $stmt = $this->conn->prepare("CALL getAirportsCount(:search)");
+        $stmt->execute([':search' => $search]);
+        $result = $stmt->fetch();
+        return $result['TotalAirports'];
+    }
+
 // Accounts page
 
     public function getAllAccounts() {

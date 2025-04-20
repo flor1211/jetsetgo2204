@@ -54,7 +54,7 @@
 </div> -->
 
 
-<div class="sidebar">
+<div class="sidebar" style="  display: flex; flex-direction: column;  ">
   <div class="logo-details">
           <i class="bi bi-airplane-engines"></i>
           <span class="logo-name">JetSetGo</span>
@@ -114,5 +114,10 @@
         <span class="description">Account Management</span>
       </a>
   </nav>
+
+  <div class="sidebar-footer text-center mt-auto p-3" style="font-size: 15px; color: white; margin-bottom: 20px;">
+    <b>JetSetGo 2025</b><br>
+    All Rights Reserved
+  </div>
 
 </div>

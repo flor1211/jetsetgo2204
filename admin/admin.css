@@ -83,6 +83,10 @@ body {
   width: 60px;
 }
 
+.sidebar.active .sidebar-footer {
+  display: none;
+}
+
 .sidebar.active .description {
   display: none;
 }
@@ -467,6 +471,10 @@ nav .search-box .bi-search {
     width: 60px;
   }
 
+  .sidebar-footer {
+    display: none;
+  }
+
   .sidebar .description {
     display: none;
   }
@@ -519,6 +527,10 @@ nav .search-box .bi-search {
   .home-section .summary-boxes .recent-flight {
     margin-left: 0;
   }
+
+  .sidebar-footer {
+    display: none;
+  }
 }
 
 @media (max-width: 660px) {
@@ -531,6 +543,10 @@ nav .search-box .bi-search {
   .home-section .nav-container .profile-details {
     min-width: 50px;
     height: 50px;
+  }
+
+  .sidebar-footer {
+    display: none;
   }
 
   /* .home-content .overview-boxes .box {

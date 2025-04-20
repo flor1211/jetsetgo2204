@@ -46,7 +46,7 @@
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-            <h1>Bookings</h1>
+            <h2>Bookings</h2>
         </div>
 
 

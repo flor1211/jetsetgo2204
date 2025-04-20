@@ -6,51 +6,34 @@
     $user = new Crud();
     $editingUser = null;
 
-    $search = $_GET['search'] ?? '';
+    $search = $_GET['airportsearchInput'] ?? '';
+
+    $limit = (int)($_GET['airportViewLimit'] ?? 5);
+
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    // $limit = 5;
+    $offset = ($page - 1) * $limit;
+
+    $totalAirports = $user->countAirports($search);
+
+    $totalPages = ceil($totalAirports / $limit);
 
     if (!empty($search)) {
-        $allAirports = $user->searchAirport($search);
+        // $allAccounts = $user->searchAccount($search);
+        $allAirports = $user->searchAirportswithLimit($search, $limit, $offset);
     } else {
-        $allAirports = $user->getAllAirports();
+        // $allAccounts = $user->getAllAccounts();
+        $allAirports = $user->searchAirportswithLimit($search, $limit, $offset);
     }
 
-    // AJAX request: FOR AUTOMATIC SEARCH
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-            if (empty($allAirports)) {
-                echo '<tr><td colspan="5" class="text-center text-muted">- No Data Available –</td></tr>';
-            } else {
-                foreach ($allAirports as $u): ?>
-                    <tr>
-                        <td><?= $u['airport_id'] ?></td>
-                        <td><?= htmlspecialchars($u['airport_code']) ?></td>
-                        <td><?= htmlspecialchars($u['airport_name']) ?></td>
-                        <td><?= htmlspecialchars($u['airport_location']) ?></td>
-                        <td>
-                            <!-- View -->
-                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#readData<?= $u['airport_id'] ?>"><i class="bi bi-eye"></i> View</button>
-
-                            <!-- Edit -->
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editData<?= $u['airport_id'] ?>"><i class="bi bi-pencil-square"></i> Edit</button>
-
-                            <!-- Delete -->
-                            <form method="post" class="d-inline" onsubmit="return confirm('Delete this airport?');">
-                                <input type="hidden" name="airportid" value="<?= $u['airport_id'] ?>">
-                                <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach;
-            }
-            exit;
-        }
-
       // Redirect to login if not logged in
-      if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
           header("Location: ../login.php");
           exit;
-      }
+    }
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        // SweetAlert
+    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         if(isset($_POST['add'])) {
             $user->addAirport($_POST['airportcode'], $_POST['airportname'], $_POST['airportlocation']);
@@ -72,7 +55,55 @@
             exit;
 
         }
-      }
+    }
+
+    // AJAX request: FOR PAGINATION and AUTOMATIC SEARCH
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        ob_start();
+    
+        if (empty($allAirports)) {
+            echo '<tr><td colspan="5" class="text-center text-muted">- No Data Available –</td></tr>';
+        } else {
+            foreach ($allAirports as $a): ?>
+                <tr>
+                    <td><?= $a['airport_id'] ?></td>
+                    <td><?= htmlspecialchars($a['airport_code']) ?></td>
+                    <td><?= htmlspecialchars($a['airport_name']) ?></td>
+                    <td><?= htmlspecialchars($a['airport_location']) ?></td>
+                    <td>
+                        <!-- VIEW -->
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#readData<?= $a['airport_id']?>"><i class="bi bi-eye"></i> View</button>
+                        <!-- EDIT -->  
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editData<?= $a['airport_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
+                        <!-- Delete -->
+                        <form method="post" class="d-inline" onsubmit="return confirm('Delete this airport?');">
+                            <input type="hidden" name="airportid" value="<?= $a['airport_id'] ?>">
+                            <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach;
+        }
+    
+        $rows = ob_get_clean();
+    
+        ob_start(); ?>
+        <ul class="pagination">
+            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                <li class="page-item <?= $p == $page ? 'active' : '' ?>">
+                    <a class="page-link ajax-page" href="#" data-page="<?= $p ?>"><?= $p ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+        <?php
+        $pagination = ob_get_clean();
+    
+        echo json_encode([
+            'rows' => $rows,
+            'pagination' => $pagination
+        ]);
+        exit;
+    }
 
 ?>
 
@@ -116,7 +147,7 @@
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-            <h2>Airports</h2>
+            <h2>Airport Management</h2>
 
             <section class="p-3">
                 <div class="row">
@@ -259,6 +290,21 @@
                     </div>
                 </div>
 
+                <nav style="background-color:f5f5f5; display: flex; align-items: center; justify-content: end; padding: 10px;">
+                    <div style="display: flex; align-items: center; margin-right: 20px;">
+                        <label style="margin-right: 10px;">Show:</label>
+                        <input type="number" limit="1" id="airportViewLimit" style="width: 40px; text-align: center;">
+                    </div>
+
+                    <ul class="pagination" id="airport-pagination" style="margin: 0;">
+                        <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                            <li class="page-item <?= $p == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="?airportsearchInput=<?= urlencode($search) ?>&page=<?= $p ?>"><?= $p ?></a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
+
             </section>
         </div>
 
@@ -345,21 +391,48 @@
         </script>
     <?php endif; ?>
 
-    <!-- Script for AJAX search--> 
-    <script>
-            document.getElementById('airportsearchInput').addEventListener('input', function () {
-                const searchValue = this.value;
+    <!-- Script for AJAX search and pagination--> 
 
-                fetch('airports.php?search=' + encodeURIComponent(searchValue), {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('data').innerHTML = data;
+    <script>
+        function loadData(page = 1) {
+            const searchValue = document.getElementById('airportsearchInput').value;
+            const viewLimit = document.getElementById('airportViewLimit').value || 5;
+
+            fetch('airports.php?airportsearchInput=' + encodeURIComponent(searchValue) + '&page=' + page + '&airportViewLimit=' + viewLimit, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('data').innerHTML = data.rows;
+                document.getElementById('airport-pagination').innerHTML = data.pagination;
+
+                // Bind new page buttons
+                document.querySelectorAll('.ajax-page').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const newPage = this.dataset.page;
+                        loadData(newPage);
+                    });
                 });
             });
+        }
+
+
+        // Live search
+        document.getElementById('airportsearchInput').addEventListener('input', function () {
+            loadData(1);
+        });
+
+        document.getElementById('airportViewLimit').addEventListener('input', () => {
+            loadData(1); // Reset to page 1 when limit changes
+        });
+
+        // Initial pagination load (optional on page load)
+        document.addEventListener('DOMContentLoaded', function () {
+            loadData(<?= $page ?>);
+        });
     </script>
 
     
