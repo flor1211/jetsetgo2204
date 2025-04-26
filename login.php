@@ -1,36 +1,6 @@
 <?php
-
 session_start();
-
-
-$valid_username = "admin";
-$valid_password = "admin";
-
-
 $error_message = "";
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-   
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    
-    if ($username === $valid_username && $password === $valid_password) {
-        
-        
-        $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $username;
-
-      
-        header("Location: dashboard.php");
-        exit;
-    } else {
-       
-        $error_message = "Invalid username or password.";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -133,12 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .forgot-password a {
       font-size: 13px;
-      text-decoration: none;
-      color: black;
-    }
-
-    .forgot-password a:hover {
       text-decoration: underline;
+      color: black;
     }
 
     .login-box button {
@@ -149,8 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       font-weight: bold;
       border: none;
       border-radius: 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      cursor: not-allowed;
+      opacity: 0.6;
       font-size: 14px; 
     }
 
@@ -165,12 +131,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .login-box p a {
-      text-decoration: none;
-      color: black;
-    }
-
-    .login-box p a:hover {
       text-decoration: underline;
+      color: black;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -195,20 +158,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="login-box">
     <h1>JETSETGO</h1>
     <h2>ADMINISTRATOR LOGIN</h2>
-    
-    <?php if ($error_message): ?>
+
+    <?php if (!empty($error_message)) : ?>
       <p style="color: red;"><?php echo $error_message; ?></p>
     <?php endif; ?>
 
-    <form method="POST" action="">
+    <form method="POST" action="#">
       <input type="text" name="username" placeholder="Enter Username" required>
       <input type="password" name="password" placeholder="Enter Password" required>
       <div class="forgot-password">
         <a href="#">Forgot password?</a>
       </div>
-      <button type="submit">LOG IN</button>
+      <button type="submit" disabled>LOG IN</button>
     </form>
-    <p>Don't have an account yet? <a href="#">Sign Up</a></p>
+    <p>Don't have an account? <a href="#">Sign Up</a></p>
   </div>
 </div>
 
