@@ -34,7 +34,7 @@
             };
         </script>
 
-        <title>JetSetGo | Dashboard</title>
+        <title>JetSetGo | User Profile</title>
 
     </head>
 <body>
@@ -46,7 +46,7 @@
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-            <h2>Bookings</h2>
+            <h2>User Profile</h2>
         </div>
 
 

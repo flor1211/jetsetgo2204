@@ -1,20 +1,100 @@
 <?php
   session_start();
 
+  require_once '../database/admin-crud.php';
+
+  require_once '../database/booking-crud.php';
+
   if (!isset($_SESSION['addons_completed'])) {
     header('Location: addons.php');
     exit();
   }
 
+  $selectedDepFlight = $_SESSION['selected_depflight'] ?? null;
+  $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
+  $numberofPassenger = $_SESSION['numberofpassenger'];
+
+  $flightType = $_SESSION['trip_type'];
+
+  $guestDetails = $_SESSION['guest_details'] ?? [];
+  
+  $user = new Crud();
+  $bookingUser = new BookingCrud();
+
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo "<script>alert('Form submitted successfully!');</script>"; // optional
-    echo "<h3>Payment Details</h3><pre>";
-    print_r($_POST); // ✅ this is the actual form data
-    echo "</pre>";
-    $_SESSION['payments_completed'] = true;
-    // header('Location: confirmation.php'); // ❌ disable this temporarily for debugging
-    exit();
-}
+
+
+
+    if (isset($_POST['confirmbooking'])){
+
+      $depFlightInfo = $bookingUser->getSelectedFlight($selectedDepFlight);
+      $retFlightInfo = $bookingUser->getSelectedFlight($selectedRetFlight);
+      $depFlight = $depFlightInfo[0];
+      $retFlight = $retFlightInfo[0];
+
+      if ($flightType == 'roundtrip') {
+
+        //condition for DEPARTING ONLY
+        // echo "<h3>Departure Flight Info:</h3><pre>";
+        // print_r($depFlight);
+        // echo "</pre>";
+
+        $DEPbookingID = $bookingUser->newBooking($depFlight['flight_id'], $depFlight['date'], $depFlight['departure_time'], $depFlight['departure_code'], $depFlight['departure_location'], $depFlight['arrival_time'], $depFlight['arrival_code'], $depFlight['arrival_location'], $depFlight['plane_code'], $depFlight['plane_photo'], $depFlight['price']);
+        $fullDate = $guest['year'] . "-" . $guest['month'] . "-" . $guest['day'];
+
+        foreach ($guestDetails as $guest) {
+            // echo "<h3>Guest Details</h3><pre>";
+            // print_r($guest);
+            // echo "</pre>";
+            $bookingUser->addGuestDetails($DEPbookingID, $guest['title'], $guest['first_name'], $guest['last_name'], $fullDate,  $guest['contact'], $guest['nationality'], $guest['email']);
+        }
+
+        //condition for RETURNING ONLY
+        // echo "<h3>Return Flight Info:</h3><pre>";
+        // print_r($retFlight);
+        // echo "</pre>";
+
+        $RETbookingID = $bookingUser->newBooking($retFlight['flight_id'], $retFlight['date'], $retFlight['departure_time'], $retFlight['departure_code'], $retFlight['departure_location'], $retFlight['arrival_time'], $retFlight['arrival_code'], $retFlight['arrival_location'], $retFlight['plane_code'], $retFlight['plane_photo'], $retFlight['price']);
+        $fullDate = $guest['year'] . "-" . $guest['month'] . "-" . $guest['day'];
+
+
+        foreach ($guestDetails as $guest) {
+            // echo "<h3>Guest Details</h3><pre>";
+            // print_r($guest);
+            // echo "</pre>";
+
+          $bookingUser->addGuestDetails($RETbookingID, $guest['title'], $guest['first_name'], $guest['last_name'], $fullDate, $guest['contact'], $guest['nationality'], $guest['email']);
+        }
+      
+
+      } else if ($flightType == 'onewaytrip') {
+
+        $DEPbookingID = $bookingUser->newBooking($depFlight['flight_id'], $depFlight['date'], $depFlight['departure_time'], $depFlight['departure_code'], $depFlight['departure_location'], $depFlight['arrival_time'], $depFlight['arrival_code'], $depFlight['arrival_location'], $depFlight['plane_code'], $depFlight['plane_photo'], $depFlight['price']);
+      
+        foreach ($guestDetails as $guest) {
+            // echo "<h3>Guest Details</h3><pre>";
+            // print_r($guest);
+            // echo "</pre>";
+            $bookingUser->addGuestDetails($DEPbookingID, $guest['title'], $guest['first_name'], $guest['last_name'], $guest['year'].$guest['month'].$guest['day'], $guest['contact'], $guest['nationality'], $guest['email']);
+        }
+
+      }
+      
+      echo "<script>alert('Form submitted successfully!');</script>"; 
+      echo "<h3>Payment Details</h3><pre>";
+      print_r($_POST);
+      echo "</pre>";
+
+      $_SESSION['payments_completed'] = true;
+      header('Location: confirmation.php');
+
+      exit();
+     
+    }
+
+  }
+
 ?>
 
 <!DOCTYPE html>

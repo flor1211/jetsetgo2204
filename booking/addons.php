@@ -1,5 +1,4 @@
 <?php
-
   session_start();
 
   if (!isset($_SESSION['guestdetails_completed'])) {
@@ -7,13 +6,13 @@
     exit();
   }
 
+
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $_SESSION['addons_completed'] = true;
       header('Location: payments.php');
       exit();
   }
-
-  
 ?>
 
 <!DOCTYPE html>
@@ -31,54 +30,48 @@
     <title>JetSetGo</title>
 
     <link rel="stylesheet" href="booking-style.css">
-
   </head>
-    <body style="margin: 0;">
-         <!-- NavBar Container -->
-         <div id="navbar-container">
-            <script>
-                fetch("topbar.php")
+  <body style="margin: 0;">
+      <!-- NavBar Container -->
+      <div id="navbar-container">
+          <script>
+              fetch("topbar.php")
+                .then(res => res.text())
+                .then(data => {
+                  document.getElementById("navbar-container").innerHTML = data;
+                });
+          </script>
+      </div>
+
+      <!-- Main Content -->
+      <div style="padding: 20px;">
+          <h1>JeSetGo</h1>
+      </div>
+
+      <!-- Steps Container -->
+      <div id="steps-container">
+          <script>
+              const currentPage = location.pathname.split("/").pop();
+              fetch("stepsbar.php?page=" + currentPage)
                   .then(res => res.text())
                   .then(data => {
-                    document.getElementById("navbar-container").innerHTML = data;
+                      document.getElementById("steps-container").innerHTML = data;
                   });
-              </script>
-        </div>
+          </script>
+      </div>
 
 
-        <!-- Main Content -->
-        <div style="padding: 20px;">
-            <h1>JeSetGo</h1>
-    
-
-        </div>
-
-        <!-- Steps Container -->
-        <div id="steps-container">
-            <script>
-                const currentPage = location.pathname.split("/").pop();
-                fetch("stepsbar.php?page=" + currentPage)
-                    .then(res => res.text())
-                    .then(data => {
-                        document.getElementById("steps-container").innerHTML = data;
-                    });
-            </script>
-        </div>
+      <!-- Main Form -->
+      <form method="POST" action="">
 
 
-        <!-- Main Container -->
-        <form method="POST" action="">
+          <button type="submit" class="btn btn-primary">
+              Next
+          </button>
+      </form>
 
-            <button type="submit" class="btn btn-primary">
-                Next
-            </button>
-        </form>
-
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script src="booking.js"></script>
-
+      <!-- Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <script src="booking.js"></script>
   </body>
 </html>

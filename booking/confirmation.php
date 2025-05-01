@@ -46,6 +46,7 @@
         <!-- Main Content -->
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
+
         </div>
 
         <!-- Steps Container -->
@@ -75,6 +76,10 @@
         </div>
 
 
+            <a href="../homepage.php" class="btn btn-primary">
+              <i class="bi bi-airplane"></i> Back to Home
+            </a>
+        </div>
 
 
     <!-- Bootstrap Bundle with Popper -->
