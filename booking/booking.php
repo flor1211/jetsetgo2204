@@ -8,14 +8,23 @@ $airports = $adminCrud->getAllAirports();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-  $_SESSION['bookingpage_complated'] = true;
+  $_SESSION['bookingpage_completed'] = true;
 
   $_SESSION['selected_from'] = $_POST['from'];
   $_SESSION['selected_to'] = $_POST['to'];
   $_SESSION['num_of_adult'] = $_POST['adult'];
   $_SESSION['num_of_children'] = $_POST['children'];
   $_SESSION['departing_date'] = $_POST['departingDate'];
-  $_SESSION['return_date'] = $_POST['returnDate'];
+  $_SESSION['returning_date'] = $_POST['returnDate'];
+
+
+  if (!empty($_POST['returnDate'])) {
+    $_SESSION['trip_type'] = 'roundtrip';
+  } else {
+      $_SESSION['trip_type'] = 'onewaytrip';
+  }
+
+  
 
   header('Location: selectflights.php');
   exit();
@@ -75,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <option value="" selected hidden>Select Location</option>
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
-                    <?= htmlspecialchars($airport['airport_code']) ?>
+                    <?= htmlspecialchars($airport['airport_location']) ?>
                   </option>
                 <?php endforeach; ?>
               </select>
@@ -85,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <option value="" selected hidden>Select Location</option>
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
-                    <?= htmlspecialchars($airport['airport_code']) ?>
+                    <?= htmlspecialchars($airport['airport_location']) ?>
                   </option>
                 <?php endforeach; ?>
               </select>
@@ -116,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group dates">
               <div style="display: flex; flex-direction: column;">
                 <label for="departingDate">Departing</label>
-                <input type="date" id="departingDate" name="departingDate"placeholder="Departing" style="width: 150px;" />
+                <input type="date" id="departingDate" name="departingDate" placeholder="Departing" style="width: 150px;" />
               </div>
 
               <div style="display: flex; flex-direction: column;">
@@ -130,21 +139,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               const oneWayTrip = document.getElementById('oneWayTrip');
               const returnDate = document.getElementById('returnDate');
               const returnLabel = document.getElementById('returnLabel');
+              const departingDate = document.getElementById('departingDate'); // <-- you missed this
 
               function toggleReturnDate() {
-                if (oneWayTrip.checked) {
+                if (oneWayTrip && oneWayTrip.checked) {
                   returnDate.style.display = 'none';
                   returnLabel.style.display = 'none';
+                  returnDate.required = false;
+                  departingDate.required = true;
                 } else {
                   returnDate.style.display = 'block';
                   returnLabel.style.display = 'block';
+                  returnDate.required = true;
+                  departingDate.required = true;
                 }
               }
 
               toggleReturnDate();
-              roundTrip.addEventListener('change', toggleReturnDate);
-              oneWayTrip.addEventListener('change', toggleReturnDate);
+              if (roundTrip) roundTrip.addEventListener('change', toggleReturnDate);
+              if (oneWayTrip) oneWayTrip.addEventListener('change', toggleReturnDate);
             </script>
+
           </div>
 
           <div class="form-submit">
@@ -164,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-  <script src="booking.js"></script>
+  <!-- <script src="booking.js"></script> -->
 
 </body>
 

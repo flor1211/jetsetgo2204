@@ -252,8 +252,8 @@ class Crud {
         return $result;
     }
 
-    public function addFlight($departure_location, $departure_time, $arrival_location, $arrival_time, $date, $plane_code, $seats_available, $price, $saleStatus) {
-        $stmt = $this->conn->prepare("CALL addFlight(:dep_loc, :dep_time, :arr_loc, :arr_time, :flightdate, :planecode, :numofseats, :flight_price, :saleStatus)");
+    public function addFlight($departure_code, $departure_name, $departure_location, $departure_time, $arrival_code, $arrival_name, $arrival_location, $arrival_time, $date, $plane_code, $plane_photo, $seats_available, $price, $saleStatus) {
+        $stmt = $this->conn->prepare("CALL addFlight(:dep_loc, :dep_time, :arr_loc, :arr_time, :flightdate, :planecode, :numofseats, :flight_price, :saleStatus, :dep_code, :dep_name, :arr_code, :arr_name, :planephoto)");
         $stmt->execute([':dep_loc' => $departure_location, 
                         ':dep_time' => $departure_time, 
                         ':arr_loc' => $arrival_location, 
@@ -262,11 +262,16 @@ class Crud {
                         ':planecode' => $plane_code, 
                         ':numofseats' => $seats_available, 
                         ':flight_price' => $price,
-                        ':saleStatus' => $saleStatus]);
+                        ':saleStatus' => $saleStatus,
+                        ':dep_code' => $departure_code,
+                        ':dep_name' => $departure_name,
+                        ':arr_code' => $arrival_code,
+                        ':arr_name' => $arrival_name,
+                        ':planephoto' => $plane_photo]);
     }
 
-    public function updateFlight($id, $departure_location, $departure_time, $arrival_location,$arrival_time, $date, $plane_code, $seats_available, $price, $saleStatus) {
-        $stmt = $this->conn->prepare("CALL updateFlight(:flightid, :dep_loc, :dep_time, :arr_loc, :arr_time, :flightdate, :planecode, :numseats, :price, :saleStatus)");
+    public function updateFlight($id, $departure_code, $departure_name, $departure_location, $departure_time, $arrival_code, $arrival_name, $arrival_location, $arrival_time, $date, $plane_code, $plane_photo, $seats_available, $price, $saleStatus) {
+        $stmt = $this->conn->prepare("CALL updateFlight(:flightid, :dep_loc, :dep_time, :arr_loc, :arr_time, :flightdate, :planecode, :numseats, :price, :saleStatus, :dep_code, :dep_name, :arr_code, :arr_name, :planephoto)");
         $stmt->execute(['flightid' => $id,
                         ':dep_loc' => $departure_location, 
                         ':dep_time' => $departure_time, 
@@ -276,7 +281,12 @@ class Crud {
                         ':planecode' => $plane_code, 
                         ':numseats' => $seats_available, 
                         ':price' => $price,
-                        ':saleStatus' => $saleStatus]);
+                        ':saleStatus' => $saleStatus,
+                        ':dep_code' => $departure_code,
+                        ':dep_name' => $departure_name,
+                        ':arr_code' => $arrival_code,
+                        ':arr_name' => $arrival_name,
+                        ':planephoto' => $plane_photo]);
     }
 
     public function deleteFlight($id) {

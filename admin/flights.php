@@ -2,6 +2,7 @@
 
     session_start();
     require_once '../database/admin-crud.php';
+    require_once '../database/booking-crud.php';
 
       // Redirect to login if not logged in
       if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -10,6 +11,7 @@
       }
 
     $user = new Crud();
+    $bookingUser = new BookingCrud();
     $editingUser = null;
 
     $allFlights = $user->getAllFlights();
@@ -22,7 +24,30 @@
 
         $saleStatus = isset($_POST['new_on_Sale']) ? 1 : 0;
 
-        $user->addFlight($_POST['new_dep_loc'], $_POST['new_dep_time'], $_POST['new_arr_loc'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_planeCode'], $_POST['new_num_seats'], $_POST['new_price'], $saleStatus);
+        $DEPairportInfo = $user->searchAirport($_POST['new_dep_loc']);
+        $ARRairportInfo = $user->searchAirport($_POST['new_arr_loc']);
+        $planeInfo = $bookingUser->searchPlane($_POST['new_planeCode']);
+
+        
+
+        // echo "<h3>Departure Airport Info:</h3><pre>";
+        // var_dump($DEPairportInfo);
+        // echo "</pre>";
+
+        // echo "<h3>Arrival Airport Info:</h3><pre>";
+        // var_dump($ARRairportInfo);
+        // echo "</pre>";
+
+        // echo "<h3>Plane Info:</h3><pre>";
+        // print_r($_POST['new_planeCode']);
+        // var_dump($planeInfo);
+        // echo "</pre>";
+
+        $depFlight = $DEPairportInfo[0];
+        $arrFlight = $ARRairportInfo[0];
+        $plane = $planeInfo[0];
+
+        $user->addFlight($depFlight['airport_code'], $depFlight['airport_name'], $depFlight['airport_location'], $_POST['new_dep_time'], $arrFlight['airport_code'], $arrFlight['airport_name'], $arrFlight['airport_location'], $_POST['new_arr_time'], $_POST['new_date'], $_POST['new_planeCode'], $plane['plane_photo'], $_POST['new_num_seats'], $_POST['new_price'], $saleStatus);
         header("Location: flights.php?success=1");
         exit; 
 
@@ -32,8 +57,16 @@
         $flightID = $_POST['flightId'];
         $saleStatus = isset($_POST['on_Sale']) ? 1 : 0;
 
+        $DEPairportInfo = $user->searchAirport($_POST['dep_loc']);
+        $ARRairportInfo = $user->searchAirport($_POST['arr_loc']);
+        $planeInfo = $bookingUser->searchPlane($_POST['edit_planeCode']);
 
-        $user->updateFlight($flightID, $_POST['dep_loc'], $_POST['dep_time'], $_POST['arr_loc'], $_POST['arr_time'], $_POST['date'], $_POST['edit_planeCode'], $_POST['edit_num_seats'], $_POST['price'], $saleStatus);
+        $depFlight = $DEPairportInfo[0];
+        $arrFlight = $ARRairportInfo[0];
+        $plane = $planeInfo[0];
+
+
+        $user->updateFlight($flightID, $depFlight['airport_code'], $depFlight['airport_name'], $depFlight['airport_location'], $_POST['dep_time'], $arrFlight['airport_code'], $arrFlight['airport_name'], $arrFlight['airport_location'], $_POST['arr_time'], $_POST['date'], $_POST['edit_planeCode'], $plane['plane_photo'], $_POST['edit_num_seats'], $_POST['price'], $saleStatus);
         header("Location: flights.php?success=1");
         exit;
         
@@ -153,18 +186,18 @@
                                 <tr>
                                     <td><?= $u['flight_id'] ?></td>
                                     <td><?= htmlspecialchars($u['date']) ?></td>
-                                    <td><?= htmlspecialchars($u['departure_location'])?> - <?= htmlspecialchars($u['arrival_location']) ?></td>
+                                    <td><?= htmlspecialchars($u['departure_code'])?> - <?= htmlspecialchars($u['arrival_code']) ?></td>
                                     <td><?= htmlspecialchars($u['plane_code']) ?></td>
                                     <td><?= htmlspecialchars($u['numofseats']) ?></td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td><?= $u['onSale'] ? 'On Sale' : 'Not on Sale' ?></td>
                                     <td>
-                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['flight_id']?>"><i class="bi bi-eye"> View </i></button>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['flight_id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewFlight<?= $u['flight_id']?>"><i class="bi bi-eye"> View </i></button>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editFlight<?= $u['flight_id']?>"><i class="bi bi-pencil-square"> Edit </i></button>
                                     <form method="post" class="d-inline" onsubmit="return confirm('Delete this flight?');">
                                         <input type="hidden" name="deleteflightId" value="<?= $u['flight_id'] ?>">
-                                        <button type="submit" name="delete" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                        <button type="submit" name="delete" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button>
                                     </form>
                                     </td>
                                 </tr>
@@ -187,11 +220,11 @@
                                                     <div class="col-md-6">
 
                                                         <label for="departureLocation">DEPARTURE LOCATION</label>
-                                                        <input type="text" class="form-control" id="dep_loc" name="" value="<?= htmlspecialchars($u['departure_location']) ?>" disabled>
+                                                        <input type="text" class="form-control" id="dep_loc" name="" value="<?= htmlspecialchars($u['departure_code']) ?> - <?= htmlspecialchars($u['departure_location']) ?>" disabled>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                                                        <input type="text" class="form-control" id="arr_loc" name="" value="<?= htmlspecialchars($u['arrival_location']) ?>" disabled>
+                                                        <input type="text" class="form-control" id="arr_loc" name="" value="<?= htmlspecialchars($u['arrival_code']) ?> - <?= htmlspecialchars($u['arrival_location']) ?>" disabled>
                                                     </div>
                                                     </div>
 
@@ -280,11 +313,21 @@
                                                         <div class="col-md-6">
 
                                                             <label for="departureLocation">DEPARTURE LOCATION</label>
-                                                            <input type="text" class="form-control" id="dep_loc" name="dep_loc" value="<?= htmlspecialchars($u['departure_location']) ?>" >
+                                                            <select class="form-control" id="dep_loc" name="dep_loc" required>
+                                                                <option value="<?= htmlspecialchars($u['departure_code']) ?>" selected disabled hidden><?= htmlspecialchars($u['departure_code']) ?> - <?= htmlspecialchars($u['departure_location']) ?> </option>
+                                                                <?php foreach ($allAirports as $r): ?>
+                                                                    <option value="<?= $r['airport_code']?>"><?= $r['airport_code']?> - <?= $r['airport_location']?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="arrivalLocation">ARRIVAL LOCATION</label>
-                                                            <input type="text" class="form-control" id="arr_loc" name="arr_loc" value="<?= htmlspecialchars($u['arrival_location']) ?>" >
+                                                            <select class="form-control" id="arr_loc" name="arr_loc" required>
+                                                                <option value="<?= htmlspecialchars($u['arrival_location']) ?>" selected disabled hidden><?= htmlspecialchars($u['arrival_code']) ?> - <?= htmlspecialchars($u['arrival_location']) ?></option>
+                                                                <?php foreach ($allAirports as $r): ?>
+                                                                    <option value="<?= $r['airport_code']?>"><?= $r['airport_code']?> - <?= $r['airport_location']?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
                                                         </div>
                                                         </div>
 
@@ -346,7 +389,7 @@
 
                                                             <div class="mb-3">
                                                                 <label for="edit_num_seats">NUMBER OF SEATS</label>
-                                                                <input type="text" class="form-control" id="edit_num_seats" name="edit_num_seats" value="" readonly>
+                                                                <input type="text" class="form-control" id="edit_num_seats" name="edit_num_seats" value="<?= htmlspecialchars($u['numofseats']) ?>" readonly>
                                                             </div>
 
                                                             <div class="mb-3">
@@ -420,6 +463,10 @@
                                 <option value="<?= $u['airport_code']?>"><?= $u['airport_code']?> - <?= $u['airport_location']?></option>
                             <?php endforeach; ?>
                         </select>
+
+                        <input type="text" class="form-control" id="new_arr_code" name="new_arr_code" hidden>
+                        <input type="text" class="form-control" id="new_arr_name" name="new_arr_name" hidden>
+
                     </div>
                   </div>
 
