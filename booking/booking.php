@@ -47,7 +47,320 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <title>JetSetGo</title>
 
-  <link rel="stylesheet" href="bookingpage.css">
+  <!-- <link rel="stylesheet" href="bookingpage.css"> -->
+
+  <style>
+    .background-image {
+      background-image: url('assets/Airport.jpg');
+      background-size: cover;
+      background-position: center center;
+      height: 325px;
+      max-width: 100%;
+      
+    }
+
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;   
+      align-items: center;       
+      height: 0vh;            
+      margin-top: 0px;  
+      width: 100%;          
+      max-width: 1000px;        
+      margin: 0 auto;           
+    }
+
+
+    .form-card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      column-gap: 90px;
+      row-gap: 0px;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      overflow: hidden;
+      height: auto;
+    }
+
+    .form-section {
+      flex: 1;
+      min-width: 400px;
+      justify-content: center;
+    }
+
+
+    .form-section h2 {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .form-sectiontrip {
+      flex: 1;
+      min-width: 380px;
+    }
+
+    .form-section h2 {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .icon {
+      font-size: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      
+    }
+    .form-group.dates {
+      display: flex;
+      gap: 45px; /* spacing between Departing and Return */
+      flex-wrap: wrap; 
+    }
+
+    .child-wrapper {
+      margin-left: 25px;
+      margin-right: 10px;
+    }
+
+    .infant-wrapper {
+      margin-left: 30px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+
+    .trip-options {
+      margin-bottom: 15px;
+    }
+
+    .trip-options label {
+      margin-right: 20px;
+      font-weight: normal;
+    }
+
+    .search-btn {
+      background-color: #0c2d56;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-left: 350px;
+    }
+
+    .search-btn:hover {
+      background-color: #144785;
+    }
+    .icon img {
+      width: 30px; 
+      height: 30px;
+      vertical-align: middle; 
+      margin-right: 5px; 
+    }
+
+    @media (min-width: 1100px) {
+      .form-section.flight-section {
+        padding-left: 50px; /* left side space of the flight section */
+      }
+      .form-submit {
+        padding-left: 40px; /* srch button space */
+        padding-bottom: 35px;
+      }
+      .form-card {
+        padding-top: 55px; /* space on the top side of the form */
+      }
+    }
+
+    @media (max-width: 1100px) {
+    .form-card {
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+    }
+
+    .flight-section {
+      order: 1;
+    }
+
+    .trip-section {
+      order: 2;
+    }
+
+    .form-submit {
+      order: 3;
+      /* margin-top: 1rem; */
+      display: flex;
+      justify-content: center;
+    }
+    .booking-form {
+      margin-top: 100px;
+      justify-content: center;
+    }
+    .search-btn {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 300px;
+    }
+    }
+
+    @media (max-width: 992px) {
+      .container-fluid {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 1rem;
+      }
+
+      .navbar-brand {
+        margin-left: 10px;
+      }
+
+      .btn {
+        margin-right: 10px;
+      }
+    }
+
+    @media (max-width: 535px) {
+    .booking-form {
+      max-width: 85%;
+      transform: scale(0.8); /* Shrink the whole form */
+      padding: 0.5rem;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .form-card {
+      padding-top: 10px; /* space on the top side of the form */
+    }
+
+    .form-section.flight-section {
+      padding-top: 20px;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form button {
+      font-size: 0.7rem; /* Smaller font */
+      padding: 4px 6px; /* Less padding */
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .form-section h5 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-submit {
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .booking-form i {
+      font-size: 0.75rem;
+    }
+
+    .booking-form label {
+      font-size: 0.7rem;
+    }
+
+    .booking-form .form-group {
+      margin-bottom: 0.5rem;
+    }
+
+    .trip-options {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    .trip-options label {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    input[type="radio"] {
+      transform: scale(1.2); /* radio button size */
+      margin-right: 8px; /* gap between the button and label */
+    }
+  }
+
+  @media (max-width: 440px) {
+    .booking-form {
+      max-width: 90%;
+      transform: scale(0.65); /* Smaller overall scale */
+      padding: 0.4rem;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form button {
+      font-size: 0.6rem; /* Even smaller text */
+      padding: 2px 4px; /* Less padding for better fit */
+      width: 100%;
+    }
+
+    .form-section h5 {
+      font-size: 0.75rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .booking-form label {
+      font-size: 0.65rem;
+    }
+
+    .form-submit {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    .booking-form i {
+      font-size: 0.7rem;
+    }
+
+    /* shrink logo + navbar items if needed */
+    .navbar-brand {
+      font-size: 0.85rem;
+      margin-left: 10px;
+    }
+
+    .navbar-brand img {
+      width: 35px;
+      height: 35px;
+    }
+
+    .btn {
+      font-size: 0.7rem;
+      margin: 0 10px;
+      padding: 4px 8px;
+    }
+  }
+
+
+  </style>
 
 </head>
 
