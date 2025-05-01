@@ -29,6 +29,10 @@
 
     <link rel="stylesheet" href="booking-style.css">
 
+    <style>
+
+    </style>
+
   </head>
     <body style="margin: 0;">
          <!-- NavBar Container -->
@@ -45,7 +49,7 @@
 
         <!-- Main Content -->
         <div style="padding: 20px;">
-            <h1>JeSetGo</h1>
+            <h1>JetSetGo</h1>
     
 
         </div>
@@ -62,13 +66,21 @@
             </script>
         </div>
 
+        
         <!-- Main Container -->
         <div>
-
-            <a href="../homepage.php" class="btn btn-primary">
-              <i class="bi bi-airplane"></i> Back to Home
-            </a>
+          <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+            <div class="text-center">
+            <img src="assets/check.png" alt="check icon" class="img-fluid mb-4" style="max-width: 150px; padding-top:50px;">
+              <h2 class="fw-bold">Thank you for choosing JetSetGo!</h2>
+              <p class="mb-1">You'll receive a copy of your booking receipt on your email address. Have a safe flight!</p>
+              <a href="../homepage.php" class="btn btn-primary">
+                <i class="bi bi-airplane"></i> Back to Home
+              </a>
+            </div>
+          </div>
         </div>
+
 
 
     <!-- Bootstrap Bundle with Popper -->
