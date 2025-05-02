@@ -29,6 +29,10 @@
 
     <link rel="stylesheet" href="booking-style.css">
 
+    <style>
+
+    </style>
+
   </head>
     <body style="margin: 0; background: white">
          <!-- NavBar Container -->
@@ -47,6 +51,7 @@
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
 
+
         </div>
 
         <!-- Steps Container -->
@@ -61,6 +66,7 @@
             </script>
         </div>
 
+        
         <!-- Main Container -->
         <div>
           <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
@@ -75,11 +81,6 @@
           </div>
         </div>
 
-
-            <a href="../homepage.php" class="btn btn-primary">
-              <i class="bi bi-airplane"></i> Back to Home
-            </a>
-        </div>
 
 
     <!-- Bootstrap Bundle with Popper -->
