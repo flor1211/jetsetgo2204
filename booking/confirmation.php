@@ -34,7 +34,7 @@
     </style>
 
   </head>
-    <body style="margin: 0;">
+    <body style="margin: 0; background: white">
          <!-- NavBar Container -->
          <div id="navbar-container">
             <script>
@@ -50,7 +50,7 @@
         <!-- Main Content -->
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
-    
+
 
         </div>
 
