@@ -25,7 +25,71 @@
 
         <!-- CSS -->
         <link rel="stylesheet" href="admin.css">
+ <style>
+    .user-profile-container {
+  display: flex;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  width: 700px;
+  margin: 0 auto;
+  gap: 30px;
+  align-items: center;
+}
 
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="password"] {
+  width: 250px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+}
+
+.profile-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-upload .upload-placeholder {
+  width: 120px;
+  height: 120px;
+  background-color: #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.profile-upload button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+    </style>
         <!-- for debugging  -->
         <script>
             window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -49,6 +113,31 @@
             <h2>User Profile</h2>
         </div>
 
+        <div class="user-profile-container">
+  <div class="profile-form">
+    <div class="form-group">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="fullname">
+    </div>
+    <div class="form-group">
+      <label for="role">Role</label>
+      <input type="text" id="role" name="role">
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password">
+    </div>
+  </div>
+
+  <div class="profile-upload">
+    <div class="upload-placeholder"></div>
+    <button type="button">UPLOAD</button>
+  </div>
+</div>
 
     </section>
 
