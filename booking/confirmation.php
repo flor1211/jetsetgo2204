@@ -51,7 +51,6 @@
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
 
-
         </div>
 
         <!-- Steps Container -->

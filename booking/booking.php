@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>JetSetGo</title>
 
   <!-- <link rel="stylesheet" href="bookingpage.css"> -->
-
+  
   <style>
     .background-image {
       background-image: url('assets/Airport.jpg');
@@ -389,9 +389,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
     </script>
   </div>
-
-
+  
   <main>
+
     <section class="background-image">
 
     </section>
