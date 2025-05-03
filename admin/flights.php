@@ -28,8 +28,6 @@
         $ARRairportInfo = $user->searchAirport($_POST['new_arr_loc']);
         $planeInfo = $bookingUser->searchPlane($_POST['new_planeCode']);
 
-        
-
         // echo "<h3>Departure Airport Info:</h3><pre>";
         // var_dump($DEPairportInfo);
         // echo "</pre>";
@@ -78,6 +76,20 @@
         $user->deleteFlight($_POST['deleteflightId']);
         header("Location: flights.php?success=1");
         exit;
+      }
+
+      $validation = null;
+
+      if(isset($_POST['search'])) {
+        
+        $from = $_POST['from'] ?? '';
+        $to = $_POST['to'] ?? '';
+        $date = $_POST['date'] ?? '';
+
+        if ((empty($from)) && (!empty($to)) || (!empty($from)) && (empty($to))){
+            $validation = "Incomplete details";
+        }
+
       }
 
       
@@ -151,17 +163,51 @@
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-            <h2>Flights</h2>
+
 
             <section class="p-3">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between align-items-center">
-                        <h3 class="m-0">Flight Details</h3>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewFlight">
+                        <h1 class="m-0">Flights</h1>
+                            <button class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#addNewFlight">
                                 <i class="bi bi-airplane-engines"></i> New Flight
                             </button>
                     </div>
                 </div>
+
+                <!-- SEARCH BAR -->
+                <br>
+                <form action="" method="POST">
+                    <div class="row mb-3">
+                        <div class="col-md-5 mb-3">
+                            <label class="form-label">Location</label>
+                            <div class="input-group">
+                                <select name="from" class="form-select" aria-label="From">
+                                    <option selected disabled>From</option>
+                                    <?php foreach ($allAirports as $u): ?>
+                                        <option value="<?= $u['airport_code']?>"><?= $u['airport_location']?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <span class="input-group-text px-3">-</span>
+                                <select name="to" class="form-select" aria-label="To">
+                                    <option selected disabled>To</option>
+                                    <?php foreach ($allAirports as $u): ?>
+                                        <option value="<?= $u['airport_code']?>"><?= $u['airport_location']?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mb-3">
+                            <label for="flightsearchInputDate" class="form-label">Flight Date</label>
+                            <input type="date" name="date" id="flightsearchInputDate" class="form-control" placeholder="Search by Date">
+                        </div>
+
+                        <div class="col-md-2 mb-3 d-flex align-items-end">
+                            <button type="submit" name="search" class="btn btn-primary w-100">Search</button>
+                        </div>
+                    </div>
+                </form>
 
                 <!-- TABLE -->
                 <div class="table-container">
@@ -684,6 +730,8 @@
             }
         }
     </script>
+
+
 
 
 
