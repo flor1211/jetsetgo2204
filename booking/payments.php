@@ -87,10 +87,6 @@
     }
 
   }
-
-
-  }
-
 ?>
 
 <!DOCTYPE html>
@@ -234,7 +230,7 @@
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your name" style="margin-bottom: 15px;" required>
                 <label for="cardNumber" class="form-label">Card Number</label>
-                <input type="text" class="form-control" id="cardNumber" name="card-number" placeholder="XXXX XXXX XXXX XXXX" style="margin-bottom: 15px;">
+                <input type="number" class="form-control" id="cardNumber" name="card-number" placeholder="XXXX XXXX XXXX XXXX" style="margin-bottom: 15px;">
                 
                 <div class="row">
                   <div class="col-md-6">
@@ -243,14 +239,10 @@
                   </div>
                   <div class="col-md-6">
                     <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3">
+                    <input type="number" class="form-control" id="cvv" name="cvv" maxlength="3">
                   </div>
                 </div>
-
-              
-
-
-                
+               
               </div>
             </div>
           </div>
@@ -270,10 +262,9 @@
                 </div>
 
                 <label for="valid-id" class="form-label">Valid ID Number</label>
-                <input type="text" class="form-control" id="valid-id" name="valid-id" placeholder="Enter your valid ID number" >
+                <input type="number" class="form-control" id="valid-id" name="valid-id" placeholder="Enter your valid ID number" >
               </div>
-              
-
+            
         </div>
       </div>
  
@@ -291,7 +282,7 @@
       <!-- Navigation Buttons -->
       <div class="d-flex justify-content-end align-items-end w-100" style="height: 100px;">
         <a href="addons.php" class="btn btn-secondary me-3" style="width: 150px; height: 40px;">Back</a>
-        <button type="submit" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
+        <button type="submit" name="confirmbooking" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
       </div>
 
     </form>
@@ -302,7 +293,6 @@
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="booking.js"></script>
 
 <script>
   function toggleCollapse(option) {
