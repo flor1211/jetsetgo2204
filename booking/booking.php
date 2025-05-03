@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>JetSetGo</title>
 
   <!-- <link rel="stylesheet" href="bookingpage.css"> -->
-
+  
   <style>
     .background-image {
       background-image: url('assets/Airport.jpg');
@@ -376,7 +376,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </script>
   </div>
 
+</head>
 
+<body style="margin: 0;">
+  <!-- NavBar Container -->
+  <div id="navbar-container">
+    <script>
+      fetch("topbar.php")
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("navbar-container").innerHTML = data;
+        });
+    </script>
+  </div>
+  
   <main>
 
     <section class="background-image">

@@ -77,8 +77,8 @@ foreach ($allPassengers as $passenger) {
         <?php include 'includes/navbar.php'; ?>
 
         <div style="margin-left: 10px; padding: 20px;">
-    <h2>Bookings</h2>
-</div>
+            <h2>Bookings</h2>
+        </div>
 
 <div class="container mt-4">
     <div class="table-container">
