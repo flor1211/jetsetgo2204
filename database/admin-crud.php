@@ -48,6 +48,23 @@ class Crud {
         }
     }
 
+    // Total counts of flights, booking, and planes
+    public function getDashboardCounts() {
+        try {
+            // Prepare the query to call the stored procedure
+            $stmt = $this->conn->prepare("CALL getDashboardCounts()");
+            $stmt->execute();
+
+            // Fetch the results (the counts for bookings, flights, and planes)
+            $counts = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Return the counts
+            return $counts;
+        } catch (PDOException $e) {
+            echo "Error fetching dashboard counts: " . $e->getMessage();
+        }
+    }
+
         // LOGIN WITHOUT HASHED PASSWORD
     public function loginUser($username, $password){
         
