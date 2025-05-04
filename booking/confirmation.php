@@ -29,6 +29,13 @@
 
     <link rel="stylesheet" href="booking-style.css">
 
+<<<<<<< HEAD
+=======
+    <style>
+
+    </style>
+
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
   </head>
     <body style="margin: 0; background: white">
          <!-- NavBar Container -->
@@ -47,6 +54,10 @@
         <div style="padding: 20px;">
             <h1>JetSetGo</h1>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
         </div>
 
         <!-- Steps Container -->
@@ -61,6 +72,10 @@
             </script>
         </div>
 
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
         <!-- Main Container -->
         <div>
           <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
@@ -76,11 +91,14 @@
         </div>
 
 
+<<<<<<< HEAD
             <a href="../homepage.php" class="btn btn-primary">
               <i class="bi bi-airplane"></i> Back to Home
             </a>
         </div>
 
+=======
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -88,4 +106,8 @@
     <script src="booking.js"></script>
 
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4

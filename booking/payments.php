@@ -24,8 +24,11 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
     if (isset($_POST['confirmbooking'])){
 
       $depFlightInfo = $bookingUser->getSelectedFlight($selectedDepFlight);
@@ -80,11 +83,14 @@
         }
 
       }
+<<<<<<< HEAD
       
       echo "<script>alert('Form submitted successfully!');</script>"; 
       echo "<h3>Payment Details</h3><pre>";
       print_r($_POST);
       echo "</pre>";
+=======
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 
       $_SESSION['payments_completed'] = true;
       header('Location: confirmation.php');
@@ -95,6 +101,12 @@
 
   }
 
+<<<<<<< HEAD
+=======
+
+  }
+
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 ?>
 
 <!DOCTYPE html>
@@ -360,6 +372,37 @@ function toggleRequiredFields(container, isRequired) {
 
 </script>
 
+<<<<<<< HEAD
+=======
+        
+      <!-- Displaying Guest Details -->
+      <!-- <div class="container">
+          <h2>Guest Details</h2>
+          </?php if (!empty($guestDetails)): ?>
+              </?php foreach ($guestDetails as $index => $guest): ?>
+                  <div class="guest-details">
+                      <h4>Guest #</?= $index ?></h4>
+                      <p><strong>Title:</strong> </?= htmlspecialchars($guest['title']) ?></p>
+                      <p><strong>First Name:</strong> </?= htmlspecialchars($guest['first_name']) ?></p>
+                      <p><strong>Last Name:</strong> </?= htmlspecialchars($guest['last_name']) ?></p>
+                      <p><strong>Date of Birth:</strong> </?= htmlspecialchars($guest['year']) ?>-</?= htmlspecialchars($guest['month']) ?>-</?= htmlspecialchars($guest['day']) ?></p>
+                      <p><strong>Contact:</strong> </?= htmlspecialchars($guest['contact']) ?></p>
+                      <p><strong>Nationality:</strong> </?= htmlspecialchars($guest['nationality']) ?></p>
+                      <p><strong>Email:</strong> </?= htmlspecialchars($guest['email']) ?></p>
+                  </div>
+                  <hr>
+              </?php endforeach; ?>
+          </?php else: ?>
+              <p>No guest details available.</p>
+          </?php endif; ?>
+      </div> -->
+
+            <button type="submit" name="confirmbooking" class="btn btn-primary">
+                Next
+            </button>
+        </form>
+
+>>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 
 
 
