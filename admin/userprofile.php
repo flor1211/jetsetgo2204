@@ -82,7 +82,6 @@
 
         <!-- CSS -->
         <link rel="stylesheet" href="admin.css">
-<<<<<<< HEAD
         
         <style>
             .upload-placeholder {
@@ -95,73 +94,6 @@
 
 
         </style>
-=======
- <style>
-    .user-profile-container {
-  display: flex;
-  background: #ffffff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-  width: 700px;
-  margin: 0 auto;
-  gap: 30px;
-  align-items: center;
-}
-
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 16px;
-}
-
-.profile-form .form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile-form label {
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.profile-form input[type="text"],
-.profile-form input[type="password"] {
-  width: 250px;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f1f1f1;
-}
-
-.profile-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-upload .upload-placeholder {
-  width: 120px;
-  height: 120px;
-  background-color: #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
-.profile-upload button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 20px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-    </style>
->>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
         <!-- for debugging  -->
         <script>
             window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -175,17 +107,12 @@
     </head>
 <body>
 
-<<<<<<< HEAD
-    <!-- </?php include 'includes/sidebar.php'; ?> -->
-=======
     <?php include 'includes/sidebar.php'; ?>
->>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 
     <section class="home-section">
 
         <?php include 'includes/navbar.php'; ?>
 
-<<<<<<< HEAD
         <div class="container mt-4" style="padding:10px; margin-left: 20px">
             <h2>User Profile</h2>
 
@@ -254,38 +181,6 @@
 
         </div>
 
-=======
-        <div style="margin-left: 10px; padding: 20px;">
-            <h2>User Profile</h2>
-        </div>
-
-        <div class="user-profile-container">
-  <div class="profile-form">
-    <div class="form-group">
-      <label for="fullname">Full Name</label>
-      <input type="text" id="fullname" name="fullname">
-    </div>
-    <div class="form-group">
-      <label for="role">Role</label>
-      <input type="text" id="role" name="role">
-    </div>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password">
-    </div>
-  </div>
-
-  <div class="profile-upload">
-    <div class="upload-placeholder"></div>
-    <button type="button">UPLOAD</button>
-  </div>
-</div>
-
->>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
     </section>
 
 <!-- --------------------------------------------- --> 
@@ -293,7 +188,6 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<<<<<<< HEAD
 
     <script>
         function toggleEdit(editing) {
@@ -332,10 +226,6 @@
     </script>
 
 
-=======
-    <!-- JAVASCRIPT --> 
-    <script src="admin-js.js"></script>
->>>>>>> 7aabd57d22e6fd27a6826aaac967b13a84f472e4
 
 
 
