@@ -48,7 +48,6 @@ class Crud {
         }
     }
 
-
         // LOGIN WITHOUT HASHED PASSWORD
     public function loginUser($username, $password){
         
@@ -80,24 +79,7 @@ class Crud {
             return $error;
         }
     }
-
-// DASHBOARD
-
-    public function getDashboardCounts() {
-        try {
-
-            $stmt = $this->conn->prepare("CALL getDashboardCounts()");
-            $stmt->execute();
-
-            $counts = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-            return $counts;
-        } catch (PDOException $e) {
-            echo "Error fetching dashboard counts: " . $e->getMessage();
-        }
-    }
-        
+    
 
 // Airport page
         
@@ -312,5 +294,48 @@ class Crud {
         return $stmt->execute([':flightid' => $id]);
     }
 
+    // Bookings
+
+    public function getAllBookings(){
+        $stmt = $this->conn->prepare("CALL getAllBookings()");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        // var_dump($result);
+        return $result;
+    }
+
+    public function getAllPassengers(){
+        $stmt = $this->conn->prepare("CALL getAllPassenger()");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        // var_dump($result);
+        return $result;
+    }
+
+    // public function updateBookings($booking_id, $booking_date, $flight_id, $flight_date, $dep_time, $dep_airportcode, $dep_airportlocation, $arr_time, $arr_airportcode, $arr_airportlocation, $plane_code, $plane_photo, $price) {
+    //     $stmt = $this->conn->prepare("CALL updateBookings(:p_bookingid, :p_bookingdate, :p_flightid, :p_flightdate, :p_deptime, :p_depairportcode, 
+    //     :p_depairportlocation, :p_arrtime, :p_arrairportcode, :p_arrairportlocation, :p_planecode, :p_planephoto, :p_price)");
+    //     return $stmt->execute([
+    //         ':p_bookingid' => $booking_id,
+    //         ':p_bookingdate' => $booking_date,
+    //         ':p_flightid' => $flight_id,
+    //         ':p_flightdate' => $flight_date,
+    //         ':p_deptime' => $dep_time,
+    //         ':p_depairportcode' => $dep_airportcode,
+    //         ':p_depairportlocation' => $dep_airportlocation,
+    //         ':p_arrtime' => $arr_time,
+    //         ':p_arrairportcode' => $arr_airportcode,
+    //         ':p_arrairportlocation' => $arr_airportlocation,
+    //         ':p_planecode' => $plane_code,
+    //         ':p_planephoto' => $plane_photo,
+    //         ':p_price' => $price
+    //     ]);
+    // }
+
+    public function deleteBookings($booking_id){
+        $stmt = $this->conn->prepare("CALL deleteBookings(:bookingid)");
+        return $stmt->execute([':bookingid' => $booking_id]);
+    }
+    
 }
 ?>
