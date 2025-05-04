@@ -24,6 +24,7 @@ class Crud {
             if (password_verify($password, $user['account_password'])) {
 
                 $_SESSION['loggedin'] = true;
+                $_SESSION['accountID'] = $user['account_id'];
                 $_SESSION['username'] = $user['account_username'];
                 $_SESSION['role'] = $user['account_role'];
                 $_SESSION['login_success'] = true;
@@ -48,23 +49,6 @@ class Crud {
         }
     }
 
-    // Total counts of flights, booking, and planes
-    public function getDashboardCounts() {
-        try {
-            // Prepare the query to call the stored procedure
-            $stmt = $this->conn->prepare("CALL getDashboardCounts()");
-            $stmt->execute();
-
-            // Fetch the results (the counts for bookings, flights, and planes)
-            $counts = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // Return the counts
-            return $counts;
-        } catch (PDOException $e) {
-            echo "Error fetching dashboard counts: " . $e->getMessage();
-        }
-    }
-
         // LOGIN WITHOUT HASHED PASSWORD
     public function loginUser($username, $password){
         
@@ -75,6 +59,7 @@ class Crud {
         if ($control) {
 
             $_SESSION['loggedin'] = true;
+            $_SESSION['accountID'] = $control->account_id;
             $_SESSION['username'] = $control->account_username;
             $_SESSION['role'] = $control->account_role;
             $_SESSION['login_success'] = true;
@@ -207,7 +192,19 @@ class Crud {
         return $result['TotalAccounts'];
     }
 
+// User Profile
 
+    public function getAccountDetails($accountID) {
+        $stmt = $this->conn->prepare("CALL getAccountDetails(:accountID)");
+        $stmt->execute([':accountID' => $accountID]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function updateAccountPhoto($accountID, $photo) {
+        $stmt = $this->conn->prepare("CALL uploadAccountPhoto(:a_ID, :a_photo)");
+        $stmt->execute([':a_ID' => $accountID, ':a_photo' => $photo]);
+    }
 
 
 // Plane page
