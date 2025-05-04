@@ -11,6 +11,8 @@
 
   $showSuccess = false;
   $username = $_SESSION["username"];
+  $accountID = $_SESSION["accountID"];
+
 
     if (isset($_SESSION["login_success"])) {
 
