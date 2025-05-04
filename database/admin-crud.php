@@ -79,6 +79,22 @@ class Crud {
             return $error;
         }
     }
+
+// Dashboard
+    public function getDashboardCounts() {
+        try {
+
+            $stmt = $this->conn->prepare("CALL getDashboardCounts()");
+            $stmt->execute();
+
+            $counts = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+            return $counts;
+        } catch (PDOException $e) {
+            echo "Error fetching dashboard counts: " . $e->getMessage();
+        }
+    }
     
 
 // User Profile
