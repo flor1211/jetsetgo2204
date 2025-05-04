@@ -99,6 +99,20 @@ class Crud {
     }
         
 
+// User Profile
+
+    public function getAccountDetails($accountID) { 
+        $stmt = $this->conn->prepare("CALL getAccountDetails(:accountID)");
+        $stmt->execute([':accountID' => $accountID]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateAccountPhoto($accountID, $photo) { 
+        $stmt = $this->conn->prepare("CALL uploadAccountPhoto(:a_ID, :a_photo)");
+        $stmt->execute([':a_ID' => $accountID, ':a_photo' => $photo]);
+    }
+
+
 // Airport page
         
     public function getAllAirports() {
