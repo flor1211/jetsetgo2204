@@ -24,6 +24,7 @@ class Crud {
             if (password_verify($password, $user['account_password'])) {
 
                 $_SESSION['loggedin'] = true;
+                $_SESSION['accountID'] = $user['account_id'];
                 $_SESSION['username'] = $user['account_username'];
                 $_SESSION['role'] = $user['account_role'];
                 $_SESSION['login_success'] = true;
@@ -58,6 +59,7 @@ class Crud {
         if ($control) {
 
             $_SESSION['loggedin'] = true;
+            $_SESSION['accountID'] = $control->account_id;
             $_SESSION['username'] = $control->account_username;
             $_SESSION['role'] = $control->account_role;
             $_SESSION['login_success'] = true;

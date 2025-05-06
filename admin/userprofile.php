@@ -58,10 +58,6 @@
         }
     }
     
-    
-
-    
-
 
 ?>
 
@@ -94,6 +90,7 @@
 
 
         </style>
+
         <!-- for debugging  -->
         <script>
             window.onerror = function(msg, url, lineNo, columnNo, error) {
