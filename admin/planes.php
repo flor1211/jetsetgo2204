@@ -151,7 +151,7 @@
                                     <th>Plane ID</th>
                                     <th>No. of Seats</th>
                                     <th>Status</th>
-                                    <th>Total Flights</th>
+                                    <!-- <th>Total Flights</th> -->
                                     <th>Action</th>
                                 </tr>   
                             </thead>
@@ -180,7 +180,12 @@
                                             </span>
 
                                         </td>
-                                        <td><?= $plane['plane_totalflights'] ?></td>
+                                        <!-- <td>                                    
+                                            </?php
+                                                $totalFlights = $user->getTotalFlightsByPlane($plane['plane_code']);
+                                                echo htmlspecialchars($totalFlights);
+                                            ?>
+                                        </td> -->
                                         <td>
                                             <button class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#viewPlane<?= $plane['plane_id'] ?>">
@@ -243,10 +248,10 @@
                                                     </form>
 
                                                     <br>
-                                                    <h3 class="modal-title">Flights of <?= htmlspecialchars($plane['plane_code']) ?> </h3>
+                                                    <!-- <h3 class="modal-title">Flights of </?= htmlspecialchars($plane['plane_code']) ?> </h3>
                                                     <hr>
 
-                                                    MAY TABLE DITO, NANDITO YUNG MGA FLIGHTS NI <?= htmlspecialchars($plane['plane_code']) ?>
+                                                    MAY TABLE DITO, NANDITO YUNG MGA FLIGHTS NI </?= htmlspecialchars($plane['plane_code']) ?> -->
 
 
                                                 </div>

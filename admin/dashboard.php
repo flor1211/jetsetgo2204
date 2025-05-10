@@ -12,21 +12,25 @@
     $showSuccess = false;
     $username = $_SESSION["username"];
 
-    if (isset($_SESSION["login_success"])) {
-
-        $showSuccess = true;
-
-        unset($_SESSION["login_success"]);
-    }
-
-
     $crud = new Crud();
     $counts = $crud->getDashboardCounts(); 
+
 
     $totalFlights = $counts['total_flights'];
     $totalBookings = $counts['total_bookings'];
     $totalPlanes = $counts['total_planes'];
     $totalRevenue = $counts['total_revenue'];
+
+    $recentBooking = $crud->getRecentBookings();
+
+    $dates = $flights = $planes = [];
+
+    foreach ($recentBooking as $booking) {
+        $dates[] = $booking['flight_date'];
+        $flights[] = $booking['route'];
+        $planes[] = $booking['plane_code'];
+    }
+    
 
     if (isset($_SESSION["login_success"])) {
         $showSuccess = true;
@@ -51,6 +55,9 @@
     <!-- SweetAlert2 CDN  -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="admin.css">
 
@@ -61,6 +68,10 @@
             return false;
         };
     </script>
+
+    <style>
+
+    </style>
 
     <title>JetSetGo | Dashboard</title>
 
@@ -132,9 +143,6 @@
                 </div>
             </div>
 
-            <!-- This script makes each icon act like a clickable button, sets the cursor to a pointer, adds a hover color effect, 
-             and redirects the user to a specific page when clicked.-->
-
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     const bookingIcon = document.getElementById("totalbookingIcon");
@@ -142,17 +150,16 @@
                     const totalplanesIcon = document.getElementById("totalplanesIcon");
                     const revenueIcon = document.getElementById("revenueIcon");
 
-                    // Set cursor to pointer
                     [bookingIcon, totalflightsIcon, revenueIcon, totalplanesIcon].forEach(icon => {
                         icon.style.cursor = "pointer";
 
-                        // Add hover effect using JavaScript
+
                         icon.addEventListener("mouseover", function() {
-                            icon.style.color = "#708090"; // Change to desired hover color, the current color is slate gray
+                            icon.style.color = "#708090";
                         });
 
                         icon.addEventListener("mouseout", function() {
-                            icon.style.color = ""; // Reset to default
+                            icon.style.color = ""; 
                         });
                     });
 
@@ -168,9 +175,8 @@
                         window.location.href = "planes.php";
                     });
 
-                    // redicrects to another page, remove if unnecessary 
                     revenueIcon.addEventListener("click", function() {
-                        window.location.href = "planes.php"; // change to the correct page
+                        window.location.href = "planes.php";
                     });
                 });
             </script>
@@ -183,30 +189,23 @@
                     <div class="booking-details">
                         <ul class="details" style="padding-left:0px;">
                             <li class="topic">Date</li>
-                            <li><a href="#">02 Jan 2025</a></li>
-                            <li><a href="#">02 Jan 2025</a></li>
-                            <li><a href="#">02 Jan 2025</a></li>
-                            <li><a href="#">02 Jan 2025</a></li>
-                            <li><a href="#">02 Jan 2025</a></li>
-                            <li><a href="#">02 Jan 2025</a></li>
+                            <?php foreach ($dates as $date): ?>
+                                <li><a href="#"><?php echo htmlspecialchars($date); ?></a></li>
+                            <?php endforeach; ?>
+
                         </ul>
                         <ul class="details" style="padding-left:0px;">
                             <li class="topic">Flight</li>
-                            <li><a href="#">MNL - CLK</a></li>
-                            <li><a href="#">CEB - MNL</a></li>
-                            <li><a href="#">DAV - CEB</a></li>
-                            <li><a href="#">CLK - DAV</a></li>
-                            <li><a href="#">CEB - DAV</a></li>
-                            <li><a href="#">MNL - DAV</a></li>
+                            <?php foreach ($flights as $flight): ?>
+                                <li><a href="#"><?php echo htmlspecialchars($flight); ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                         <ul class="details">
                             <li class="topic">Plane</li>
-                            <li><a href="#">JSG 125</a></li>
-                            <li><a href="#">JSG 128</a></li>
-                            <li><a href="#">JSG 126</a></li>
-                            <li><a href="#">JSG 127</a></li>
-                            <li><a href="#">JSG 120</a></li>
-                            <li><a href="#">JSG 124</a></li>
+                            <?php foreach ($planes as $plane): ?>
+                                <li><a href="#"><?php echo htmlspecialchars($plane); ?></a></li>
+                            <?php endforeach; ?>
+
                         </ul>
                     </div>
                     <div class="button">
@@ -256,8 +255,177 @@
 
                     </ul>
                 </div>
+            </div>
+
+            <!-- GRAPH SUMMARY -->
+            <div class="summary-boxes">
+                
+                <!-- FIRST BOX -->
+                <div class="recent-flight box">
+                    <div class="title">Mode of Payment</div>
+                    <?php   
+
+                        $mopChart = $crud->getModeofPaymentCount();
+
+                        $labels = [];
+                        $counts = [];
+
+                        foreach ($mopChart as $row) {
+                            $labels[] = $row['payment_type'];
+                            $counts[] = $row['count'];
+                        }
+                    ?>
+
+                    <div style="width: 300px; height: 300px; margin: auto; padding-top: 10px;">
+                        <canvas id="paymentChart"></canvas>
+                    </div>
+
+                    <script>
+                        const paymentChartLabels = <?php echo json_encode($labels); ?>;
+                        const paymentChartData = <?php echo json_encode($counts); ?>;
+
+                        const ctx = document.getElementById('paymentChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: paymentChartLabels,
+                                datasets: [{
+                                    data: paymentChartData,
+                                    backgroundColor: [
+                                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
+                                        '#17a2b8', '#fd7e14', '#6610f2', '#20c997', '#e83e8c',
+                                        '#343a40', '#adb5bd', '#198754', '#0dcaf0', '#f8f9fa'
+                                    ]
+
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+
+                </div>
+
+                <!-- SECOND BOX -->
+                <div class="recent-flight box">
+                    <div class="title">Payment Status</div>
+
+                        <?php   
+
+                        $mopChart = $crud->getPaymentStatusCount();
+
+                        $labels = [];
+                        $counts = [];
+
+                        foreach ($mopChart as $row) {
+                            $labels[] = $row['payment_status'];
+                            $counts[] = $row['status'];
+                        }
+                    ?>
+
+                    <div style="width: 300px; height: 300px; margin: auto; padding-top: 10px;">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+
+                    <script>
+                        const statuspaymentChartLabels = <?php echo json_encode($labels); ?>;
+                        const statuspaymentChartData = <?php echo json_encode($counts); ?>;
+
+                        const sctx = document.getElementById('lineChart').getContext('2d');
+                        new Chart(sctx, {
+                            type: 'pie',
+                            data: {
+                                labels: statuspaymentChartLabels,
+                                datasets: [{
+                                    data: paymentChartData,
+                                    backgroundColor: [
+                                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
+                                        '#17a2b8', '#fd7e14', '#6610f2', '#20c997', '#e83e8c',
+                                        '#343a40', '#adb5bd', '#198754', '#0dcaf0', '#f8f9fa'
+                                    ]
+
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+
+                    
+
+                </div>
+
+                
 
 
+            </div>
+
+            <div class="summary-boxes">
+                <!-- THIRD BOX -->
+                <div class="recent-booking box" style="width: 60%">
+                    <div class="title">Nationality</div>
+
+                    <?php   
+                        $nationalityChart = $crud->getNationalityCount();
+
+                        $labels = [];
+                        $counts = [];
+
+                        foreach ($nationalityChart as $row) {
+                            $labels[] = $row['nationality'];
+                            $counts[] = $row['count'];
+                        }
+                    ?>
+
+                    <div style="width: 600px; height: 600px; margin: auto; padding-top: 10px;">
+                        <canvas id="nationalityChart"></canvas>
+                    </div>
+
+                    <script>
+                        const nationalityChartLabels = <?php echo json_encode($labels); ?>;
+                        const nationalityChartData = <?php echo json_encode($counts); ?>;
+
+                        const nctx = document.getElementById('nationalityChart').getContext('2d');
+                        new Chart(nctx, {
+                            type: 'pie',
+                            data: {
+                                labels: nationalityChartLabels,
+                                datasets: [{
+                                    data: nationalityChartData,
+                                    backgroundColor: [
+                                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
+                                        '#17a2b8', '#fd7e14', '#6610f2', '#20c997', '#e83e8c',
+                                        '#343a40', '#adb5bd', '#198754', '#0dcaf0', '#f8f9fa'
+                                    ]
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        position: 'right' // ✅ Move legend to the right
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+
+
+
+                </div>
             </div>
 
         </div>
@@ -283,6 +451,8 @@
             });
         </script>
     <?php endif; ?>
+
+
 
 </body>
 

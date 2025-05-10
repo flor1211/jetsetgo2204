@@ -23,7 +23,6 @@
   
   
           if (isset($_POST['update'])) {
-            var_dump($_POST); // Check what data is being sent
             $user->updateAccount($_POST['accountId'], $_POST['username'], $_POST['password'], $_POST['role']);
             header("Location: accounts.php?updated=1");
             exit;

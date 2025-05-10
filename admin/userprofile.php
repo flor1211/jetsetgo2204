@@ -56,6 +56,24 @@
                 }
             }
         }
+
+        if (isset($_POST['saveInfo'])) {
+
+            // echo "<pre>";
+            // print_r($_POST);
+            // echo "</pre>";
+
+            $accID = $_POST['accountID'];
+            $name = $_POST['fullname'];
+            $username =  $_POST['username'];
+            $password = $_POST['changepassword'];
+
+            $user->updateUserProfile($accID, $name, $username, $password);
+            header("Location: userprofile.php?updated=1");
+            exit;
+
+
+        }
     }
     
 
@@ -132,7 +150,6 @@
                         <img id="profilePhotoEdit" src="<?= $accountPhoto ?>" alt="Profile Picture" class="img-thumbnail mb-3" style="width: 200px; height: 200px; object-fit: cover;">
                         
                         <input type="file" id="uploadPicture" name="uploadPicture" accept="image/jpeg, image/png" onchange="previewImage(event)" style="display: none;">
-                        
                         <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <button class="btn btn-primary btn-sm" type="button" onclick="document.getElementById('uploadPicture').click();">
                                 <i class="bi bi-upload"></i> Upload
@@ -152,8 +169,8 @@
 
                 </div>
 
-
-                <div class="col-md-8" style="padding-top: 20px;">
+                <!-- VIEW MODE -->
+                <div id= "viewInfoMode" class="col-md-8" style="padding-top: 20px;">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="fullname" class="form-label">Full Name</label>
@@ -172,8 +189,48 @@
                             <input style="background-color: white" type="password" class="form-control" id="password" name="password" value="<?= htmlspecialchars($accountInfo[0]['account_password']) ?>" disabled>
                         </div>
                     </div>
+                    <br>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <button class="btn btn-primary btn-md" onclick="toggleEditInfo(true)">
+                                <i class="bi bi-pencil"></i> Edit Info
+                            </button>
+                        </div>
                 </div>
 
+                <!-- EDIT MODE -->
+                <form id= "editInfoMode" method="POST" action="" enctype="multipart/form-data" class="col-md-8 d-none" style="padding-top: 20px;">
+                    <div class="row g-3">
+                        <input style="background-color: white" type="text" class="form-control" id="accountID" name="accountID" value="<?= htmlspecialchars($accountInfo[0]['account_id']) ?>" hidden >
+                        <div class="col-md-6">
+                            <label for="fullname" class="form-label">Full Name</label>
+                            <input style="background-color: white" type="text" class="form-control" id="fullname" name="fullname" value="<?= htmlspecialchars($accountInfo[0]['account_fullname']) ?>" >
+                        </div>
+                        <div class="col-md-6">
+                            <label for="role" class="form-label">Role</label>
+                            <input style="background-color: white" type="text" class="form-control" id="role" name="role" value="<?= htmlspecialchars($accountInfo[0]['account_role']) ?>" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <input style="background-color: white" type="text" class="form-control" id="username" name="username" value="<?= htmlspecialchars($accountInfo[0]['account_username']) ?>" >
+                        </div>
+                        <div class="col-md-6">
+                            <label for="changepassword" class="form-label">Change Password</label>
+                            <input style="background-color: white" type="password" class="form-control" id="paschangepasswordsword" name="changepassword" value="" >
+                        </div>
+
+                        
+                    </div>
+                    <br>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <button class="btn btn-success btn-md" name="saveInfo" type="submit">
+                                <i class="bi bi-save"></i> Save
+                            </button>
+                            <button class="btn btn-secondary btn-md" type="button" onclick="toggleEditInfo(false)">
+                                Cancel
+                            </button>
+
+                        </div>
+                    </form>
             </div>
 
         </div>
@@ -220,7 +277,30 @@
             document.getElementById('profilePhotoEdit').src = "assets/noprofilepic.png";
             document.getElementById('uploadPicture').value = "";
         }
+
+        function toggleEditInfo(editing) {
+            document.getElementById('viewInfoMode').classList.toggle('d-none', editing);
+            document.getElementById('editInfoMode').classList.toggle('d-none', !editing);
+        }
+
+
     </script>
+
+        <!-- SweetAlert Messages -->
+        <?php if (isset($_GET['updated'])): ?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    <?php elseif (isset($_GET['updated'])): ?>
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Updated',
+                        text: 'Account updated successfully!',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                });
+            </script>
+        <?php endif; ?> 
 
 
 

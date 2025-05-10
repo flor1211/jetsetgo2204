@@ -73,6 +73,38 @@
       </span>
       <span class="description">Bookings</span>
     </a>
+
+
+        <!-- with dropdown -->
+        <!-- <a href="bookings.php" class="nav-link" data-bs-toggle="collapse" data-bs-target="#bookingssubmenu" aria-expanded="false" aria-controls="bookingssubmenu">
+      <span class="icon">
+        <i class="bi bi-journal-bookmark"></i>
+      </span>
+      <span class="description">Bookings <i class="bi bi-caret-down-fill dropdownicon" style="font-size: 15px; align-items: center; margin-left: 5px;"></i></span>
+    </a> -->
+
+        <!-- submenu dropdown -->
+    <!-- <div class="sub-menu collapse" id="bookingssubmenu">
+      <a href="bookings.php" class="nav-link">
+        <span class="icon">
+          <i class="bi bi-file-earmark-check"></i>
+        </span>
+        <span class="description">Booking List</span>
+      </a>
+      <a href="guestlist.php" class="nav-link">
+        <span class="icon">
+          <i class="bi bi-file-earmark-check"></i>
+        </span>
+        <span class="description">Guest List</span>
+      </a>
+      <a href="transactions.php" class="nav-link">
+        <span class="icon">
+          <i class="bi bi-file-earmark-check"></i>
+        </span>
+        <span class="description">Transactions</span>
+      </a>
+    </div> -->
+
     <a href="planes.php" class="nav-link">
       <span class="icon">
         <i class="bi bi-airplane-engines"></i>
@@ -92,7 +124,7 @@
       <span class="description">Flights</span>
     </a>
     <!-- with dropdown -->
-    <a href="accounts.php" class="nav-link" data-bs-toggle="collapse" data-bs-target="#accountssubmenu" aria-expanded="false" aria-controls="accountssubmenu">
+    <a href="accounts.php" class="nav-link" data-bs-toggle="collapse" data-bs-target="#account\ssubmenu" aria-expanded="false" aria-controls="accountssubmenu">
       <span class="icon">
         <i class="bi bi-person-circle"></i>
       </span>
