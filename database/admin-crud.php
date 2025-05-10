@@ -124,9 +124,9 @@ class Crud
         $stmt = $this->conn->prepare("CALL getallAirports()");
         $stmt->execute();
         $result = $stmt->fetchAll();
-        // var_dump($result);
         return $result;
     }
+
 
     public function searchAirport($search)
     {
@@ -136,6 +136,7 @@ class Crud
         // var_dump($result);
         return $result;
     }
+
 
     public function addAirport($airport_code, $airport_name, $airport_location)
     {

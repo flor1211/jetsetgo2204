@@ -80,6 +80,7 @@
                     <td>
                         <!-- VIEW -->
                         <form action="airport-view.php" method="POST" style="display: inline;">
+
                                                 <input type="hidden" name="airport_id" value="<?= $a['airport_id'] ?>">
                                                 <button type="submit" class="btn btn-success btn-sm" name="view">
                                                     <i class="bi bi-eye"></i> View

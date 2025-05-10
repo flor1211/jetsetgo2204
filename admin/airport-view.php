@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once '../database/admin-crud.php';
 
 $crud = new Crud();
@@ -49,12 +50,15 @@ if ($airport_id !== null) {
         }
     } catch (Exception $e) {
         echo "Error loading airport: " . $e->getMessage();
+
     }
 } else {
     echo "No airport ID specified.";
 }
 
+
 // Step 3: Check session login (good practice to keep)
+
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: ../login.php");
     exit;
@@ -62,12 +66,16 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 
 
+
 // Step 4: Show login success banner if needed
+
 $showSuccess = false;
 $username = $_SESSION["username"];
 
 if (isset($_SESSION["login_success"])) {
+
     $showSuccess = true;
+
     unset($_SESSION["login_success"]);
 }
 ?>
