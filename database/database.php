@@ -2,7 +2,7 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'jetsetgodb6';
+    private $db_name = 'jetsetgodb';
     private $username = 'root';
     private $password = '';
     private $port = '3306';
