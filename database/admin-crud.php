@@ -114,15 +114,16 @@ class Crud {
 
 
 // Airport page
-        
-    public function getAllAirports() {
-        $stmt = $this->conn->prepare("CALL getallAirports()");
-        $stmt->execute();
+        // 
+    public function getAllAirports($airport_id) {
+        $stmt = $this->conn->prepare("CALL getallAirports(:airport_id)");
+        $stmt->execute([':airport_id' => $airport_id]); // pass the actual airport ID here
         $result = $stmt->fetchAll();
-        // var_dump($result);
         return $result;
     }
 
+
+    
     public function searchAirport($search) {
         $stmt = $this->conn->prepare("CALL searchAirport(:search)");
         $stmt->execute([':search' => $search]);
@@ -130,6 +131,17 @@ class Crud {
         // var_dump($result);
         return $result;
     }
+
+    public function getAirport($airport_id) {
+        $stmt = $this->conn->prepare("CALL getAirport(:id)");
+        $stmt->bindParam(':id', $airport_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC); // <-- IMPORTANT
+        return $result;
+    }
+    
+    
+    
 
     public function addAirport($airport_code, $airport_name, $airport_location) {
         $stmt = $this->conn->prepare("CALL addAirport(:a_code, :a_name, :a_location)");
