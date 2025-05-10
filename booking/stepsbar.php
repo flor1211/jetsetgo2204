@@ -41,12 +41,6 @@
                 </a>
             </div>
 
-            <div class="step <?= $current === 'addons.php' ? 'active' : '' ?>">
-                <a href="addons.php">
-                        <div class="icon"><i class="bi bi-plus-square"></i></div>
-                        <span>Add Ons</span>
-                </a>
-            </div>
 
             <div class="step <?= $current === 'payments.php' ? 'active' : '' ?>">
                 <a href="payments.php">
@@ -129,6 +123,10 @@ style{
     transform: translateY(-50%);
 }
 
-
+@media (max-width: 650px) {
+  .step span {
+    display: none;
+  }
+}
 
 </style>

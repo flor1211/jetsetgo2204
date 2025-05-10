@@ -34,6 +34,7 @@
       if (isset($_POST['selected_depflight'])) {
         $_SESSION['selected_depflight'] = $_POST['selected_depflight'];
         $selectedDepFlight = $_POST['selected_depflight'];
+
       }
       if (isset($_POST['selected_retflight'])) {
         $_SESSION['selected_retflight'] = $_POST['selected_retflight'];
@@ -41,6 +42,15 @@
       }
 
       $_SESSION['numberofpassenger'] = $numadult + $numchildren;
+
+      $_SESSION['depFlightInfo'] = $user->getSelectedFlight($selectedDepFlight);
+      $_SESSION['retFlightInfo'] = $_SESSION['trip_type'] === 'roundtrip' ? $user->getSelectedFlight($selectedRetFlight) : 0;
+
+
+      $_SESSION['departing_price'] = $_SESSION['depFlightInfo'] [0]['price'];
+      $_SESSION['returning_price'] = $_SESSION['retFlightInfo'] [0]['price'];
+
+
 
       // Set flag to indicate flight selection is complete
       $_SESSION['selectflight_completed'] = true;
@@ -122,6 +132,7 @@
               $_SESSION['departing_date'] : 'No departing date was submitted'; ?>";
             var returningDate = "<?php echo isset ($_SESSION['returning_date']) ?
               $_SESSION['returning_date'] : 'No return date submitted'; ?>";
+
 
             var triptype = "<?php echo isset ($_SESSION['trip_type']) ?
               $_SESSION['trip_type'] : 'Error in trip type submitted'; ?>";

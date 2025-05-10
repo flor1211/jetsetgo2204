@@ -7,9 +7,20 @@
     exit();
   }
 
+  require_once '../database/booking-crud.php';
+
+  $user = new BookingCrud();
+
   $selectedDepFlight = $_SESSION['selected_depflight'] ?? null;
   $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
   $numberofPassenger = $_SESSION['numberofpassenger'] ?? 1;
+
+//   $depFlightInfo = $user->getSelectedFlight($selectedDepFlight);
+//   $retFlightInfo = $_SESSION['trip_type'] === 'roundtrip' ? $user->getSelectedFlight($selectedRetFlight) : 0;
+
+//   $_SESSION['departing_price'] = $depFlightInfo['price'];
+//   $_SESSION['returning_price'] = $retFlightInfo['price'];
+
 
   $errors = [];
 
@@ -40,7 +51,7 @@
             // echo '<pre>';
             // print_r($guestDetails); 
             // echo '</pre>';
-            header('Location: addons.php');
+            header('Location: payments.php');
             exit();
         }
     }
@@ -429,8 +440,14 @@
         var selectedRetFlight = "<?php echo isset($_SESSION['selected_retflight']) ? $_SESSION['selected_retflight'] : 'No returning flight selected'; ?>";
         var numPassenger = "<?php echo isset($_SESSION['numberofpassenger']) ? $_SESSION['numberofpassenger'] : 'Invalid number of passenger'; ?>";            
 
+        var departingPrice = "<?php echo isset ($_SESSION['departing_price']) ?
+              $_SESSION['departing_price'] : 'No departing price submitted'; ?>";
+        var returningPrice = "<?php echo isset ($_SESSION['returning_price']) ?
+             $_SESSION['returning_price'] : 'No return price submitted'; ?>";
         // Display the values in a pop-up alert for debugging
-        alert("Selected Departing Flight: " + selectedDepFlight + "\nSelected Returning Flight: " + selectedRetFlight + "\nNumber of Passenger: " + numPassenger) ;
+        alert("Selected Departing Flight: " + selectedDepFlight + "\nSelected Returning Flight: " + selectedRetFlight + "\nNumber of Passenger: " + numPassenger +
+            "\nDeparting Price: " + departingPrice + "\nReturning Price: " + returningPrice
+        ) ;
     </script>
 
     <script>

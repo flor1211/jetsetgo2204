@@ -33,7 +33,6 @@ class BookingCrud {
 
     /* BOOKING */
 
-
     public function newBooking($flightID, $flightDate, $deptime, $depAcode, $depAlocation, $arrtime, $arrAcode, $arrAlocation, $planecode, $planephoto, $price) {
         $stmt = $this->conn->prepare("CALL addBooking(:flightId, :flightDate, :depTime, :depAirportcode, :depAirportlocation, :arrTime, :arrAirportcode, :arrAirportlocation, :planeCode, :planePhoto, :flightprice, @booking_id)");
         $stmt->bindParam(':flightId', $flightID);
@@ -88,5 +87,28 @@ class BookingCrud {
     }
 
 
+    // PAYMENT
+
+    public function addPaymentCard($bookingID, $name, $num, $exp, $cvv) {
+        $stmt = $this->conn->prepare("CALL addPaymentsCard(:bookingID, :name, :num, :exp, :cvv)");
+        $stmt->bindParam(':bookingID', $bookingID);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':num', $num);
+        $stmt->bindParam(':exp', $exp);
+        $stmt->bindParam(':cvv', $cvv);
+
+
+        $stmt-> execute();
+    }
+
+    public function addPaymentOnSite($bookingID, $name, $idnum) {
+        $stmt = $this->conn->prepare("CALL addPaymentsOnSite(:bookingID, :name, :idnum)");
+        $stmt->bindParam(':bookingID', $bookingID);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':idnum', $idnum);
+
+        $stmt-> execute();
+
+    }
 }
 ?>
