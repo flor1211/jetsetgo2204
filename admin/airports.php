@@ -5,10 +5,11 @@
 
     $user = new Crud();
     $editingUser = null;
+    
 
-    $search = $_GET['airportsearchInput'] ?? '';
+    $search = $_POST['airportsearchInput'] ?? '';
 
-    $limit = (int)($_GET['airportViewLimit'] ?? 5);
+    $limit = (int)($_POST['airportViewLimit'] ?? 5);
 
     $page = max(1, (int)($_GET['page'] ?? 1));
     // $limit = 5;
@@ -34,7 +35,13 @@
 
         // SweetAlert
     if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-
+        if(isset($_POST['view'])) {
+            $_SESSION['airport_id'] = $_POST['airport_id'];
+            echo "<pre>";
+                print_r($_POST['airport_id']);
+                echo "</pre>";
+            exit;
+        }
         if(isset($_POST['add'])) {
             $user->addAirport($_POST['airportcode'], $_POST['airportname'], $_POST['airportlocation']);
             header("Location: airports.php?success=1");
@@ -72,7 +79,12 @@
                     <td><?= htmlspecialchars($a['airport_location']) ?></td>
                     <td>
                         <!-- VIEW -->
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#readData<?= $a['airport_id']?>"><i class="bi bi-eye"></i> View</button>
+                        <form action="airport-view.php" method="POST" style="display: inline;">
+                                                <input type="hidden" name="airport_id" value="<?= $a['airport_id'] ?>">
+                                                <button type="submit" class="btn btn-success btn-sm" name="view">
+                                                    <i class="bi bi-eye"></i> View
+                                                </button>
+                                            </form>
                         <!-- EDIT -->  
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editData<?= $a['airport_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
                         <!-- Delete -->
@@ -187,7 +199,12 @@
                                         <td><?= htmlspecialchars($u['airport_location']) ?></td>
                                         <td>
                                         <!-- VIEW -->
-                                          <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#readData<?= $u['airport_id']?>"><i class="bi bi-eye"></i> View</button>
+                                        <form action="airport-view.php" method="POST" style="display: inline;">
+                                                <input type="hidden" name="airport_id" value="<?= $u['airport_id'] ?>">
+                                                <button type="submit" class="btn btn-success btn-sm" name="view">
+                                                    <i class="bi bi-eye"></i> View
+                                                </button>
+                                            </form>
                                         <!-- EDIT -->  
                                           <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editData<?= $u['airport_id']?>" ><i class="bi bi-pencil-square"></i> Edit</button>
                                           
@@ -208,23 +225,21 @@
                                                         <h4 class="modal-title">View Airport Details</h4>
                                                     </div>
                                                     
-
-   
                                                     <form action="#" id="readAirportForm">
                                                         <div class="modal-body">
                                                             <div class="row g-3" style="padding:30px;">
                                                                 <input type="hidden" name="" id="airportid" value="<?= htmlspecialchars($u['airport_id']) ?>">
                                                                 <div class="mb-3 row">
                                                                     <label class="col-sm-5 col-form-label" for="name">Airport Code</label>
-                                                                    <input class="form-control" type="text" name="" id="airportcode" value="<?= htmlspecialchars($u['airport_code']) ?>" disabled >
+                                                                    <input class="form-control" type="text" name="" id="airport_code" value="<?= htmlspecialchars($u['airport_code']) ?>" disabled >
                                                                 </div>
                                                                 <div class="mb-3 row">
                                                                     <label class="col-sm-5 col-form-label" for="name">Airport Name</label>
-                                                                    <input class="form-control" type="text" name="" id="airportname" value="<?= htmlspecialchars($u['airport_name']) ?>" disabled>
+                                                                    <input class="form-control" type="text" name="" id="airport_name" value="<?= htmlspecialchars($u['airport_name']) ?>" disabled>
                                                                 </div>
                                                                 <div class="mb-3 row">
                                                                     <label class="col-sm-2 col-form-label" for="name">Location</label>
-                                                                    <input class="form-control" type="text" name="" id="airportlocation" value="<?= htmlspecialchars($u['airport_location']) ?>" disabled>
+                                                                    <input class="form-control" type="text" name="" id="airport_location" value="<?= htmlspecialchars($u['airport_location']) ?>" disabled>
                                                                 </div>
                                                         </div>
                                                      </form>
