@@ -5,8 +5,8 @@
 
   require_once '../database/booking-crud.php';
 
-  if (!isset($_SESSION['addons_completed'])) {
-    header('Location: addons.php');
+  if (!isset($_SESSION['guestdetails_completed'])) {
+    header('Location: guestdetails.php');
     exit();
   }
 
@@ -14,25 +14,45 @@
   $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
   $numberofPassenger = $_SESSION['numberofpassenger'];
 
+  $user = new Crud();
+  $bookingUser = new BookingCrud();
+
+  $depFlightInfo = $bookingUser->getSelectedFlight($selectedDepFlight);
+  $retFlightInfo = $bookingUser->getSelectedFlight($selectedRetFlight);
+
+
+  $_SESSION['total_price'] = ($_SESSION['departing_price'] + $_SESSION['returning_price']) * $_SESSION['numberofpassenger'];
+  $baseprice = (float) ($_SESSION['departing_price'] + $_SESSION['returning_price']);
+  $totalprice = (float) $_SESSION['total_price'];
+
+  $tax = (float)1500;
+
+  $payment_type = 
+
   $flightType = $_SESSION['trip_type'];
 
   $guestDetails = $_SESSION['guest_details'] ?? [];
-  
-  $user = new Crud();
-  $bookingUser = new BookingCrud();
 
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (isset($_POST['confirmbooking'])){
+    
 
-      $depFlightInfo = $bookingUser->getSelectedFlight($selectedDepFlight);
-      $retFlightInfo = $bookingUser->getSelectedFlight($selectedRetFlight);
-      $depFlight = $depFlightInfo[0];
-      $retFlight = $retFlightInfo[0];
+    if (isset($_POST['confirmbooking'])){
+      
+    echo "<pre>";
+    print_r($_POST);  // This will show all POST data
+    echo "</pre>";
+
+    
+      $payment_type = $_POST['payment'];
+
 
       if ($flightType == 'roundtrip') {
 
+        $depFlight = $depFlightInfo[0];
+        $retFlight = $retFlightInfo[0];
+  
         //condition for DEPARTING ONLY
         // echo "<h3>Departure Flight Info:</h3><pre>";
         // print_r($depFlight);
@@ -64,9 +84,35 @@
 
           $bookingUser->addGuestDetails($RETbookingID, $guest['title'], $guest['first_name'], $guest['last_name'], $fullDate, $guest['contact'], $guest['nationality'], $guest['email']);
         }
+
+        if ($payment_type === 'on-site') {
+
+            $id_name = $_POST['onsite_name'];
+            $id_number = $_POST['onsite_idnum'];
+
+            $bookingUser->addPaymentOnSite($DEPbookingID, $name, $idnumber,);
+            $bookingUser->addPaymentOnSite($RETbookingID, $name, $idnumber,);
+            echo "On-site payment recorded. Please pay at the airport.";
+        }
+
+        else if ($payment_type === 'card') {
+            $card_holder = $_POST['card_holder'];
+            $card_number = $_POST['card_number'];
+            $card_expiry = $_POST['card_expiry'];
+            $card_cvv = $_POST['card_cvv'];
+
+
+            $bookingUser->addPaymentCard($DEPbookingID, $card_holder, $card_number, $card_expiry, $card_cvv);
+            $bookingUser->addPaymentCard($RETbookingID, $card_holder, $card_number, $card_expiry, $card_cvv);
+            echo "Card payment successful. Your booking is confirmed.";
+        }
+
       
 
       } else if ($flightType == 'onewaytrip') {
+
+        $depFlight = $depFlightInfo[0];
+  
 
         $DEPbookingID = $bookingUser->newBooking($depFlight['flight_id'], $depFlight['date'], $depFlight['departure_time'], $depFlight['departure_code'], $depFlight['departure_location'], $depFlight['arrival_time'], $depFlight['arrival_code'], $depFlight['arrival_location'], $depFlight['plane_code'], $depFlight['plane_photo'], $depFlight['price']);
       
@@ -77,15 +123,34 @@
             $bookingUser->addGuestDetails($DEPbookingID, $guest['title'], $guest['first_name'], $guest['last_name'], $guest['year'].$guest['month'].$guest['day'], $guest['contact'], $guest['nationality'], $guest['email']);
         }
 
-      }
+        if ($payment_type === 'on-site') {
+          
+            $id_name = $_POST['onsite_name'];
+            $id_number = $_POST['onsite_idnum'];
 
+            $bookingUser->addPaymentOnSite($DEPbookingID, $id_name, $id_number,);
+            echo "On-site payment recorded. Please pay at the airport.";
+        }
+
+        else if ($payment_type === 'card') {
+            $card_holder = $_POST['card_holder'];
+            $card_number = $_POST['card_number'];
+            $card_expiry = $_POST['card_expiry'];
+            $card_cvv = $_POST['card_cvv'];
+
+
+            $bookingUser->addPaymentCard($DEPbookingID, $card_holder, $card_number, $card_expiry, $card_cvv);
+            echo "Card payment successful. Your booking is confirmed.";
+        }
+
+      }
+   
       $_SESSION['payments_completed'] = true;
       header('Location: confirmation.php');
 
       exit();
      
     }
-
   }
 ?>
 
@@ -149,6 +214,28 @@
       height: 16px;
       vertical-align: middle;
     }
+
+    @media (max-width: 768px) {
+      .flightinfo {
+        justify-content: center;
+      }
+      
+      h7 {
+        display: none;
+      }
+
+      row {
+        width: 100%;
+      }
+
+    }
+
+    @media (max-width: 736px) {
+      row {
+        width: 100%;
+      }
+
+    }
   </style>
 </head>
 <body style="margin: 0;">
@@ -184,35 +271,64 @@
 
     <div class="bg-white shadow rounded mb-4 overflow-hidden">
       <div class="p-4">
-        <div class="mb-3">
-          <b>CEB</b> Cebu to <b>MNL</b> Manila<br>
-          <small>04 January 2025 | 10:00 AM - 12:00 PM</small>
+      <div class="row mb-3">
+        <div class="flightinfo col-md-<?= ($flightType === 'onewaytrip') ? '12' : '6' ?>">
+          <b><?= $depFlightInfo[0]['departure_code'] ?></b><h7> <?= $depFlightInfo[0]['departure_location'] ?></h7>
+          to
+          <b><?= $depFlightInfo[0]['arrival_code'] ?></b><h7>  <?= $depFlightInfo[0]['arrival_location'] ?></h7><br>
+          <small>
+            <?= date("d F Y", strtotime($depFlightInfo[0]['date'])) ?> |
+            <?= date("g:i A", strtotime($depFlightInfo[0]['departure_time'])) ?> -
+            <?= date("g:i A", strtotime($depFlightInfo[0]['arrival_time'])) ?>
+          </small>
+
+
         </div>
-        <hr>
-        <div class="d-flex justify-content-between mb-3 ms-5">
-          <span>Adult 1</span>
-          <span class="me-5"><b>PHP 4,000.00</b></span>
-        </div>
+
+        <?php if ($flightType === 'roundtrip'): ?>
+          <div class=" flightinfo col-md-6">
+            <b><?= $retFlightInfo[0]['departure_code'] ?></b><h7>  <?= $retFlightInfo[0]['departure_location'] ?></h7>
+            to
+            <b><?= $retFlightInfo[0]['arrival_code'] ?></b><h7>  <?= $retFlightInfo[0]['arrival_location'] ?></h7><br>
+            <small>
+              <?= date("d F Y", strtotime($retFlightInfo[0]['date'])) ?> |
+              <?= date("g:i A", strtotime($retFlightInfo[0]['departure_time'])) ?> -
+              <?= date("g:i A", strtotime($retFlightInfo[0]['arrival_time'])) ?>
+          </small>          </div>
+        <?php endif; ?>
+      </div>
+
+        <hr>  
+        <?php
+            for ($i = 1; $i <= $numberofPassenger; $i++):
+    
+          ?>
+            <div class="d-flex justify-content-between mb-3 ms-5">
+            <span>Passenger <?= $i ?></span>
+            <span class="me-5"><b>PHP <?= $baseprice?></b></span>
+            </div>
+        
+          <?php endfor; ?>
+
         <div class="d-flex justify-content-between mb-1 ms-5">
           <span>Taxes and Fees</span>
-          <span class="me-5"><b>PHP 1,088.00</b></span>
+          <span class="me-5"><b>PHP <?= $tax ?></b></span>
         </div>
       </div>
       <div class="d-flex justify-content-between fw-bold px-4 py-2" style="background-color:rgb(154, 167, 231); color: #000;">
         <span class="ms-5">Total</span>
-        <span class="me-5">PHP 5,088.00</span>
+        <span class="me-5">PHP <?= $totalprice + $tax ?> </span>
       </div>
     </div>
 
     <!-- FORM START -->
-    <form method="POST" action="">
+    <form method="POST" action="#">
 
       <h3 style="font-weight: 700;">Payment Method</h3>
       <h6>Select your preferred payment option</h6>
 
       <div class="p-4 bg-white shadow rounded">
         <h5 style="text-align: center; margin-top: 10px;">
-          <!-- <i class="bi bi-credit-card me-2"></i><b>PAYMENT</b> -->
         </h5>
   
           <label class="payment-option">
@@ -228,14 +344,14 @@
             <div class="card card-body">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your name" style="margin-bottom: 15px;" required>
+                <input type="text" class="form-control" id="name" name="card_name" placeholder="Enter your name" style="margin-bottom: 15px;" required>
                 <label for="cardNumber" class="form-label">Card Number</label>
-                <input type="number" class="form-control" id="cardNumber" name="card-number" placeholder="XXXX XXXX XXXX XXXX" style="margin-bottom: 15px;">
+                <input type="number" class="form-control" id="cardNumber" name="card_number" placeholder="XXXX XXXX XXXX XXXX" style="margin-bottom: 15px;">
                 
                 <div class="row">
                   <div class="col-md-6">
-                    <label for="month" class="form-label">VALID THRU</label>
-                    <input type="month" class="form-control" id="month" name="month" placeholder="YYYY/MM" style="height: 58%;">
+                    <label for="expiry" class="form-label">VALID THRU</label>
+                    <input type="month" class="form-control" id="expiry" name="expiry" placeholder="YYYY/MM" style="height: 58%;">
                   </div>
                   <div class="col-md-6">
                     <label for="cvv" class="form-label">CVV</label>
@@ -249,7 +365,7 @@
 
           <label class="payment-option d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
-            <input type="radio" name="payment" value="bank" onclick="toggleCollapse('bank')" >
+            <input type="radio" name="payment" value="on-site" onclick="toggleCollapse('on-site')" >
             <img src="https://icon-library.com/images/flight-icon/flight-icon-4.jpg" alt="Flight Icon" height="24"> On-Site Payment
             </div>
           </label>
@@ -257,18 +373,17 @@
           <div class="collapse mt-2" id="onsiteCollapse" style="margin-bottom: 10px;">
             <div class="card card-body">
               <div class="mb-3">
-                <label for="onsite-name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="onsite-name" name="onsite-name" placeholder="Enter your name" >
+                <label for="onsite_name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="onsite_name" name="onsite_name" placeholder="Enter your name" >
                 </div>
 
-                <label for="valid-id" class="form-label">Valid ID Number</label>
-                <input type="number" class="form-control" id="valid-id" name="valid-id" placeholder="Enter your valid ID number" >
+                <label for="onside-idnum" class="form-label">Valid ID Number</label>
+                <input type="number" class="form-control" id="onsite_idnum" name="onsite_idnum" placeholder="Enter your valid ID number" >
               </div>
             
         </div>
       </div>
  
-
       <!-- Terms & Conditions -->
       <div class="white shadow border rounded p-2 bg-white my-3">
         <div class="d-flex align-items-start p-2">
@@ -279,14 +394,12 @@
         </div>
       </div>
 
-      <!-- Navigation Buttons -->
       <div class="d-flex justify-content-end align-items-end w-100" style="height: 100px;">
         <a href="addons.php" class="btn btn-secondary me-3" style="width: 150px; height: 40px;">Back</a>
         <button type="submit" name="confirmbooking" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
       </div>
 
     </form>
-    <!-- FORM END -->
 
   </div>
 </div>
@@ -305,77 +418,47 @@
     if (option === 'card') {
       creditCollapse.show();
       onsiteCollapse.hide();
-    } else if (option === 'bank') {
+    } else if (option === 'on-site') {
       creditCollapse.hide();
       onsiteCollapse.show();
     }
   }
 
   function toggleCollapse(option) {
-  const creditCard = document.getElementById('creditCardCollapse');
-  const onsite = document.getElementById('onsiteCollapse');
+    const creditCard = document.getElementById('creditCardCollapse');
+    const onsite = document.getElementById('onsiteCollapse');
 
-  const creditCollapse = bootstrap.Collapse.getOrCreateInstance(creditCard, { toggle: false });
-  const onsiteCollapse = bootstrap.Collapse.getOrCreateInstance(onsite, { toggle: false });
+    const creditCollapse = bootstrap.Collapse.getOrCreateInstance(creditCard, { toggle: false });
+    const onsiteCollapse = bootstrap.Collapse.getOrCreateInstance(onsite, { toggle: false });
 
-  // Hide both and remove 'required'
-  creditCollapse.hide();
-  onsiteCollapse.hide();
-  toggleRequiredFields(creditCard, false);
-  toggleRequiredFields(onsite, false);
+    // Hide both and remove 'required'
+    creditCollapse.hide();
+    onsiteCollapse.hide();
+    toggleRequiredFields(creditCard, false);
+    toggleRequiredFields(onsite, false);
 
-  if (option === 'card') {
-    creditCollapse.show();
-    toggleRequiredFields(creditCard, true);
-  } else if (option === 'bank') {
-    onsiteCollapse.show();
-    toggleRequiredFields(onsite, true);
-  }
-}
-
-function toggleRequiredFields(container, isRequired) {
-  const inputs = container.querySelectorAll('input');
-  inputs.forEach(input => {
-    if (isRequired) {
-      input.setAttribute('required', 'required');
-    } else {
-      input.removeAttribute('required');
+    if (option === 'card') {
+      creditCollapse.show();
+      toggleRequiredFields(creditCard, true);
+    } else if (option === 'on-site') {
+      onsiteCollapse.show();
+      toggleRequiredFields(onsite, true);
     }
-  });
-}
+  }
+
+  function toggleRequiredFields(container, isRequired) {
+    const inputs = container.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (isRequired) {
+        input.setAttribute('required', 'required');
+      } else {
+        input.removeAttribute('required');
+      }
+    });
+  }
 
 </script>
 
-        
-      <!-- Displaying Guest Details -->
-      <!-- <div class="container">
-          <h2>Guest Details</h2>
-          </?php if (!empty($guestDetails)): ?>
-              </?php foreach ($guestDetails as $index => $guest): ?>
-                  <div class="guest-details">
-                      <h4>Guest #</?= $index ?></h4>
-                      <p><strong>Title:</strong> </?= htmlspecialchars($guest['title']) ?></p>
-                      <p><strong>First Name:</strong> </?= htmlspecialchars($guest['first_name']) ?></p>
-                      <p><strong>Last Name:</strong> </?= htmlspecialchars($guest['last_name']) ?></p>
-                      <p><strong>Date of Birth:</strong> </?= htmlspecialchars($guest['year']) ?>-</?= htmlspecialchars($guest['month']) ?>-</?= htmlspecialchars($guest['day']) ?></p>
-                      <p><strong>Contact:</strong> </?= htmlspecialchars($guest['contact']) ?></p>
-                      <p><strong>Nationality:</strong> </?= htmlspecialchars($guest['nationality']) ?></p>
-                      <p><strong>Email:</strong> </?= htmlspecialchars($guest['email']) ?></p>
-                  </div>
-                  <hr>
-              </?php endforeach; ?>
-          </?php else: ?>
-              <p>No guest details available.</p>
-          </?php endif; ?>
-      </div> -->
-
-            <button type="submit" name="confirmbooking" class="btn btn-primary">
-                Next
-            </button>
-        </form>
-
-
-
-
+    
 </body>
 </html>
