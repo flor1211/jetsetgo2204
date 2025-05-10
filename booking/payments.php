@@ -14,6 +14,7 @@
   $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
   $numberofPassenger = $_SESSION['numberofpassenger'];
 
+
   $user = new Crud();
   $bookingUser = new BookingCrud();
 
@@ -36,17 +37,9 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    
-
     if (isset($_POST['confirmbooking'])){
-      
-    echo "<pre>";
-    print_r($_POST);  // This will show all POST data
-    echo "</pre>";
-
     
       $payment_type = $_POST['payment'];
-
 
       if ($flightType == 'roundtrip') {
 
@@ -166,6 +159,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="booking-style.css">
 
+      <!-- SWEET -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     /* .mop-container {
       background: #fff;
@@ -236,20 +232,64 @@
       }
 
     }
+
+    .navbar {
+        height: 55px;
+        padding: 0; 
+        }
+
+        .custom-navbar {
+            background-color: #162447;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+            color: white;
+            white-space: nowrap; 
+        }
+
+        .btn {
+            margin: 50px;
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%;
+        }
   </style>
 </head>
 <body style="margin: 0;">
 
-<!-- Navbar -->
-<div id="navbar-container">
-  <script>
-    fetch("topbar.php")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar-container").innerHTML = data;
-      });
-  </script>
-</div>
+        <!-- Navbar -->
+        <div id="navbar-container">
+            <!-- <script>
+                fetch("topbar.php")
+                  .then(res => res.text())
+                  .then(data => {
+                    document.getElementById("navbar-container").innerHTML = data;
+                  });
+              </script> -->
+              <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+                <div class="container-fluid d-flex align-items-center">
+
+
+                  <span class="navbar-brand">
+                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    JetSetGo
+                  </span>
+
+                  <button class="btn btn-outline-light ms-auto" id="cancelBookingBtn">
+                    <i class="bi bi-box-arrow-left"></i> Cancel Booking
+                  </button>
+
+
+                </div>
+              </nav>
+        </div>
+
+<br>
 
 <!-- Steps -->
 <div id="steps-container">
@@ -301,7 +341,6 @@
         <hr>  
         <?php
             for ($i = 1; $i <= $numberofPassenger; $i++):
-    
           ?>
             <div class="d-flex justify-content-between mb-3 ms-5">
             <span>Passenger <?= $i ?></span>
@@ -394,9 +433,10 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-end align-items-end w-100" style="height: 100px;">
-        <a href="addons.php" class="btn btn-secondary me-3" style="width: 150px; height: 40px;">Back</a>
-        <button type="submit" name="confirmbooking" class="btn btn-primary" style="width: 150px; height: 40px;">Confirm</button>
+
+      <div class="container d-flex justify-content-center gap-2" style="padding-top: 20px; padding-bottom: 20px; max-width: 75%;">
+        <button type="submit" name="confirmbooking" class="btn btn-success btn-md" style="margin: 0; width: 200px;">PAY</button>
+        <a class="btn btn-secondary btn-md" href="guestdetails.php" role="button" style="margin: 0;width: 100px;">BACK</a>
       </div>
 
     </form>

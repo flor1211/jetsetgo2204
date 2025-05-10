@@ -6,6 +6,7 @@
 
   $user = new BookingCrud();
 
+
   $dep =  $_SESSION['selected_from'];
   $arr =  $_SESSION['selected_to'];
   $ddate = $_SESSION['departing_date'];
@@ -22,6 +23,9 @@
   $selectedDepFlight = null;
   $selectedRetFlight = null;
 
+
+  
+
       
   if (!isset($_SESSION['bookingpage_completed'])) {
     header('Location: booking.php');
@@ -29,7 +33,7 @@
   }
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if 'next-step' is clicked
+
       // Save the selected flights into the session for later use
       if (isset($_POST['selected_depflight'])) {
         $_SESSION['selected_depflight'] = $_POST['selected_depflight'];
@@ -82,6 +86,7 @@
     <!-- SWEET -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <title>JetSetGo</title>
 
     <link rel="stylesheet" href="booking-style.css">
@@ -108,6 +113,38 @@
         .price {
             color: #4B0082;
             font-weight: bold;
+        }
+
+        @media (max-width:1000px) {
+          .bookingselected {
+            display: none;
+          }
+        }
+
+        .navbar {
+        height: 55px;
+        padding: 0; 
+        }
+
+        .custom-navbar {
+            background-color: #162447;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+            color: white;
+            white-space: nowrap; 
+        }
+
+        .btn {
+            margin: 50px;
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%;
         }
     </style>
 
@@ -146,18 +183,63 @@
     <body style="margin: 0;">
          <!-- NavBar Container -->
          <div id="navbar-container">
-            <script>
+            <!-- <script>
                 fetch("topbar.php")
                   .then(res => res.text())
                   .then(data => {
                     document.getElementById("navbar-container").innerHTML = data;
                   });
-              </script>
+              </script> -->
+              <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+                <div class="container-fluid d-flex align-items-center">
+
+
+                  <span class="navbar-brand">
+                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    JetSetGo
+                  </span>
+
+                  <button class="btn btn-outline-light ms-auto" id="cancelBookingBtn">
+                    <i class="bi bi-box-arrow-left"></i> Cancel Booking
+                  </button>
+
+
+                </div>
+              </nav>
         </div>
 
         <!-- Main Content -->
-        <div style="padding: 20px;">
-            <h1>JeSetGo</h1>
+        <div class="bookingselected bg-white w-100 shadow rounded overflow-hidden">
+          <div>
+            <div class="d-flex justify-content-center align-items-center" style="margin: 0; padding: 0px; height: 115px">
+              <!-- Flight Info Blocks -->
+              <div class="d-flex flex-wrap align-items-top gap-5">
+
+              
+                <div class="me-4">
+                  <h6 class="mb-2">Departing Flight</h6>
+                  <b><?= $dep ?></b><span class="ms-1"></span> to <b class="ms-2"><?= $arr ?></b><span class="ms-1"></span><br>
+                  <small> <?= date("d F Y", strtotime($ddate)) ?></small>
+                </div>
+
+                <?php if ($tripType === 'roundtrip'): ?>
+                <div class="me-4">
+                  <h6 class="mb-2">Returning Flight</h6>
+                  <b><?= $arr ?></b><span class="ms-1"></span> to <b class="ms-2"><?= $dep ?></b><span class="ms-1"></span><br>
+                  <small> <?= date("d F Y", strtotime($rdate)) ?></small>
+                </div>
+                <?php endif; ?>
+
+                <div class="me-4">
+                  <h6 class="mb-2">Guest</h6>
+                  <span class="ms-1"><?= $numadult ?> Adult, <?= $numchildren ?> Children</span>
+                </div>
+              </div>
+                <div>
+                  <a role="button" href="booking.php" class="btn btn-outline-primary" name="editsearch" >Edit Search</a>
+                </div>
+            </div>
+          </div>
         </div>
 
         <!-- Steps Container -->
@@ -176,75 +258,72 @@
 
             <!-- Departing FLIGHTS CONTAINER -->
             <div class="container departing-container" id="departing-container" style="padding: 20px; max-width: 75%">
-                <div class="card border-primary">
-                    <div class="card-body" style="padding: 30px;">
-                        <h6 class="mb-2">Select your Departing Flight</h6>
-                        <h3><strong><?= $dep ?></strong> - <strong><?= $arr ?></strong></h3>
-                        <p class="text-muted">Filter by:</p>
+              <div class="card border-primary">
+                  <div class="card-body" style="padding: 30px;">
+                      <h6 class="mb-2">Select your Departing Flight</h6>
+                      <h3><strong><?= $dep ?></strong> - <strong><?= $arr ?></strong></h3>
+
+                      <?php if (empty($allAvailableDepFlights)): ?>
+                        <div class="alert alert-warning text-center" style="margin-top: 15px" role="alert">
+                          <h4 class="alert-heading">No Flights Available!</h4>
+                          <p>Unfortunately, there are no flights from <strong><?= $dep ?></strong> to <strong><?= $arr ?></strong> on your selected date.</p>
+                          <a href="booking.php" class="btn btn-primary" style="margin: 0;">Select Another Date</a>
+                        </div>
+                      
+                      <?php else: ?>
                           <?php foreach ($allAvailableDepFlights as $u): ?>
-
                               <?php 
-                                $depart = strtotime($u['departure_time']);
-                                $arrive = strtotime($u['arrival_time']);
-                                $durationMinutes = ($arrive - $depart) / 60;
-                                $hours = floor($durationMinutes / 60);
-                                $minutes = $durationMinutes % 60;
-                                $durationFormatted = "{$hours}h {$minutes}min";
+                                  $depart = strtotime($u['departure_time']);
+                                  $arrive = strtotime($u['arrival_time']);
+                                  $durationMinutes = ($arrive - $depart) / 60;
+                                  $hours = floor($durationMinutes / 60);
+                                  $minutes = $durationMinutes % 60;
+                                  $durationFormatted = "{$hours}h {$minutes}min";
                               ?>
-
                               <div class="container my-2">
-                                <div class="row justify-content-center">
-                                  <div class="col-lg-15">
-                                    <label class="border rounded flight-card p-3 d-block w-100">
-                                      <input type="radio" name="selected_depflight" onclick="handleDepFlightSelection(this)" value="<?= $u['flight_id'] ?>" hidden required>
+                                  <div class="row justify-content-center">
+                                      <div class="col-lg-15">
+                                          <label class="border rounded flight-card p-3 d-block w-100">
+                                              <input type="radio" name="selected_depflight" onclick="handleDepFlightSelection(this)" value="<?= $u['flight_id'] ?>" hidden required>
 
-                                      <div class="row align-items-center">
-                                        <!-- Time and route (Departure) -->
-                                        <div class="col-md-2 text-center">
-                                          <div><strong><?= date("g:i A", strtotime($u['departure_time'])) ?></strong></div>
-                                          <div class="text">
-                                            Depart - <strong><?= $u['departure_code'] ?></strong>
-                                          </div>
-                                        </div>
+                                              <div class="row align-items-center">
+                                                  <div class="col-md-2 text-center">
+                                                      <div><strong><?= date("g:i A", strtotime($u['departure_time'])) ?></strong></div>
+                                                      <div class="text">Depart - <strong><?= $u['departure_code'] ?></strong></div>
+                                                  </div>
 
-                                        <!-- Time and route (Arrival) -->
-                                        <div class="col-md-2 text-center">
-                                          <div><strong><?= date("g:i A", strtotime($u['arrival_time'])) ?></strong></div>
-                                          <div class="text">
-                                            Arrive - <strong><?= $u['arrival_code'] ?></strong>
-                                          </div>
-                                        </div>
+                                                  <div class="col-md-2 text-center">
+                                                      <div><strong><?= date("g:i A", strtotime($u['arrival_time'])) ?></strong></div>
+                                                      <div class="text">Arrive - <strong><?= $u['arrival_code'] ?></strong></div>
+                                                  </div>
 
-                                        <!-- Plane Code -->
-                                        <div class="col-md-3 text-center">
-                                          <?= $u['plane_code'] ?>
-                                        </div>
+                                                  <div class="col-md-3 text-center">
+                                                      <?= $u['plane_code'] ?>
+                                                  </div>
 
-                                        <!-- Duration -->
-                                        <div class="col-md-2 text-center">
-                                          <?= $durationFormatted ?>
-                                        </div>
+                                                  <div class="col-md-2 text-center">
+                                                      <?= $durationFormatted ?>
+                                                  </div>
 
-                                        <!-- Price -->
-                                        <div class="col-md-3 text-center">
-                                          <span class="price" style="color: red;">PHP <?= number_format($u['price'], 2) ?></span><br>
-                                          <small class="text-muted">per Guest</small>
-                                        </div>
+                                                  <div class="col-md-3 text-center">
+                                                      <span class="price" style="color: red;">PHP <?= number_format($u['price'], 2) ?></span><br>
+                                                      <small class="text-muted">per Guest</small>
+                                                  </div>
+                                              </div>
+                                          </label>
                                       </div>
-                                    </label>
                                   </div>
-                                </div>
                               </div>
-
                           <?php endforeach; ?>
-                    </div>
-                </div>
+                      <?php endif; ?>
+                  </div>
+              </div>
             </div>
 
             <!-- SELECTED Departing FLIGHTS CONTAINER -->
             <div class="container selected-departing-container" id="selected-departing-container" style="padding: 20px; max-width: 75%; display: none">
                 <div class="card border-primary">
-                    <div class="card-body pt-2 pb-4 px-4">
+                  <div class="card-body" style="padding: 30px;">
                         <!-- Title + Button in one row -->
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div>
@@ -252,7 +331,7 @@
                                 <h3 class="mt-1"><strong><?= $dep ?></strong> - <strong><?= $arr ?></strong></h3>
                             </div>
                             <div>
-                                <button type="button" onclick="changeSelectDepFlight(this)" class="btn btn-outline-success">Change</button>
+                                <button type="button" onclick="changeSelectDepFlight(this)" style="margin: 0;" class="btn btn-outline-success">Change</button>
                             </div>
                         </div>
 
@@ -272,8 +351,14 @@
                         <h6 class="mb-2">Select your Returning Flight</h6>
 
                         <h3><strong><?= $arr ?></strong> - <strong><?= $dep ?></strong></h3>
-
-                        <p class="text-muted">Filter by:</p>
+                          
+                        <?php if (empty($allAvailableRetFlights)): ?>
+                          <div class="alert alert-warning text-center" style="margin-top: 15px" role="alert">
+                            <h4 class="alert-heading">No Flights Available!</h4>
+                            <p>Unfortunately, there are no flights from <strong><?= $arr ?></strong> to <strong><?= $dep ?></strong> on your selected date.</p>
+                            <a href="booking.php" class="btn btn-primary" style="margin: 0;">Select Another Date</a>
+                          </div>
+                        <?php else: ?>
                           <?php foreach ($allAvailableRetFlights as $u): ?>
 
                               <?php 
@@ -328,8 +413,8 @@
                                   </div>
                                 </div>
                               </div>
-
-                          <?php endforeach; ?>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -338,27 +423,30 @@
             <!-- SELECTED Returning FLIGHTS CONTAINER -->
             <div class="container selected-returning-container" id="selected-returning-container" style="padding: 20px; max-width: 75%; display: none">
                 <div class="card border-primary">
-                    <div class="card-body pt-2 pb-4 px-4">
-                            <!-- Title + Button in one row -->
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <div>
-                                    <h6 class="mb-0">Selected Returning Flight</h6>
-                                    <h3 class="mt-1"><strong><?= $arr ?></strong> - <strong><?= $dep ?></strong></h3>
-                                </div>
-                                <div>
-                                    <button type="button" onclick="changeSelectRetFlight(this)" class="btn btn-outline-success">Change</button>
-                                </div>
+                    <div class="card-body" style="padding: 30px;">
+
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>
+                                <h6 class="mb-0">Selected Departing Flight</h6>
+                                <h3 class="mt-1"><strong><?= $dep ?></strong> - <strong><?= $arr ?></strong></h3>
                             </div>
+                            <div>
+                                <button type="button" onclick="changeSelectDepFlight(this)" style="margin: 0;" class="btn btn-outline-success">Change</button>
+                            </div>
+                        </div>
 
                         <div id="selected-returning-card-container" class="mt-3"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between my-4">
-                <a class="btn btn-secondary btn-md" href="booking.php" role="button">BACK</a>
-                <button type="submit" class="btn btn-primary btn-md">CONTINUE</button>
+            <div class="container d-flex justify-content-end gap-3" style="padding: 0; max-width: 75%;">
+              <a class="btn btn-secondary btn-md" href="booking.php" role="button" style="margin: 0; ">BACK</a>
+              <button type="submit" class="btn btn-primary btn-md" style="margin: 0;margin-right: 20px">CONTINUE</button>
             </div>
+
+
+
 
 
         </form>
@@ -500,7 +588,26 @@
 
     </script>
 
-    
+
+  <script>
+    document.getElementById('cancelBookingBtn').addEventListener('click', function () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will cancel your booking and cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Cancel Booking',
+        cancelButtonText: 'Back'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'cancelbooking.php';
+        }
+      });
+    });
+  </script>
+      
 
   </body>
 </html>

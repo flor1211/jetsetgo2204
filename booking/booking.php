@@ -6,6 +6,11 @@ require_once '../database/admin-crud.php';
 $adminCrud = new Crud();
 $airports = $adminCrud->getAllAirports();
 
+$dep =  $_SESSION['selected_from'] ?? null;
+$arr =  $_SESSION['selected_to'] ?? null;
+$ddate = $_SESSION['departing_date'] ?? null;
+$rdate = $_SESSION['returning_date'] ?? null;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $_SESSION['bookingpage_completed'] = true;
@@ -48,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>JetSetGo</title>
 
   <!-- <link rel="stylesheet" href="bookingpage.css"> -->
+
+       <!-- SWEET -->
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
     .background-image {
@@ -304,60 +312,86 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       transform: scale(1.2); /* radio button size */
       margin-right: 8px; /* gap between the button and label */
     }
-  }
-
-  @media (max-width: 440px) {
-    .booking-form {
-      max-width: 90%;
-      transform: scale(0.65); /* Smaller overall scale */
-      padding: 0.4rem;
-      margin: 0 auto;
-      box-sizing: border-box;
     }
 
-    .booking-form input,
-    .booking-form select,
-    .booking-form button {
-      font-size: 0.6rem; /* Even smaller text */
-      padding: 2px 4px; /* Less padding for better fit */
-      width: 100%;
+    @media (max-width: 440px) {
+      .booking-form {
+        max-width: 90%;
+        transform: scale(0.65); /* Smaller overall scale */
+        padding: 0.4rem;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+
+      .booking-form input,
+      .booking-form select,
+      .booking-form button {
+        font-size: 0.6rem; /* Even smaller text */
+        padding: 2px 4px; /* Less padding for better fit */
+        width: 100%;
+      }
+
+      .form-section h5 {
+        font-size: 0.75rem;
+        margin-bottom: 0.15rem;
+      }
+
+      .booking-form label {
+        font-size: 0.65rem;
+      }
+
+      .form-submit {
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+
+      .booking-form i {
+        font-size: 0.7rem;
+      }
+
+      /* shrink logo + navbar items if needed */
+      .navbar-brand {
+        font-size: 0.85rem;
+        margin-left: 10px;
+      }
+
+      .navbar-brand img {
+        width: 35px;
+        height: 35px;
+      }
+
+      .btn {
+        font-size: 0.7rem;
+        margin: 0 10px;
+        padding: 4px 8px;
+      }
     }
 
-    .form-section h5 {
-      font-size: 0.75rem;
-      margin-bottom: 0.15rem;
-    }
+    .navbar {
+        height: 55px;
+        padding: 0; 
+        }
 
-    .booking-form label {
-      font-size: 0.65rem;
-    }
+        .custom-navbar {
+            background-color: #162447;
+        }
 
-    .form-submit {
-      margin-top: 0.5rem;
-      text-align: center;
-    }
+        .navbar-brand {
+            margin-left: 50px;
+            color: white;
+            white-space: nowrap; 
+        }
 
-    .booking-form i {
-      font-size: 0.7rem;
-    }
+        .btn {
+            margin: 50px;
+        }
 
-    /* shrink logo + navbar items if needed */
-    .navbar-brand {
-      font-size: 0.85rem;
-      margin-left: 10px;
-    }
-
-    .navbar-brand img {
-      width: 35px;
-      height: 35px;
-    }
-
-    .btn {
-      font-size: 0.7rem;
-      margin: 0 10px;
-      padding: 4px 8px;
-    }
-  }
+        .container-fluid {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%;
+        }
 
 
   </style>
@@ -367,27 +401,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body style="margin: 0;">
   <!-- NavBar Container -->
   <div id="navbar-container">
-    <script>
-      fetch("topbar.php")
-        .then(res => res.text())
-        .then(data => {
-          document.getElementById("navbar-container").innerHTML = data;
-        });
-    </script>
-  </div>
+              <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+                <div class="container-fluid d-flex align-items-center">
 
-</head>
 
-<body style="margin: 0;">
-  <!-- NavBar Container -->
-  <div id="navbar-container">
-    <script>
-      fetch("topbar.php")
-        .then(res => res.text())
-        .then(data => {
-          document.getElementById("navbar-container").innerHTML = data;
-        });
-    </script>
+                  <span class="navbar-brand">
+                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    JetSetGo
+                  </span>
+
+                  <button class="btn btn-outline-light ms-auto" id="cancelBookingBtn">
+                    <i class="bi bi-box-arrow-left"></i> Cancel Booking
+                  </button>
+
+
+                </div>
+              </nav>
+        </div>
   </div>
 
 
@@ -407,7 +437,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
               <label for="fromInput" style="display:flex; justify-content: center; align-items: center">From</label>
               <select id="fromInput" name="from" style="width: 150px;" required>
-              <option value="" selected hidden>Select Location</option>
+
+              <?php if (!isset($_SESSION['selected_from'])) { ?>
+                <option value="" selected hidden>Select Location</option>
+              <?php } elseif (isset($_SESSION['selected_from'])) {
+              ?>
+                <option value="<?= $dep ?>" selected hidden><?= $dep ?></option>
+              <?php }?>
+
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
                     <?= htmlspecialchars($airport['airport_location']) ?>
@@ -417,7 +454,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
               <label for="toInput" style="display:flex; justify-content: center; align-items: center">To</label>
               <select id="toInput" name="to" style="width: 150px;" required>
-              <option value="" selected hidden>Select Location</option>
+
+              <?php if (!isset($_SESSION['selected_to'])) { ?>
+                <option value="" selected hidden>Select Location</option>
+              <?php } elseif (isset($_SESSION['selected_to'])) {
+              ?>
+                <option value="<?= $arr ?>" selected hidden><?= $arr ?></option>
+              <?php }?>
+
                 <?php foreach ($airports as $airport): ?>
                   <option value="<?= htmlspecialchars($airport['airport_code']) ?>">
                     <?= htmlspecialchars($airport['airport_location']) ?>
@@ -465,7 +509,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               const oneWayTrip = document.getElementById('oneWayTrip');
               const returnDate = document.getElementById('returnDate');
               const returnLabel = document.getElementById('returnLabel');
-              const departingDate = document.getElementById('departingDate'); // <-- you missed this
+              const departingDate = document.getElementById('departingDate');
 
               function toggleReturnDate() {
                 if (oneWayTrip && oneWayTrip.checked) {
@@ -506,6 +550,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
   <!-- <script src="booking.js"></script> -->
+
+  <script>
+    document.getElementById('cancelBookingBtn').addEventListener('click', function () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "This will cancel your booking and cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Cancel Booking',
+        cancelButtonText: 'Back'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = 'cancelbooking.php';
+        }
+      });
+    });
+  </script>
 
 </body>
 
