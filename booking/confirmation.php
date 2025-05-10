@@ -30,29 +30,50 @@
     <link rel="stylesheet" href="booking-style.css">
 
     <style>
+        .navbar {
+        height: 55px;
+        padding: 0; 
+        }
 
+        .custom-navbar {
+            background-color: #162447;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+            color: white;
+            white-space: nowrap; 
+        }
+
+        .btn {
+            margin: 50px;
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%;
+        }
     </style>
 
   </head>
     <body style="margin: 0; background: white">
          <!-- NavBar Container -->
          <div id="navbar-container">
-            <script>
-                fetch("topbar.php")
-                  .then(res => res.text())
-                  .then(data => {
-                    document.getElementById("navbar-container").innerHTML = data;
-                  });
-              </script>
+              <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+                <div class="container-fluid d-flex align-items-center">
+
+
+                  <span class="navbar-brand">
+                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    JetSetGo
+                  </span>
+                </div>
+              </nav>
         </div>
 
-
-        <!-- Main Content -->
-        <div style="padding: 20px;">
-            <h1>JetSetGo</h1>
-
-
-        </div>
+        <br>
 
         <!-- Steps Container -->
         <div id="steps-container">

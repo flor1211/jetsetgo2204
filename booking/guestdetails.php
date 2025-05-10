@@ -7,9 +7,32 @@
     exit();
   }
 
+  require_once '../database/booking-crud.php';
+
+  $user = new BookingCrud();
+
   $selectedDepFlight = $_SESSION['selected_depflight'] ?? null;
   $selectedRetFlight = $_SESSION['selected_retflight'] ?? null;
+
+  
+  $dep =  $_SESSION['selected_from'];
+  $arr =  $_SESSION['selected_to'];
+  $ddate = $_SESSION['departing_date'];
+  $rdate = $_SESSION['returning_date'];
+
+  $numadult = (int)$_SESSION['num_of_adult'];
+  $numchildren = (int) $_SESSION['num_of_children'];
+
+  $tripType = $_SESSION['trip_type']; 
+
   $numberofPassenger = $_SESSION['numberofpassenger'] ?? 1;
+
+//   $depFlightInfo = $user->getSelectedFlight($selectedDepFlight);
+//   $retFlightInfo = $_SESSION['trip_type'] === 'roundtrip' ? $user->getSelectedFlight($selectedRetFlight) : 0;
+
+//   $_SESSION['departing_price'] = $depFlightInfo['price'];
+//   $_SESSION['returning_price'] = $retFlightInfo['price'];
+
 
   $errors = [];
 
@@ -40,7 +63,7 @@
             // echo '<pre>';
             // print_r($guestDetails); 
             // echo '</pre>';
-            header('Location: addons.php');
+            header('Location: payments.php');
             exit();
         }
     }
@@ -64,6 +87,8 @@
     <title>JetSetGo</title>
 
     <!-- <link rel="stylesheet" href="booking-style.css"> -->
+         <!-- SWEET -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
 
@@ -241,6 +266,32 @@
         }
         }
 
+        .navbar {
+        height: 55px;
+        padding: 0; 
+        }
+
+        .custom-navbar {
+            background-color: #162447;
+        }
+
+        .navbar-brand {
+            margin-left: 50px;
+            color: white;
+            white-space: nowrap; 
+        }
+
+        .btn {
+            margin: 50px;
+        }
+
+        .container-fluid {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%;
+        }
+
 
 
     </style>
@@ -250,17 +301,65 @@
     <body style="margin: 0;">
          <!-- NavBar Container -->
          <div id="navbar-container">
-            <script>
+            <!-- <script>
                 fetch("topbar.php")
                   .then(res => res.text())
                   .then(data => {
                     document.getElementById("navbar-container").innerHTML = data;
                   });
-              </script>
-        </div>
+              </script> -->
+              <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+                <div class="container-fluid d-flex align-items-center">
 
+
+                  <span class="navbar-brand">
+                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    JetSetGo
+                  </span>
+
+                  <button class="btn btn-outline-light ms-auto" id="cancelBookingBtn">
+                    <i class="bi bi-box-arrow-left"></i> Cancel Booking
+                  </button>
+
+
+                </div>
+              </nav>
+        </div>  
 
         <!-- Main Content -->
+        <div class="bookingselected bg-white w-100 shadow rounded overflow-hidden">
+          <div>
+            <div class="d-flex justify-content-center align-items-center" style="margin: 0; padding: 0px; height: 105px">
+              <!-- Flight Info Blocks -->
+              <div class="d-flex flex-wrap align-items-top gap-5">
+
+              
+                <div class="me-4">
+                  <h6 class="mb-2">Departing Flight</h6>
+                  <b><?= $dep ?></b><span class="ms-1"></span> to <b class="ms-2"><?= $arr ?></b><span class="ms-1"></span><br>
+                  <small> <?= date("d F Y", strtotime($ddate)) ?></small>
+                </div>
+
+                <?php if ($tripType === 'roundtrip'): ?>
+                <div class="me-4">
+                  <h6 class="mb-2">Returning Flight</h6>
+                  <b><?= $arr ?></b><span class="ms-1"></span> to <b class="ms-2"><?= $dep ?></b><span class="ms-1"></span><br>
+                  <small> <?= date("d F Y", strtotime($rdate)) ?></small>
+                </div>
+                <?php endif; ?>
+
+                <div class="me-4">
+                  <h6 class="mb-2">Guest</h6>
+                  <span class="ms-1"><?= $numadult ?> Adult, <?= $numchildren ?> Children</span>
+                </div>
+              </div>
+                <div>
+                  <a role="button" href="booking.php" class="btn btn-outline-primary" name="editsearch" >Edit Search</a>
+                </div>
+            </div>
+          </div>
+        </div>
+        
 
         <!-- Steps Container -->
         <div id="steps-container">
@@ -291,11 +390,11 @@
             ?>
             <div class="details-parent" id="guest<?= $i ?>">
                 <div class="div1">
-                <h2 class="guest-title">Adult <?= $i ?></h2>
+                <h2 class="guest-title">Passenger <?= $i ?></h2>
                 </div>
 
                 <div class="div2">
-                <h3>Name</h3>
+                <h4>Name</h4>
                 <div class="row name-section">
                     <div class="form-field col-md-4 col-sm-12">
                     <label for="titleinput<?= $i ?>">Title</label>
@@ -319,7 +418,7 @@
                 </div>
 
                 <div class="div3">
-                <h3>Date of Birth</h3>
+                <h4>Date of Birth</h4>
                     <div class="row dob-section">
                         <div class="form-field col-md-4 col-sm-12" >
                         <label for="yearInput<?= $i ?>">Year</label>
@@ -404,24 +503,13 @@
             <?php endfor; ?>
         </div>
   
-
-        <div class="d-flex justify-content-end gap-2">
-            <a class="btn btn-secondary" href="selectflights.php" role="button">BACK</a>
-            <button type="submit" class="btn btn-primary">CONTINUE</button>
+        <div class="container d-flex justify-content-end gap-3" style="padding-top: 20px; padding-bottom: 20px; max-width: 75%;">
+              <a class="btn btn-secondary btn-md" href="selectflights.php" role="button" style="margin: 0; ">BACK</a>
+              <button type="submit" class="btn btn-primary btn-md" style="margin: 0;margin-right: 20px">CONTINUE</button>
         </div>
+        
     </form>
 
-
-          <!-- result modal - testing only -->
-        <div id="resultModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" id="closeModalBtn">&times;</span>
-                <h2>Booking Summary</h2>
-                <div id="modalContent">
-
-                </div>
-            </div>
-        </div>
 
     <script>
         // Pass the PHP session values to JavaScript for debugging purposes
@@ -429,8 +517,14 @@
         var selectedRetFlight = "<?php echo isset($_SESSION['selected_retflight']) ? $_SESSION['selected_retflight'] : 'No returning flight selected'; ?>";
         var numPassenger = "<?php echo isset($_SESSION['numberofpassenger']) ? $_SESSION['numberofpassenger'] : 'Invalid number of passenger'; ?>";            
 
+        var departingPrice = "<?php echo isset ($_SESSION['departing_price']) ?
+              $_SESSION['departing_price'] : 'No departing price submitted'; ?>";
+        var returningPrice = "<?php echo isset ($_SESSION['returning_price']) ?
+             $_SESSION['returning_price'] : 'No return price submitted'; ?>";
         // Display the values in a pop-up alert for debugging
-        alert("Selected Departing Flight: " + selectedDepFlight + "\nSelected Returning Flight: " + selectedRetFlight + "\nNumber of Passenger: " + numPassenger) ;
+        alert("Selected Departing Flight: " + selectedDepFlight + "\nSelected Returning Flight: " + selectedRetFlight + "\nNumber of Passenger: " + numPassenger +
+            "\nDeparting Price: " + departingPrice + "\nReturning Price: " + returningPrice
+        ) ;
     </script>
 
     <script>
@@ -476,6 +570,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="booking.js"></script>
+
+    <script>
+        document.getElementById('cancelBookingBtn').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will cancel your booking and cannot be undone.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Cancel Booking',
+            cancelButtonText: 'Back'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            window.location.href = 'cancelbooking.php';
+            }
+        });
+        });
+    </script>
 
   </body>
 </html>

@@ -41,12 +41,6 @@
                 </a>
             </div>
 
-            <div class="step <?= $current === 'addons.php' ? 'active' : '' ?>">
-                <a href="addons.php">
-                        <div class="icon"><i class="bi bi-plus-square"></i></div>
-                        <span>Add Ons</span>
-                </a>
-            </div>
 
             <div class="step <?= $current === 'payments.php' ? 'active' : '' ?>">
                 <a href="payments.php">
@@ -118,17 +112,12 @@ style{
     padding: 0px 10px;
 }
 
-.progress-line{
-    position: absolute;
-    top: 38%;
-    left: 28%;
-    right: 28%;
-    height: 2px;
-    background: white;
-    z-index: 0;
-    transform: translateY(-50%);
+
+@media (max-width: 650px) {
+  .step span {
+    display: none;
+  }
+
 }
-
-
 
 </style>
