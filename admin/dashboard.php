@@ -26,6 +26,7 @@
     $totalFlights = $counts['total_flights'];
     $totalBookings = $counts['total_bookings'];
     $totalPlanes = $counts['total_planes'];
+    $totalRevenue = $counts['total_revenue'];
 
     if (isset($_SESSION["login_success"])) {
         $showSuccess = true;
@@ -109,7 +110,7 @@
                 <div class="box">
                     <div class="left-side" style="padding-right: 10px;">
                         <div class="box-topic">Revenue</div>
-                        <div class="number">$15, 485</div>
+                        <div class="number">$<?php echo $totalRevenue ?></div>
                         <div class="indicator">
                             <i class="bi bi-arrow-up"></i>
                             <span class="text">Up from yesterday</span>
