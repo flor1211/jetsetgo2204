@@ -112,21 +112,12 @@ style{
     padding: 0px 10px;
 }
 
-.progress-line{
-    position: absolute;
-    top: 38%;
-    left: 28%;
-    right: 28%;
-    height: 2px;
-    background: white;
-    z-index: 0;
-    transform: translateY(-50%);
-}
 
 @media (max-width: 650px) {
   .step span {
     display: none;
   }
+
 }
 
 </style>

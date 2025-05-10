@@ -1,7 +1,6 @@
 <?php include 'bookingmodals.php'; ?>
 
 
-
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
   <div class="container-fluid d-flex align-items-center">
 
@@ -11,7 +10,7 @@
       JetSetGo
     </span>
 
-    <button class="btn btn-outline-light ms-auto" data-bs-toggle="modal" data-bs-target="#cancelbookingModal">
+    <button class="btn btn-outline-light ms-auto" id="cancelBookingBtn">
       <i class="bi bi-box-arrow-left"></i> Cancel Booking
     </button>
 
@@ -46,3 +45,24 @@
         width: 100%;
     }
 </style>
+
+
+
+<script>
+document.getElementById('cancelBookingBtn').addEventListener('click', function () {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "This will cancel your booking and cannot be undone.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, cancel it!',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = 'cancel_booking.php';
+    }
+  });
+});
+</script>
