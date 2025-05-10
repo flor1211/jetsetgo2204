@@ -378,7 +378,34 @@ class Crud
     
         return $passengerDetails;
     }
+
+    // for flights booking count
     
+   public function getTotalBookingByFlight($flight_id) {
+    try {
+        
+        $stmt = $this->conn->prepare("CALL getTotalBookingByFlight(:flight_id)");
+
+        
+        $stmt->bindParam(':flight_id', $flight_id, PDO::PARAM_INT);
+
+        
+        $stmt->execute();
+
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        
+        return $result['total_passengers'] ?? 0;
+
+    } catch (PDOException $e) {
+        
+        return 0;
+    }
+}
+
+
+
 
     // Bookings
 

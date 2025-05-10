@@ -5,7 +5,7 @@ class Database {
     private $db_name = 'jetsetgodb';
     private $username = 'root';
     private $password = '';
-    private $port = '3306';
+    private $port = '3307';
     private $conn;
 
     public function __construct(){

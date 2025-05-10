@@ -13,6 +13,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 $user = new Crud();
 $bookingUser = new BookingCrud();
 $editingUser = null;
+$allFlights = $user->getAllFlights();  // for flights booking count
 
 $allFlights = $user->getAllFlights();
 $allAirports = $user->getAllAirports();
@@ -217,8 +218,8 @@ if (isset($_POST['plane_code'])) {
                                     <th>LOCATION</th>
                                     <th>PLANE CODE</th>
                                     <th>SEATS</th>
-                                    <th>AVAILABLE</th>
                                     <th>BOOKED</th>
+                                    <th>AVAILABLE</th>
                                     <th>STATUS</th>
                                     <th>ACTION</th>
                                 </tr>
@@ -232,12 +233,20 @@ if (isset($_POST['plane_code'])) {
                                         <td><?= htmlspecialchars($u['departure_code']) ?> - <?= htmlspecialchars($u['arrival_code']) ?></td>
                                         <td><?= htmlspecialchars($u['plane_code']) ?></td>
                                         <td><?= htmlspecialchars($u['numofseats']) ?></td>
-                                        <td>-</td>
-                                        <td>-</td>
+                                        <td>
+                                            <?php
+                                            $totalPassengers = $user->getTotalBookingByFlight($u['flight_id']);
+                                            echo htmlspecialchars($totalPassengers);
+                                            ?>
+                                        </td>
+                                        <td><?php
+                                            $availableSeats = $u['numofseats'] - $totalPassengers;
+                                            echo htmlspecialchars($availableSeats);
+                                            ?></td>
+                                        
                                         <td><?= $u['onSale'] ? 'On Sale' : 'Not on Sale' ?></td>
                                         <td>
-
-                                        <!-- Changed this button to redirect to another page -->
+                                            <!-- Changed this button to redirect to another page -->
                                             <form action="flights-view.php" method="POST" style="display: inline;">
                                                 <input type="hidden" name="flight_id" value="<?= $u['flight_id'] ?>">
                                                 <button type="submit" class="btn btn-success btn-sm">
