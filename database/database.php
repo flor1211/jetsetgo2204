@@ -2,10 +2,10 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'jetsetgodb6';
+    private $db_name = 'jetsetgodb';
     private $username = 'root';
     private $password = '';
-    private $port = '3307';
+    private $port = '3306';
     private $conn;
 
     public function __construct(){
