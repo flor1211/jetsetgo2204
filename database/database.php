@@ -2,7 +2,7 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'jetsetgodb';
+    private $db_name = 'jetsetgodb6';
     private $username = 'root';
     private $password = '';
     private $port = '3306';
@@ -15,7 +15,7 @@ class Database {
     private function connect(){
         try {
             $this->conn = new PDO(
-                "mysql:host={$this->host};dbname={$this->db_name}; port={$this->port};;charset=utf8mb4",
+                "mysql:host={$this->host};dbname={$this->db_name}; port={$this->port};charset=utf8mb4",
                 $this->username,
                 $this->password
             );
