@@ -134,9 +134,6 @@ if (isset($_POST['delete'])) {
                                                     <i class="bi bi-eye"></i> View
                                                 </button>
                                             </form>
-                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editBookings<?= $u['booking_id'] ?>">
-                                                <i class="bi bi-pencil-square"></i> Edit
-                                            </button>
                                             <form method="post" class="d-inline" onsubmit="return confirm('Delete this booking?');">
                                                 <input type="hidden" name="deleteBookingId" value="<?= $u['booking_id'] ?>">
                                                 <button type="submit" name="delete" class="btn btn-danger btn-sm">

@@ -290,7 +290,6 @@ if (isset($flight_id, $flight['departure_location'], $flight['arrival_location']
                                         <th>Contact Number</th>
                                         <th>Nationality</th>
                                         <th>Email</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -305,22 +304,6 @@ if (isset($flight_id, $flight['departure_location'], $flight['arrival_location']
                                                 <td><?= htmlspecialchars($passenger['contact_number']) ?></td>
                                                 <td><?= htmlspecialchars($passenger['nationality']) ?></td>
                                                 <td><?= htmlspecialchars($passenger['email']) ?></td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center gap-2">
-                                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewPassenger<?= $passenger['guest_id'] ?>">
-                                                            <i class="bi bi-eye"></i> View
-                                                        </button>
-                                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editPassenger<?= $passenger['guest_id'] ?>">
-                                                            <i class="bi bi-pencil-square"></i> Edit
-                                                        </button>
-                                                        <form method="post" onsubmit="return confirm('Are you sure you want to delete this passenger?');">
-                                                            <input type="hidden" name="passenger_id" value="<?= $passenger['guest_id'] ?>">
-                                                            <button type="submit" name="delete" class="btn btn-danger btn-sm">
-                                                                <i class="bi bi-trash"></i> Delete
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else : ?>

@@ -186,7 +186,7 @@ if (isset($_SESSION["login_success"])) {
                     <th>Available Seats</th>
                     <th>Booked Seats</th>
                     <th>Status</th>
-                    <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -232,23 +232,7 @@ if (isset($_SESSION["login_success"])) {
                                 </span>
 
                             </td>
-                            <td>
-                                <button class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#viewPlane<?= $flight['flight_id'] ?>">
-                                    <i class="bi bi-eye"></i> View
-                                </button>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#editPlane<?= $flight['flight_id'] ?>">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </button>
-                                <form method="post" class="d-inline"
-                                    onsubmit="return confirm('Are you sure you want to delete this plane?');">
-                                    <input type="hidden" name="plane_id" value="<?= $flight['flight_id'] ?>">
-                                    <button type="submit" name="delete" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </button>
-                                </form>
-                            </td>
+                        
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
