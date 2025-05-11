@@ -100,6 +100,47 @@ class Crud
         }
     }
 
+    public function getModeofPaymentCount(){
+        
+        $stmt = $this->conn->prepare("CALL getModeofPaymentCount()");
+        $stmt->execute();
+
+        $mopcount = $stmt->fetchAll();
+
+        return $mopcount;
+    }
+
+    public function getPaymentStatusCount(){
+        
+        $stmt = $this->conn->prepare("CALL getPaymentStatusCount()");
+        $stmt->execute();
+        $mopcount = $stmt->fetchAll();
+
+        return $mopcount;
+    }
+
+    
+    public function getNationalityCount(){
+        
+        $stmt = $this->conn->prepare("CALL getNationalityCount()");
+        $stmt->execute();
+
+        $mopcount = $stmt->fetchAll();
+
+        return $mopcount;
+    }
+
+    public function getRecentBookings(){
+        
+        $stmt = $this->conn->prepare("CALL getRecentBookings()");
+        $stmt->execute();
+
+        $recents = $stmt->fetchAll();
+
+        return $recents;
+    }
+
+
 
     // User Profile
 
@@ -115,6 +156,77 @@ class Crud
         $stmt = $this->conn->prepare("CALL uploadAccountPhoto(:a_ID, :a_photo)");
         $stmt->execute([':a_ID' => $accountID, ':a_photo' => $photo]);
     }
+
+    public function updateUserProfile($accountID, $name, $username, $password)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $this->conn->prepare("CALL updateUserProfile(:a_id, :a_username, :a_password, :a_fullname)");
+        $stmt->execute([':a_id' => $accountID, ':a_fullname' => $name,  ':a_username' => $username,  ':a_password' => $hashedPassword]);
+    }
+
+
+    // Guest Details page
+
+    public function countGuest($search)
+    {
+        $stmt = $this->conn->prepare("CALL getGuestCount(:search)");
+        $stmt->execute([':search' => $search]);
+        $result = $stmt->fetch();
+        return $result['totalguest'];
+    }
+
+    public function searchGuestwithLimit($search, $limit, $offset)
+    {
+        $stmt = $this->conn->prepare("CALL getGuestPagedSearch(:search, :limit, :offset)");
+        $stmt->bindParam(':search', $search);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+        // Guest Details page
+
+    public function countCardPayments($search)
+    {
+        $stmt = $this->conn->prepare("CALL getPaymentCardCount(:search)");
+        $stmt->execute([':search' => $search]);
+        $result = $stmt->fetch();
+        return $result['totalcard'];
+    }
+
+    public function searchCardPaymentswithLimit($search, $limit, $offset)
+    {
+        $stmt = $this->conn->prepare("CALL searchCardPayments(:search, :limit, :offset)");
+        $stmt->bindParam(':search', $search);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    
+    public function countOnsitePayments($search)
+    {
+        $stmt = $this->conn->prepare("CALL getPaymentOnsiteCount(:search)");
+        $stmt->execute([':search' => $search]);
+        $result = $stmt->fetch();
+        return $result['totalonsite'];
+    }
+    
+    public function searchOnsitePaymentswithLimit($search, $limit, $offset)
+    {
+        $stmt = $this->conn->prepare("CALL searchCardPayments(:search, :limit, :offset)");
+        $stmt->bindParam(':search', $search);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+
 
 
     // Airport page
@@ -210,7 +322,7 @@ class Crud
             $stmt = $this->conn->prepare("CALL updateAccount(:a_id, :a_username, :a_password, :a_role)");
             $stmt->execute([':a_id' => $id, ':a_username' => $username, ':a_password' => $password, ':a_role' => $role]);
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage(); // Debugging message
+            echo "Error: " . $e->getMessage(); 
         }
     }
 
@@ -295,6 +407,11 @@ class Crud
         return $stmt->execute([':p_id' => $plane_id]);
     }
 
+
+    public function getTotalFlightsByPlane($plane_code){
+        $stmt = $this->conn->prepare("CALL getTotalFlightsByPlane(:planeCode)");
+        return $stmt->execute([':planeCode' => $plane_code]);
+    }
 
 
     // Flights page

@@ -16,18 +16,20 @@ $editingUser = null;
 $allBookings = $user->getAllBookings();
 $allPassengers = $user->getAllPassengers();
 
-$guestDetails = [];
-foreach ($allPassengers as $passenger) {
-    $bookingId = $passenger['booking_id'];
-    if (!isset($guestDetails[$bookingId])) {
-        $guestDetails[$bookingId] = [];
+
+    $guestDetails = [];
+
+    foreach ($allPassengers as $passenger) {
+        $bookingId = $passenger['booking_id'];
+        if (!isset($guestDetails[$bookingId])) {
+            $guestDetails[$bookingId] = [];
+        }
+        $guestDetails[$bookingId][] = $passenger;
     }
-    $guestDetails[$bookingId][] = $passenger;
-}
-// $updateBookings = $user->upa
-$allFlights = $user->getAllFlights();
-$allAirports = $user->getAllAirports();
-$allAvailablePlanes = $user->getAllAvailablePlanes();
+    // $updateBookings = $user->upa
+    $allFlights = $user->getAllFlights();
+    $allAirports = $user->getAllAirports();
+    $allAvailablePlanes = $user->getAllAvailablePlanes();
 
 
 if (isset($_POST['delete'])) {
@@ -88,7 +90,41 @@ if (isset($_POST['delete'])) {
                         <table class="table table-striped table-hover text-center align-middle table-bordered">
                             <thead class="table-light fw-bold">
                                 <tr>
-                                    <th>#</th>
+
+                                    <td><?= $count++; ?></td>
+                                    <td><?= htmlspecialchars($u['booking_id']) ?></td>
+                                    <td><?= htmlspecialchars($u['booking_date']) ?></td>
+                                    <td><?= htmlspecialchars($u['flight_id']) ?></td>
+                                    <td><?= htmlspecialchars($u['flight_date']) ?></td>
+                                    <td>
+                                        <?= htmlspecialchars($u['dep_airportcode']) ?> - <?= htmlspecialchars($u['dep_airportlocation']) ?><br>
+                                        <span class="text-muted"><?= htmlspecialchars($u['dep_time']) ?></span>
+                                    </td>
+                                    <td>
+                                        <?= htmlspecialchars($u['arr_airportcode']) ?> - <?= htmlspecialchars($u['arr_airportlocation']) ?><br>
+                                        <span class="text-muted"><?= htmlspecialchars($u['arr_time']) ?></span>
+                                    </td>
+                                    <td>
+                                        <strong><?= htmlspecialchars($u['plane_code']) ?></strong><br>
+                                        <img src="<?= htmlspecialchars($u['plane_photo']) ?>" alt="Plane" style="max-height: 50px;">
+                                    </td>
+                                    <td>$<?= number_format($u['price'], 2) ?></td>
+                                    <td class="d-flex justify-content-center gap-2">
+                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewBookings<?= $u['booking_id'] ?>">
+                                            <i class="bi bi-eye"></i> View
+                                        </button>
+                                        <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editBookings<?= $u['booking_id'] ?>">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </button> -->
+                                        <form method="post" class="d-inline" onsubmit="return confirm('Delete this booking?');">
+                                            <input type="hidden" name="deleteBookingId" value="<?= $u['booking_id'] ?>">
+                                            <button type="submit" name="delete" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </td>
+
+<!--                                     <th>#</th>
                                     <th>Booking ID</th>
                                     <th>Booking Date</th>
                                     <th>Flight ID</th>
@@ -97,7 +133,8 @@ if (isset($_POST['delete'])) {
                                     <th>Arrival</th>
                                     <th>Plane</th>
                                     <th>Price</th>
-                                    <th>Action</th>
+                                    <th>Action</th> -->
+
                                 </tr>
                             </thead>
                             <tbody id="data">

@@ -100,15 +100,11 @@
             echo "Card payment successful. Your booking is confirmed.";
         }
 
-      
-
       } else if ($flightType == 'onewaytrip') {
 
         $depFlight = $depFlightInfo[0];
-  
 
         $DEPbookingID = $bookingUser->newBooking($depFlight['flight_id'], $depFlight['date'], $depFlight['departure_time'], $depFlight['departure_code'], $depFlight['departure_location'], $depFlight['arrival_time'], $depFlight['arrival_code'], $depFlight['arrival_location'], $depFlight['plane_code'], $depFlight['plane_photo'], $depFlight['price']);
-      
         foreach ($guestDetails as $guest) {
             // echo "<h3>Guest Details</h3><pre>";
             // print_r($guest);
