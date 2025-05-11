@@ -236,9 +236,9 @@ class Crud
         $stmt = $this->conn->prepare("CALL getallAirports()");
         $stmt->execute();
         $result = $stmt->fetchAll();
-        // var_dump($result);
         return $result;
     }
+
 
     public function searchAirport($search)
     {
@@ -248,6 +248,7 @@ class Crud
         // var_dump($result);
         return $result;
     }
+
 
     public function addAirport($airport_code, $airport_name, $airport_location)
     {
@@ -495,7 +496,77 @@ class Crud
     
         return $passengerDetails;
     }
+
+    // for flights booking count
     
+   public function getTotalBookingByFlight($flight_id) {
+    try {
+        
+        $stmt = $this->conn->prepare("CALL getTotalBookingByFlight(:flight_id)");
+
+        
+        $stmt->bindParam(':flight_id', $flight_id, PDO::PARAM_INT);
+
+        
+        $stmt->execute();
+
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        
+        return $result['total_passengers'] ?? 0;
+
+    } catch (PDOException $e) {
+        
+        return 0;
+    }
+}
+
+
+// airports
+
+public function getAllAirportsFromView() {
+    try {
+        $stmt = $this->conn->prepare("SELECT * FROM view_all_airports");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error fetching airports from view: " . $e->getMessage();
+        return [];
+    }
+}
+
+
+public function getFlightsByCodeView() {
+    try {
+        $stmt = $this->conn->prepare("SELECT * FROM view_flights_by_code");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {       
+        echo "Error fetching flights by code from view: " . $e->getMessage();
+        return [];
+    }
+}
+
+
+public function getFlightsWithBookedSeats() {
+    try {
+        $stmt = $this->conn->prepare("
+            SELECT 
+                f.*,
+                COALESCE(v.booked_seats, 0) AS booked_seats
+            FROM 
+                flights f
+            LEFT JOIN 
+                view_flight_booked_seats v ON f.flight_id = v.flight_id
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error fetching flights with booked seats: " . $e->getMessage();
+        return [];
+    }
+}
 
     // Bookings
 
