@@ -313,7 +313,7 @@
 
 
                   <span class="navbar-brand">
-                    <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+                    <img src="../assets/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
                     JetSetGo
                   </span>
 

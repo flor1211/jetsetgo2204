@@ -665,8 +665,7 @@ nav{
         <div class="row">
           <div class="col-md-6 mb-4">
             <h2 class="fw-bold">JetSetGo</h2>
-            <p>JetSetGo simplifies your flight booking process with seamless payment integration,</p>
-            <p>reliable billing, and an intuitive user interface. Experience a modern way to fly.</p>
+            <p>JetSetGo simplifies your flight booking process with seamless payment integration, reliable billing, and an intuitive user interface. Experience a modern way to fly.</p>
             <a href="booking/booking.php" class="btn btn-success fw-bold px-4 py-2">Book Now</a>
           </div>
           <div class="col-md-6">

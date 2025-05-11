@@ -6,7 +6,7 @@
 
 
     <span class="navbar-brand">
-      <img src="your-logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
+      <img src="/booking/assets/Logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-center">
       JetSetGo
     </span>
 

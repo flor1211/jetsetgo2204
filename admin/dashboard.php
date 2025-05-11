@@ -184,7 +184,7 @@
             <!-- TABLE SUMMARY -->
             <div class="summary-boxes">
                 <!-- LEFT BOX -->
-                <div class="recent-booking box">
+                <div class="recent-booking box" style=>
                     <div class="title">Recent Booking</div>
                     <div class="booking-details">
                         <ul class="details" style="padding-left:0px;">
@@ -214,7 +214,7 @@
                     </div>
                 </div>
                 <!-- RIGHT BOX -->
-                <div class="recent-flight box">
+                <!-- <div class="recent-flight box">
                     <div class="title">Flight Status</div>
                     <ul style="padding-left:0px;">
                         <li>
@@ -254,14 +254,9 @@
                         </li>
 
                     </ul>
-                </div>
-            </div>
-
-            <!-- GRAPH SUMMARY -->
-            <div class="summary-boxes">
-                
-                <!-- FIRST BOX -->
-                <div class="recent-flight box">
+                </div> -->
+                                <!-- FIRST BOX -->
+                <div class="recent-booking box" >
                     <div class="title">Mode of Payment</div>
                     <?php   
 
@@ -312,6 +307,12 @@
                     </script>
 
                 </div>
+            </div>
+
+            <!-- GRAPH SUMMARY -->
+            <div class="summary-boxes">
+                
+
 
                 <!-- SECOND BOX -->
                 <div class="recent-flight box">
@@ -368,16 +369,8 @@
                     
 
                 </div>
-
-                
-
-
-            </div>
-
-            <div class="summary-boxes">
-                <!-- THIRD BOX -->
-                <div class="recent-booking box" style="width: 60%">
-                    <div class="title">Nationality</div>
+                <div class="recent-booking box" >
+                    <div class="title">Nationality</div>    
 
                     <?php   
                         $nationalityChart = $crud->getNationalityCount();
@@ -391,7 +384,7 @@
                         }
                     ?>
 
-                    <div style="width: 600px; height: 600px; margin: auto; padding-top: 10px;">
+                    <div style="width: 400px; height: 400px; margin: auto; padding-top: 10px;">
                         <canvas id="nationalityChart"></canvas>
                     </div>
 
@@ -426,6 +419,14 @@
 
 
                 </div>
+                
+
+
+            </div>
+
+            <div class="summary-boxes">
+                <!-- THIRD BOX -->
+
             </div>
 
         </div>

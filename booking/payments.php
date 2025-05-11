@@ -4,49 +4,9 @@
   require_once '../database/admin-crud.php';
 
   require_once '../database/booking-crud.php';
+ 
 
-  use PHPMailer\PHPMailer\PHPMailer;
-  use PHPMailer\PHPMailer\SMTP;
-  use PHPMailer\PHPMailer\Exception;
-
-  require 'vendor/autoload.php';
-
-  $mail = new PHPMailer(true);
-
-  try {
-    //Server settings             
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'noreply.g6hotelreservation@gmail.com'; //SMTP username
-    $mail->Password   = 'mbej tnnj wldm tynx';                  //SMTP password
-    // $mail->Password   = 'h0telreservationG6';     
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-    //Recipients
-    $mail->setFrom('noreply.g6hotelreservation@gmail.com', 'HRS Hotel');
-    $mail->addAddress('florgotpushed@gmail.com', 'hi nga');               //Name is optional
-    $mail->addReplyTo('noreply.g6hotelreservation@gmail.com', 'HRS Hotel');
-    // $mail->addCC('cc@example.com');
-    // $mail->addBCC('bcc@example.com');
-
-    //Attachments
-    $mail->addAttachment('assets/profile.png', 'profile');         //Add attachments
-
-    //Content
-    $mail->isHTML(true);                                 
-    $mail->Subject = '';
-    $mail->Body    = '';
-    $mail->AltBody = '';
-
-      $mail->send();
-      echo 'Message has been sent';
-  } catch (Exception $e) {
-      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-  }
-  ?>
-
+ 
   if (!isset($_SESSION['guestdetails_completed'])) {
     header('Location: guestdetails.php');
     exit();
@@ -64,13 +24,15 @@
   $retFlightInfo = $bookingUser->getSelectedFlight($selectedRetFlight);
 
 
+
   $_SESSION['total_price'] = ($_SESSION['departing_price'] + $_SESSION['returning_price']) * $_SESSION['numberofpassenger'];
   $baseprice = (float) ($_SESSION['departing_price'] + $_SESSION['returning_price']);
   $totalprice = (float) $_SESSION['total_price'];
 
+
+
   $tax = (float)1500;
 
-  $payment_type = 
 
   $flightType = $_SESSION['trip_type'];
 
@@ -80,8 +42,12 @@
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['confirmbooking'])){
+
+
+      
     
       $payment_type = $_POST['payment'];
+
 
       if ($flightType == 'roundtrip') {
 
@@ -95,6 +61,7 @@
 
         $DEPbookingID = $bookingUser->newBooking($depFlight['flight_id'], $depFlight['date'], $depFlight['departure_time'], $depFlight['departure_code'], $depFlight['departure_location'], $depFlight['arrival_time'], $depFlight['arrival_code'], $depFlight['arrival_location'], $depFlight['plane_code'], $depFlight['plane_photo'], $depFlight['price']);
         $fullDate = $guest['year'] . "-" . $guest['month'] . "-" . $guest['day'];
+
 
         foreach ($guestDetails as $guest) {
             // echo "<h3>Guest Details</h3><pre>";
@@ -134,9 +101,6 @@
             $card_holder = $_POST['card_holder'];
             $card_number = $_POST['card_number'];
             $card_expiry = $_POST['card_expiry'];
-            $card_cvv = $_POST['card_cvv'];
-
-
             $bookingUser->addPaymentCard($DEPbookingID, $card_holder, $card_number, $card_expiry, $card_cvv);
             $bookingUser->addPaymentCard($RETbookingID, $card_holder, $card_number, $card_expiry, $card_cvv);
             echo "Card payment successful. Your booking is confirmed.";

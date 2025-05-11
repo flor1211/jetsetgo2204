@@ -175,28 +175,28 @@ if (isset($_POST['plane_code'])) {
 
                 <!-- SEARCH BAR -->
                 <br>
-                <form action="" method="POST">
-                    <div class="row mb-3">
-                        <div class="col-md-5 mb-3">
+                <!-- <form action="" method="POST">
+                    <div class="row mb-3"> -->
+                        <!-- <div class="col-md-5 mb-3">
                             <label class="form-label">Location</label>
                             <div class="input-group">
                                 <select name="from" class="form-select" aria-label="From">
                                     <option selected disabled>From</option>
-                                    <?php foreach ($allAirports as $u): ?>
-                                        <option value="<?= $u['airport_code'] ?>"><?= $u['airport_location'] ?></option>
-                                    <?php endforeach; ?>
+                                    </?php foreach ($allAirports as $u): ?>
+                                        <option value="</?= $u['airport_code'] ?>"></?= $u['airport_location'] ?></option>
+                                    </?php endforeach; ?>
                                 </select>
                                 <span class="input-group-text px-3">-</span>
                                 <select name="to" class="form-select" aria-label="To">
                                     <option selected disabled>To</option>
-                                    <?php foreach ($allAirports as $u): ?>
-                                        <option value="<?= $u['airport_code'] ?>"><?= $u['airport_location'] ?></option>
-                                    <?php endforeach; ?>
+                                    </?php foreach ($allAirports as $u): ?>
+                                        <option value="</?= $u['airport_code'] ?>"></?= $u['airport_location'] ?></option>
+                                    </?php endforeach; ?>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-2 mb-3">
+                        <!-- <div class="col-md-2 mb-3">
                             <label for="flightsearchInputDate" class="form-label">Flight Date</label>
                             <input type="date" name="date" id="flightsearchInputDate" class="form-control" placeholder="Search by Date">
                         </div>
@@ -205,7 +205,7 @@ if (isset($_POST['plane_code'])) {
                             <button type="submit" name="search" class="btn btn-primary w-100">Search</button>
                         </div>
                     </div>
-                </form>
+                </form> -->
 
                 <!-- TABLE -->
                 <div class="table-container">
