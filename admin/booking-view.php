@@ -27,7 +27,7 @@ foreach ($allPassengers as $passenger) {
 }
 
 if ($booking_id) {
-    $bookings = $crud->getAllBookings(); // returns all bookings
+    $bookings = $crud->getAllBookings(); 
     $booking = null;
 
     foreach ($bookings as $b) {
@@ -42,7 +42,6 @@ if ($booking_id) {
         exit;
     }
 
-    // Optional: Get all passengers (if needed for this booking)
     $passengers = $crud->getAllPassengers();
     $matched_passengers = [];
 
@@ -52,12 +51,36 @@ if ($booking_id) {
         }
     }
 
-    // Do something with $booking and $matched_passengers...
 
 } else {
     echo "No booking ID specified.";
     exit;
 }
+
+
+if ($booking_id) {
+    $payments = $crud->getAllPayments();
+    $paymentInfo = null;
+
+    foreach ($payments as $p) {
+        if ($p['booking_id'] == $booking_id) {
+            $paymentInfo = $p;
+            break;
+        }
+    }
+
+    
+
+    if (!$paymentInfo) {
+        echo "Payment not found.";
+        exit;
+    }
+
+} else {
+    echo "No booking ID specified.";
+    exit;
+}
+
 
 
 // Redirect to login if not logged in
@@ -158,7 +181,7 @@ if (isset($flight_id, $flight['departure_location'], $flight['arrival_location']
                         </div>
                     </div>
 
-                    <!-- Payment Form (stacked below Booking Details) -->
+
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <h4 class="row g-2" style="font-size: 1.3rem;">PAYMENT DETAILS</h4>
@@ -166,23 +189,32 @@ if (isset($flight_id, $flight['departure_location'], $flight['arrival_location']
                            <div class="row mb-2">
                                 <div class="col-md-6">
                                     <label>MODE OF PAYMENT</label>
-                                    <input type="text" class="form-control"  disabled>
+                                    <input type="text" class="form-control" value="<?= htmlspecialchars($paymentInfo['payment_type'])?>"   disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label>NAME</label>
-                                    <input type="text" class="form-control" disabled>
+                                    <input type="text" class="form-control"
+                                        value="<?= htmlspecialchars(
+                                            $paymentInfo['payment_type'] === 'on-site' 
+                                                ? $paymentInfo['onsite_name'] 
+                                                : $paymentInfo['card_name']
+                                        ) ?>" 
+                                        disabled>
+
                                 </div>
                                 <div class="col-md-6">
                                     <label>CARD/ID NUMBER</label>
-                                    <input type="text" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>TOTAL</label>
-                                    <input type="text" class="form-control" disabled>
+                                    <input type="text" class="form-control"
+                                        value="<?= htmlspecialchars(
+                                            $paymentInfo['payment_type'] === 'on-site' 
+                                                ? $paymentInfo['onsite_validID'] 
+                                                : $paymentInfo['card_number']
+                                        ) ?>" 
+                                        disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label>STATUS</label>
-                                    <input type="text" class="form-control" disabled>
+                                    <input type="text" class="form-control" value="<?= htmlspecialchars($paymentInfo['payment_status'])?>"   disabled>
                                 </div>
                             </div>
                         </div>
