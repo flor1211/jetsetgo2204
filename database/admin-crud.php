@@ -613,4 +613,18 @@ public function getFlightsWithBookedSeats() {
         $stmt = $this->conn->prepare("CALL deleteBookings(:bookingid)");
         return $stmt->execute([':bookingid' => $booking_id]);
     }
+
+    public function getPaymentInfo($booking_id){
+        $stmt = $this->conn->prepare("CALL getPaymentInfo(:bookingid)");
+        $stmt->execute([':bookingid' => $booking_id]);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
+    public function getAllPayments(){
+        $stmt = $this->conn->prepare("CALL getAllPayments()");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }
