@@ -104,7 +104,7 @@ $passengerDetails = [];
 if (isset($flight_id, $flight['departure_location'], $flight['arrival_location'])) {
     $passengerDetails = $crud->viewGuestsByFlight($flight_id, $flight['departure_location'], $flight['arrival_location']);
 } else {
-    echo "Required parameters missing.";
+        // echo "Required parameters missing.";
 }
 ?>
 

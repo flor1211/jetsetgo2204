@@ -31,7 +31,7 @@
 
 
 
-  $tax = (float)1500;
+  $tax = (float)  ($totalprice * 0.10);
 
 
   $flightType = $_SESSION['trip_type'];
@@ -143,9 +143,10 @@
       }
    
       $_SESSION['payments_completed'] = true;
-      header('Location: confirmation.php');
+      header('Location: ../mail.php');
 
       exit();
+
      
     }
   }

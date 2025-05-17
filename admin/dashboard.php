@@ -347,7 +347,7 @@
                                 datasets: [{
                                     data: paymentChartData,
                                     backgroundColor: [
-                                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
+                                         '#28a745', '#ffc107','#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
                                         '#17a2b8', '#fd7e14', '#6610f2', '#20c997', '#e83e8c',
                                         '#343a40', '#adb5bd', '#198754', '#0dcaf0', '#f8f9fa'
                                     ]
@@ -400,9 +400,9 @@
                                 datasets: [{
                                     data: nationalityChartData,
                                     backgroundColor: [
-                                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d',
+                                        '#adb5bd', '#198754','#007bff',, '#dc3545', '#6c757d',
                                         '#17a2b8', '#fd7e14', '#6610f2', '#20c997', '#e83e8c',
-                                        '#343a40', '#adb5bd', '#198754', '#0dcaf0', '#f8f9fa'
+                                        '#343a40',  '#0dcaf0', '#f8f9fa'
                                     ]
                                 }]
                             },
